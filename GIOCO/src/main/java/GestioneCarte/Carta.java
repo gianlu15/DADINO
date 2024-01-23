@@ -11,7 +11,7 @@ public class Carta{
 
     //Eumerazioni
     enum Seme{
-        Cuori, Quadri, Fiori, Picche, Jolly;
+        Cuori, Quadri, Fiori, Picche, Special;       //Aggiungo il seme delle carte speciali(Special)
 
         private static final Seme[] semi = Seme.values();
 
@@ -20,8 +20,9 @@ public class Carta{
         }
     }
 
+    //Valori che vanno da 4 a JACK (asso-3: bombetta, regina:-6 re:doublepoints)
     enum Valore{
-        Asso, Due, Tre, Quattro, Cinque, Sei, Sette, Otto, Nove, Dieci, Jack, Regina, Re, Jolly;
+        Bombetta, Quattro, Cinque, Sei, Sette, Otto, Nove, Dieci, Jack, Malus, DoublePoints;
 
         private static final Valore[] valori = Valore.values();
 
@@ -34,7 +35,7 @@ public class Carta{
     private final Seme semeCarta;
     private final Valore valoreCarta;
 
-    //Metodi
+    //Costruttore
     public Carta(Seme semeCarta, Valore valoreCarta){
         this.semeCarta = semeCarta;
         this.valoreCarta = valoreCarta;
@@ -46,14 +47,7 @@ public class Carta{
 
     public Valore getValore(){
         return valoreCarta;
-    }
-
-    /* #############################################
-    A cosa serve questo metodo?
-    public void setValore(Valore valoreScelto){
-        this.valoreScelto = valoreScelto;
-    }
-    ############################################# */ 
+    } 
 
     public String toString(){
         return valoreCarta + " di " + semeCarta;
