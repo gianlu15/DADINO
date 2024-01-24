@@ -80,7 +80,10 @@ public class Mazzo {
         return carteNelMazzo;
     }
 
-    ////////test
+
+
+
+    ////////-------------------- test
     public void mostraMazzo() {
         for (int i = 0; i < carte.length; i++) {
             cartaIn(i);
