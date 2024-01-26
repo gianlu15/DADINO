@@ -5,15 +5,16 @@ import GestioneCarte.Mazzo;
 
 public class Tavolo {
 
-    Mazzo mazzoDiGioco;
-    int punteggioParziale;
-    Map<Giocatore, Integer> punteggi = new HashMap<>(); //Memorizza l'associazione Giocatore-punteggio
+     Mazzo mazzoDiGioco;
+     Map<Giocatore, Integer> punteggi; //Memorizza l'associazione Giocatore-punteggio
     
 
     //Costruttore
     public Tavolo(){
+        //DEVO GESTIRE IL CASO IN CUI DEVO FARE 2 MAZZI
         mazzoDiGioco = new Mazzo();
-        punteggioParziale = 0;
+        mazzoDiGioco.inizializzaMazzo();
+        mazzoDiGioco.mescolaMazzo();
         punteggi = new HashMap<>();
     }
 
@@ -22,11 +23,11 @@ public class Tavolo {
         punteggi.put(g, 0);
     }
 
-    public void aggiornaPunteggio(Giocatore giocatore, int punteggioPartita){
+    public void aggiornaPunteggio(Giocatore giocatore, int punteggioTurno){
         
         if(punteggi.containsKey(giocatore)){
             int punteggioAttuale = punteggi.get(giocatore);
-            int nuovoPunteggio = punteggioAttuale + punteggioPartita;
+            int nuovoPunteggio = punteggioAttuale + punteggioTurno;
             punteggi.put(giocatore, nuovoPunteggio);
     
         } else {
@@ -34,13 +35,4 @@ public class Tavolo {
             System.out.println("Errore: Il giocatore non è presente nella mappa dei punteggi.");
         }
     }
-    
-
-
-    /*QUESTA CLASSE NON VA FATTA QUI */
-    public class Giocatore{
-
-    }
-
-    
 }
