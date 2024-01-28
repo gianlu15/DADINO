@@ -21,7 +21,7 @@ public class Carta{
     }
 
     //Valori che vanno da 4 a JACK (asso-3: bombetta, regina:-6 re:doublepoints)
-    enum Valore{
+    public enum Valore{
         Bombetta, Quattro, Cinque, Sei, Sette, Otto, Nove, Dieci, Jack, Malus, DoublePoints;
 
         private static final Valore[] valori = Valore.values();
@@ -32,8 +32,8 @@ public class Carta{
     }
 
     //Attributi
-    private final Seme semeCarta;
-    private final Valore valoreCarta;
+     public final Seme semeCarta;
+     public final Valore valoreCarta;
 
     //Costruttore
     public Carta(Seme semeCarta, Valore valoreCarta){

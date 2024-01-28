@@ -22,9 +22,41 @@ public class ControlloGiocatore {
                 break;
 
             default:
-            System.out.println("Operazione non riconsciuta");
+                System.out.println("Operazione non riconsciuta");
                 break;
         }
+        return d;
+    }
+
+    public static boolean decisoneObbligata() {
+
+        boolean d = false;
+        System.out.println("Scegli cosa fare: ");
+        System.out.println("Inserisci 'p' per pescare e 'f' per fermarti");
+
+        Scanner tastiera = new Scanner(System.in);
+
+        String operazione = tastiera.next();
+
+        do {
+            switch (operazione) {
+                case "p":
+                    d = true;
+                    break;
+
+                case "f":
+                    System.out.println("Nella prima mano devi per forza pescare!");
+                    System.out.println("Inserisci 'p' per pescare e 'f' per fermarti");
+                    
+                    operazione = tastiera.next();
+                    d = false;
+                    break;
+
+                default:
+                    System.out.println("Operazione non riconsciuta");
+                    break;
+            }
+        } while (d == false);
         return d;
     }
 }

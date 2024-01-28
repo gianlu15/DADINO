@@ -20,7 +20,7 @@ public class Esecuzione {
     }
 
     public void eseguiPartita() {
-       while (turnoCorrente < giocatoriTotali) {
+        while (turnoCorrente < giocatoriTotali) {
             eseguiTurno(turnoCorrente);
             turnoCorrente++;
             if (turnoCorrente == giocatoriTotali)
@@ -37,17 +37,17 @@ public class Esecuzione {
     }
 
     // private boolean PartitaTerminata() {
-    //     for (Map.Entry<Giocatore, Integer> entry : tavolo.punteggi.entrySet()) {
-    //         int punteggio = entry.getValue();
-    //         if (punteggio >= Regole.PUNTEGGIO_OBIETTIVO) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
+    // for (Map.Entry<Giocatore, Integer> entry : tavolo.punteggi.entrySet()) {
+    // int punteggio = entry.getValue();
+    // if (punteggio >= Regole.PUNTEGGIO_OBIETTIVO) {
+    // return true;
+    // }
+    // }
+    // return false;
     // }
 
-    public void dichiaraVincitore(){
-        //..... 
+    public void dichiaraVincitore() {
+        // .....
     }
 
     public class Turno {
@@ -60,19 +60,42 @@ public class Esecuzione {
             this.punteggioParziale = 0;
         }
 
-        public void giocaTurno() {
+        public int giocaTurno() {
             System.out.println("Comando passato al giocatore " + giocatore.nome);
-            boolean pesca = true;
+            boolean pesca = false;
 
-            while(pesca){
+            // La prima volta il giocatore è obbligato a pescare
+            pesca = ControlloGiocatore.decisoneObbligata(); // restituisce sempre true
+            Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
+            System.out.println("Hai pescato " + cartaPescata.getValore());
+
+            punteggioParziale = Regole.gestisciEffetto(cartaPescata, giocatoreCorrente, tavolo, punteggioParziale);
+            System.out.println("Il tuo punteggio parziale è " + punteggioParziale);
+
+            if (cartaPescata.getValore() == Carta.Valore.Bombetta) {
+                System.out.println("Turno di " + giocatore.nome + " terminato");
+                return punteggioParziale;
+            }
+
+            pesca = ControlloGiocatore.decisone();
+            while (pesca) {
+                cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
+                System.out.println("Hai pescato " + cartaPescata.getValore());
+
+                punteggioParziale = Regole.gestisciEffetto(cartaPescata, giocatoreCorrente, tavolo, punteggioParziale);
+                System.out.println("Il tuo punteggio parziale è " + punteggioParziale);
+
+                if (cartaPescata.getValore() == Carta.Valore.Bombetta) {
+                    System.out.println("Turno di " + giocatore.nome + " terminato");
+                    return punteggioParziale;
+                }
 
                 pesca = ControlloGiocatore.decisone();
-                if(pesca == false)
-                break;
-                Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
-                System.out.println("Hai pescato " + cartaPescata.getValore());
-            } 
+            }
+
+            System.out.println("Hai salvato il tuo punteggio parziale: " + punteggioParziale);
             System.out.println("Turno di " + giocatore.nome + " terminato");
+            return punteggioParziale;
         }
     }
 }
