@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import GestioneCarte.Carta;
@@ -20,44 +19,54 @@ public class Esecuzione {
     }
 
     public void eseguiPartita() {
-        while (turnoCorrente < giocatoriTotali) {
+        while (!PartitaTerminata()) {
             eseguiTurno(turnoCorrente);
             turnoCorrente++;
             if (turnoCorrente == giocatoriTotali)
                 turnoCorrente = 0;
         }
-        // dichiaraVincitore();
+        dichiaraVincitore();
     }
 
     public void eseguiTurno(int indiceGiocatore) {
         giocatoreCorrente = giocatori.get(indiceGiocatore);
         Turno nuovoTurno = new Turno(giocatoreCorrente);
-        nuovoTurno.giocaTurno();
-        // tavolo.aggiornaPunteggio(giocatoreCorrente, punteggioTurno);
+        int punteggioTurno = nuovoTurno.giocaTurno();
+        tavolo.aggiornaPunteggio(giocatoreCorrente, punteggioTurno);
     }
 
-    // private boolean PartitaTerminata() {
-    // for (Map.Entry<Giocatore, Integer> entry : tavolo.punteggi.entrySet()) {
-    // int punteggio = entry.getValue();
-    // if (punteggio >= Regole.PUNTEGGIO_OBIETTIVO) {
-    // return true;
-    // }
-    // }
-    // return false;
-    // }
+    private boolean PartitaTerminata() {
+        for (Map.Entry<Giocatore, Integer> entry : tavolo.punteggi.entrySet()) {
+            int punteggio = entry.getValue();
+            if (punteggio >= Regole.PUNTEGGIO_OBIETTIVO) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void dichiaraVincitore() {
-        // .....
+        for (Map.Entry<Giocatore, Integer> entry : tavolo.punteggi.entrySet()) {
+            int punteggio = entry.getValue();
+            if (punteggio >= Regole.PUNTEGGIO_OBIETTIVO) {
+                System.out.println("-------------------------");
+                System.out.println("Il giocatore  " + entry.getKey().getNome() + " ha vinto!!!");
+                System.out.println("-------------------------");
+            }
+        }
+
     }
 
     public class Turno {
 
         private Giocatore giocatore;
         private int punteggioParziale;
+        private boolean effettoDouble;
 
         public Turno(Giocatore giocatore) {
             this.giocatore = giocatore;
             this.punteggioParziale = 0;
+            this.effettoDouble = false;
         }
 
         public int giocaTurno() {
@@ -69,11 +78,17 @@ public class Esecuzione {
             Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
             System.out.println("Hai pescato " + cartaPescata.getValore());
 
-            punteggioParziale = Regole.gestisciEffetto(cartaPescata, giocatoreCorrente, tavolo, punteggioParziale);
+            punteggioParziale = Regole.gestisciEffetto(cartaPescata, punteggioParziale, effettoDouble);
             System.out.println("Il tuo punteggio parziale è " + punteggioParziale);
+
+            if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
+                System.out.println("Punti doppi attivati!");
+                effettoDouble = true;
+            }
 
             if (cartaPescata.getValore() == Carta.Valore.Bombetta) {
                 System.out.println("Turno di " + giocatore.nome + " terminato");
+                System.out.println("---------------------------------------- \n");
                 return punteggioParziale;
             }
 
@@ -82,11 +97,17 @@ public class Esecuzione {
                 cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
                 System.out.println("Hai pescato " + cartaPescata.getValore());
 
-                punteggioParziale = Regole.gestisciEffetto(cartaPescata, giocatoreCorrente, tavolo, punteggioParziale);
+                punteggioParziale = Regole.gestisciEffetto(cartaPescata, punteggioParziale, effettoDouble);
                 System.out.println("Il tuo punteggio parziale è " + punteggioParziale);
+
+                if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
+                    System.out.println("Punti doppi attivati!");
+                    effettoDouble = true;
+                }
 
                 if (cartaPescata.getValore() == Carta.Valore.Bombetta) {
                     System.out.println("Turno di " + giocatore.nome + " terminato");
+                    System.out.println("---------------------------------------- \n");
                     return punteggioParziale;
                 }
 
@@ -95,6 +116,7 @@ public class Esecuzione {
 
             System.out.println("Hai salvato il tuo punteggio parziale: " + punteggioParziale);
             System.out.println("Turno di " + giocatore.nome + " terminato");
+            System.out.println("---------------------------------------- \n");
             return punteggioParziale;
         }
     }

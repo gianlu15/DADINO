@@ -9,5 +9,9 @@ public class Giocatore {
         this.nome = nome;
         punteggio = 0;
     }
+
+    public String getNome(){
+        return nome;
+    }
     
 }
