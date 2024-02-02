@@ -1,3 +1,7 @@
+import GestioneGioco.Esecuzione;
+import GestioneGioco.Giocatore;
+import GestioneGioco.Tavolo;
+
 public class TestPartita {
     
     public static void main(String[] args){

@@ -1,3 +1,4 @@
+package GestioneGioco;
 import GestioneCarte.Carta;
 
 public class Regole {

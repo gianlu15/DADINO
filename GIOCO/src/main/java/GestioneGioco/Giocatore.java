@@ -1,3 +1,4 @@
+package GestioneGioco;
 //CLASSE provvisoria per il giocatore
 
 public class Giocatore {

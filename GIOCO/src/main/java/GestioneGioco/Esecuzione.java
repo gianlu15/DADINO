@@ -1,6 +1,6 @@
+package GestioneGioco;
 import java.util.ArrayList;
 import java.util.Map;
-
 import GestioneCarte.Carta;
 
 public class Esecuzione {

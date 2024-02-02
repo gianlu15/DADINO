@@ -1,3 +1,4 @@
+package GestioneGioco;
 import java.util.Scanner;
 
 public class ControlloGiocatore {
