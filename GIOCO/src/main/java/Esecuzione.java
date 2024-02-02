@@ -13,7 +13,7 @@ public class Esecuzione {
 
     public Esecuzione(Tavolo tavolo) {
         this.tavolo = tavolo;
-        giocatori = new ArrayList<>(tavolo.punteggi.keySet());
+        giocatori = new ArrayList<>(tavolo.punteggi.keySet());  //copiamo le chiavi di punteggi nell'arraylist dei giocatori
         turnoCorrente = 0;
         giocatoriTotali = giocatori.size();
     }
