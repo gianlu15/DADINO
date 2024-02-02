@@ -14,5 +14,9 @@ public class Giocatore {
     public String getNome(){
         return nome;
     }
+
+    public int getPunteggioParziale() {
+        return punteggio;
+    }
     
 }

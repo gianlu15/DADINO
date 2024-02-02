@@ -1,63 +1,76 @@
 package GestioneGioco;
+
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class ControlloGiocatore {
 
-    public static boolean decisone() {
+    private static final int PUNTEGGIO_MINIMO_BOT = 17;
 
-        boolean d = true;
+    public static boolean decisione(Giocatore giocatore) {
+        if (giocatore instanceof Bot) {
+            return decisioneBot(giocatore);
+        } else {
+            return decisioneUtente();
+        }
+    }
+
+    private static boolean decisioneUtente() {
         System.out.println("Scegli cosa fare: ");
         System.out.println("Inserisci 'p' per pescare e 'f' per fermarti");
 
         Scanner tastiera = new Scanner(System.in);
-
         String operazione = tastiera.next();
 
         switch (operazione) {
             case "p":
-                d = true;
-                break;
-
+                return true;
             case "f":
-                d = false;
-                break;
-
+                return false;
             default:
-                System.out.println("Operazione non riconsciuta");
-                break;
+                System.out.println("Operazione non riconosciuta");
+                return decisioneUtente(); // Richiama ricorsivamente per ottenere una risposta valida
         }
-        return d;
     }
 
-    public static boolean decisoneObbligata() {
+    private static boolean decisioneBot(Giocatore bot) {
+        try {
+            // Attendi 3 secondi (3000 millisecondi)
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            // Gestione dell'eccezione (se necessario)
+            e.printStackTrace();
+        }
+        return bot.getPunteggioParziale() < PUNTEGGIO_MINIMO_BOT;
+    }
 
-        boolean d = false;
+    public static boolean decisioneObbligata(Giocatore giocatore) {
+        if (giocatore instanceof Bot) {
+            return decisioneBot(giocatore);
+        } else {
+            return decisoneUtenteObbligata();
+        }
+    }
+
+    public static boolean decisoneUtenteObbligata() {
+
         System.out.println("Scegli cosa fare: ");
         System.out.println("Inserisci 'p' per pescare e 'f' per fermarti");
 
         Scanner tastiera = new Scanner(System.in);
-
         String operazione = tastiera.next();
 
-        do {
-            switch (operazione) {
-                case "p":
-                    d = true;
-                    break;
+        switch (operazione) {
+            case "p":
+                return true;
 
-                case "f":
-                    System.out.println("Nella prima mano devi per forza pescare!");
-                    System.out.println("Inserisci 'p' per pescare e 'f' per fermarti");
-                    
-                    operazione = tastiera.next();
-                    d = false;
-                    break;
+            case "f":
+                System.out.println("Nella prima mano devi per forza pescare!");
+                return decisoneUtenteObbligata();
 
-                default:
-                    System.out.println("Operazione non riconsciuta");
-                    break;
-            }
-        } while (d == false);
-        return d;
+            default:
+                System.out.println("Operazione non riconosciuta");
+                return decisoneUtenteObbligata(); // Richiama ricorsivamente per ottenere una risposta valida
+        }
     }
 }

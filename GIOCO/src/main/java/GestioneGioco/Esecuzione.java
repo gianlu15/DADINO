@@ -66,6 +66,7 @@ public class Esecuzione {
         public Turno(Giocatore giocatore) {
             this.giocatore = giocatore;
             this.punteggioParziale = 0;
+            giocatore.punteggio = punteggioParziale;
             this.effettoDouble = false;
         }
 
@@ -74,11 +75,12 @@ public class Esecuzione {
             boolean pesca = false;
 
             // La prima volta il giocatore è obbligato a pescare
-            pesca = ControlloGiocatore.decisoneObbligata(); // restituisce sempre true
+            pesca = ControlloGiocatore.decisioneObbligata(giocatore); // restituisce sempre true
             Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
             System.out.println("Hai pescato " + cartaPescata.getValore());
 
             punteggioParziale = Regole.gestisciEffetto(cartaPescata, punteggioParziale, effettoDouble);
+            giocatore.punteggio = punteggioParziale;
             System.out.println("Il tuo punteggio parziale è " + punteggioParziale);
 
             if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
@@ -92,12 +94,13 @@ public class Esecuzione {
                 return punteggioParziale;
             }
 
-            pesca = ControlloGiocatore.decisone();
+            pesca = ControlloGiocatore.decisione(giocatore);
             while (pesca) {
                 cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
                 System.out.println("Hai pescato " + cartaPescata.getValore());
 
                 punteggioParziale = Regole.gestisciEffetto(cartaPescata, punteggioParziale, effettoDouble);
+                giocatore.punteggio = punteggioParziale;
                 System.out.println("Il tuo punteggio parziale è " + punteggioParziale);
 
                 if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
@@ -111,7 +114,7 @@ public class Esecuzione {
                     return punteggioParziale;
                 }
 
-                pesca = ControlloGiocatore.decisone();
+                pesca = ControlloGiocatore.decisione(giocatore);
             }
 
             System.out.println("Hai salvato il tuo punteggio parziale: " + punteggioParziale);
