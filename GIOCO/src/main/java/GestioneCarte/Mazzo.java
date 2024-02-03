@@ -73,6 +73,7 @@ public class Mazzo {
             bombetteNelMazzo--;
 
         if (bombetteNelMazzo == 0) {
+            System.out.println("MAZZO RIFORMATO");
             inizializzaMazzo();
             mescolaMazzo();
         }

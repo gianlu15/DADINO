@@ -1,4 +1,5 @@
 
+import GestioneGioco.Bot;
 import GestioneGioco.Esecuzione;
 import GestioneGioco.Giocatore;
 import GestioneGioco.Tavolo;
@@ -8,18 +9,17 @@ public class TestPartita {
 
         Tavolo t = new Tavolo();
         Giocatore g1 = new Giocatore("LORENZO");
-        Giocatore g2 = new Giocatore("GIANLUCA");
-        Giocatore g3 = new Giocatore("PAPA'");
-        Giocatore g4 = new Giocatore("MAMMA");
+        Bot g2 = new Bot("GIANLUCA");
 
         t.nuovoPunteggio(g1);
         t.nuovoPunteggio(g2);
-        t.nuovoPunteggio(g3);
-        t.nuovoPunteggio(g4);
+
 
         t.stampaOrdine();
 
         Esecuzione e = new Esecuzione(t);
+
+        //StageGioco.avvio();
 
         e.eseguiPartita();
 

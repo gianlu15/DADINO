@@ -25,10 +25,7 @@ public class Tavolo {
 
     //Metodo per aggiornare il punteggio a fine del turno
     public void aggiornaPunteggio(Giocatore giocatore, int punteggioTurno) {
-        int punteggioAttuale = punteggi.get(giocatore);
-        int nuovoPunteggio = punteggioAttuale + punteggioTurno;
-        punteggi.put(giocatore, nuovoPunteggio);
-
+        punteggi.put(giocatore, punteggioTurno);
     }
 
 
