@@ -7,6 +7,7 @@ public class Mazzo {
     // Attributi
     private Carta[] carte;
     private int carteNelMazzo;
+    private int bombetteNelMazzo;
 
     // Metodi
     public Mazzo() {
@@ -33,6 +34,7 @@ public class Mazzo {
         for (int i = 0; i < 12; i++) {
             carte[carteNelMazzo] = new Carta(Carta.Seme.Special, Carta.Valore.Bombetta);
             carteNelMazzo++;
+            bombetteNelMazzo++;
         }
 
         // Aggiungo i 4 Malus
@@ -63,32 +65,31 @@ public class Mazzo {
     }
 
     public Carta pescaCarta() {
-        if (carteNelMazzo > 0) {
-            Carta cartaPescata = carte[carteNelMazzo - 1];
-            carteNelMazzo--;
 
-            return cartaPescata;
+        Carta cartaPescata = carte[carteNelMazzo - 1];
+        carteNelMazzo--;
 
-        } else {
+        if (cartaPescata.valoreCarta == Carta.Valore.Bombetta)
+            bombetteNelMazzo--;
 
-            // !!!!!!!! Gestisci l'eccezione se il mazzo è vuoto DA GESTIRE!!!!!!!!!!!!!!
-            throw new IllegalStateException("Il mazzo è vuoto.");
+        if (bombetteNelMazzo == 0) {
+            inizializzaMazzo();
+            mescolaMazzo();
         }
+        return cartaPescata;
     }
 
     public int getNumeroCarte() {
         return carteNelMazzo;
     }
 
-
-
-
-    ////////-------------------- test
+    //////// -------------------- test
     public void mostraMazzo() {
         for (int i = 0; i < carte.length; i++) {
             cartaIn(i);
         }
     }
+
     public void cartaIn(int indice) {
         System.out.println("La carta in " + indice + " ha valore " + carte[indice].getValore() + " e seme "
                 + carte[indice].getSeme());

@@ -1,5 +1,5 @@
 package GestioneGioco;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import GestioneCarte.Mazzo;
@@ -15,7 +15,7 @@ public class Tavolo {
         mazzoDiGioco = new Mazzo();
         mazzoDiGioco.inizializzaMazzo();
         mazzoDiGioco.mescolaMazzo();
-        punteggi = new HashMap<>();
+        punteggi = new LinkedHashMap<>();
     }
 
     // Aggiungo un nuovo giocatore con il suo punteggio totale (0)
@@ -29,5 +29,13 @@ public class Tavolo {
         int nuovoPunteggio = punteggioAttuale + punteggioTurno;
         punteggi.put(giocatore, nuovoPunteggio);
 
+    }
+
+
+    //------------------- test
+    public void stampaOrdine(){
+        for (Map.Entry<Giocatore, Integer> entry : punteggi.entrySet()) {
+            System.out.println("Giocatore: " + entry.getKey().getNome());
+        }
     }
 }

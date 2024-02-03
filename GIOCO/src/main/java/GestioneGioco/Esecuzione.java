@@ -8,27 +8,25 @@ public class Esecuzione {
     Tavolo tavolo;
     ArrayList<Giocatore> giocatori;
     int turnoCorrente;
-    int giocatoriTotali;
     Giocatore giocatoreCorrente;
 
     public Esecuzione(Tavolo tavolo) {
         this.tavolo = tavolo;
         giocatori = new ArrayList<>(tavolo.punteggi.keySet());  //copiamo le chiavi di punteggi nell'arraylist dei giocatori
         turnoCorrente = 0;
-        giocatoriTotali = giocatori.size();
     }
 
     public void eseguiPartita() {
         while (!PartitaTerminata()) {
             eseguiTurno(turnoCorrente);
             turnoCorrente++;
-            if (turnoCorrente == giocatoriTotali)
+            if (turnoCorrente == giocatori.size())
                 turnoCorrente = 0;
         }
         dichiaraVincitore();
     }
 
-    public void eseguiTurno(int indiceGiocatore) {
+    public void eseguiTurno(int indiceGiocatore) {        
         giocatoreCorrente = giocatori.get(indiceGiocatore);
         Turno nuovoTurno = new Turno(giocatoreCorrente);
         int punteggioTurno = nuovoTurno.giocaTurno();
@@ -77,7 +75,7 @@ public class Esecuzione {
             // La prima volta il giocatore è obbligato a pescare
             pesca = ControlloGiocatore.decisioneObbligata(giocatore); // restituisce sempre true
             Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
-            System.out.println("Hai pescato " + cartaPescata.getValore());
+            System.out.println("------> Hai pescato " + cartaPescata.getValore());
 
             punteggioParziale = Regole.gestisciEffetto(cartaPescata, punteggioParziale, effettoDouble);
             giocatore.punteggio = punteggioParziale;
@@ -97,7 +95,8 @@ public class Esecuzione {
             pesca = ControlloGiocatore.decisione(giocatore);
             while (pesca) {
                 cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
-                System.out.println("Hai pescato " + cartaPescata.getValore());
+
+                System.out.println("------> Hai pescato " + cartaPescata.getValore());
 
                 punteggioParziale = Regole.gestisciEffetto(cartaPescata, punteggioParziale, effettoDouble);
                 giocatore.punteggio = punteggioParziale;

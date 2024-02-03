@@ -16,7 +16,7 @@ public class ControlloGiocatore {
     }
 
     private static boolean decisioneUtente() {
-        System.out.println("Scegli cosa fare: ");
+        System.out.println("\nScegli cosa fare: ");
         System.out.println("Inserisci 'p' per pescare e 'f' per fermarti");
 
         Scanner tastiera = new Scanner(System.in);
@@ -54,7 +54,7 @@ public class ControlloGiocatore {
 
     public static boolean decisoneUtenteObbligata() {
 
-        System.out.println("Scegli cosa fare: ");
+        System.out.println("\nScegli cosa fare: ");
         System.out.println("Inserisci 'p' per pescare e 'f' per fermarti");
 
         Scanner tastiera = new Scanner(System.in);

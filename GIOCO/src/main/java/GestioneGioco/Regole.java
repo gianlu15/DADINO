@@ -3,7 +3,7 @@ import GestioneCarte.Carta;
 
 public class Regole {
 
-    final static int PUNTEGGIO_OBIETTIVO = 51;
+    final static int PUNTEGGIO_OBIETTIVO = 151;
 
     public static boolean isBombetta(Carta carta) {
         return carta.getValore() == Carta.Valore.Bombetta;
@@ -22,8 +22,6 @@ public class Regole {
             punteggioParziale = 0;
         } else if (isMalus(carta)) {
             punteggioParziale = (punteggioParziale >= 6) ? punteggioParziale - 6 : 0;
-        } else if (isDoublePoints(carta)) {
-            punteggioParziale = punteggioParziale;
         } else {
 
             switch (carta.getValore()) {
