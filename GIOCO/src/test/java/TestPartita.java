@@ -3,6 +3,7 @@ import GestioneGioco.Bot;
 import GestioneGioco.Esecuzione;
 import GestioneGioco.Giocatore;
 import GestioneGioco.Tavolo;
+import GestioneGiocoFX.StageGioco;
 public class TestPartita {
 
     public static void main(String[] args) {
@@ -18,8 +19,7 @@ public class TestPartita {
         t.stampaOrdine();
 
         Esecuzione e = new Esecuzione(t);
-
-        //StageGioco.avvio();
+        StageGioco.avvio();
 
         e.eseguiPartita();
 
