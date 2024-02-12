@@ -3,7 +3,7 @@ import GestioneCarte.Carta;
 
 public class Regole {
 
-    final static int PUNTEGGIO_OBIETTIVO = 2;
+    final static int PUNTEGGIO_OBIETTIVO = 50;
 
     public static boolean isBombetta(Carta carta) {
         return carta.getValore() == Carta.Valore.Bombetta;

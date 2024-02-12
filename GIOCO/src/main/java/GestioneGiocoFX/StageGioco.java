@@ -1,5 +1,6 @@
 package GestioneGiocoFX;
 
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,8 +23,6 @@ public class StageGioco extends Application {
             // Creamo un nodo root caricando il file FXML di prima
             Parent root = (Parent) fxmlLoader.load();
 
-            
-
             Scene scene = new Scene(root, 900, 500);
             String css = this.getClass().getResource("StageGioco.css").toExternalForm();
 
@@ -35,6 +34,7 @@ public class StageGioco extends Application {
             stage.setResizable(false); // Rendiamo lo stage non ridimensionabile
 
             stage.show(); // Mostriamo lo stage
+
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,7 +3,6 @@ package GestioneGioco;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-import GestioneGiocoFX.MyController;
 
 
 public class ControlloGiocatore {
@@ -19,9 +18,24 @@ public class ControlloGiocatore {
     }
 
     private static boolean decisioneUtente() {
-        System.out.println("\nScegli cosa fare tramite il controller ");
-        
-        return MyController.isPescaScelta();
+        System.out.println("\nScegli cosa fare: ");
+        System.out.println("Inserisci 'p' per pescare e 'f' per fermarti");
+
+        Scanner tastiera = new Scanner(System.in);
+        String operazione = tastiera.next();
+
+        switch (operazione) {
+            case "p":
+                return true;
+
+            case "f":
+                System.out.println("Nella prima mano devi per forza pescare!");
+                return false;
+
+            default:
+                System.out.println("Operazione non riconosciuta");
+                return decisoneUtenteObbligata(); // Richiama ricorsivamente per ottenere una risposta valida
+        }
     }
 
     private static boolean decisioneBot(Giocatore bot) {

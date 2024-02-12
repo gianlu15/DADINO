@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneGioco.GiocoController">
+   <children>
+      <VBox alignment="CENTER" layoutX="250.0" layoutY="9.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="114.0" prefWidth="600.0" />
+            <HBox alignment="CENTER" prefHeight="221.0" prefWidth="600.0">
+               <children>
+                  <Button fx:id="BottonePesca" mnemonicParsing="false" text="Pesca">
+                     <font>
+                        <Font name="Arial" size="13.0" />
+                     </font></Button>
+                  <StackPane prefHeight="211.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <ImageView fx:id="CartaCoperta" fitHeight="131.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
+                           <image>
+                              <Image url="@../../../../../../../Carte%20Ufficiali/Retro.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="CartaScoperta" fitHeight="131.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                           <image>
+                              <Image url="@../../../../../../../Carte%20Ufficiali/Jack_Quadri.png" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets top="50.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <Button fx:id="BottoneFermati" mnemonicParsing="false" text="Fermati">
+                     <font>
+                        <Font name="Arial" size="13.0" />
+                     </font></Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
