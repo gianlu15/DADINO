@@ -1,3 +1,4 @@
+import GestioneGioco.Bot;
 import GestioneGioco.Giocatore;
 import GestioneGioco.GiocoController;
 import GestioneGioco.Tavolo;
@@ -15,7 +16,7 @@ public class TestPartita extends Application {
         t = new Tavolo();
 
         Giocatore g1 = new Giocatore("GIANLUCA");
-        Giocatore g2 = new Giocatore ("ANA");
+        Bot g2 = new Bot ("ANA");
         t.nuovoPunteggio(g2);
         t.nuovoPunteggio(g1);
 

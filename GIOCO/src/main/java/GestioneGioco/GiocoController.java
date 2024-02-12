@@ -4,15 +4,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import GestioneCarte.Carta;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 public class GiocoController implements Initializable {
 
@@ -36,6 +36,7 @@ public class GiocoController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         inizializzaVista();
+        disabilitaPulsanti();
 
     }
 
@@ -50,6 +51,16 @@ public class GiocoController implements Initializable {
         tavolo = t;
         giocatori = new ArrayList<>(tavolo.punteggi.keySet());
         turnoCorrente = 0;
+    }
+
+    public void disabilitaPulsanti() {
+        BottonePesca.setDisable(true);
+        BottoneFermati.setDisable(true);
+    }
+
+    public void abilitaPulsanti() {
+        BottonePesca.setDisable(false);
+        BottoneFermati.setDisable(false);
     }
 
     public void eseguiPartita() {
@@ -117,8 +128,14 @@ public class GiocoController implements Initializable {
             System.out.println("Ricominci da " + punteggioParziale);
             boolean pesca = false;
 
-            // La prima volta il giocatore è obbligato a pescare
-            pesca = ControlloGiocatore.decisioneObbligata(giocatore); // restituisce sempre true
+            if (giocatore instanceof Bot) {
+                pesca = decisioneBot((Bot) giocatore);
+            } else {
+                BottonePesca.setDisable(false);
+                pesca = decisioneObbligataGiocatore().join();
+                BottonePesca.setDisable(true);
+            }
+
             Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
             CartaScoperta.setImage(cartaPescata.getImmagine());
             System.out.println("------> Hai pescato " + cartaPescata.getValore());
@@ -127,7 +144,7 @@ public class GiocoController implements Initializable {
             System.out.println("Il tuo punteggio è ora " + (punteggioParziale + giocatore.punteggio));
 
             if (controlloVittoria(giocatore.punteggio, giocatore))
-                    return punteggioParziale + giocatore.punteggio;
+                return punteggioParziale + giocatore.punteggio;
 
             if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
                 System.out.println("Punti doppi attivati!");
@@ -141,7 +158,15 @@ public class GiocoController implements Initializable {
                 return punteggioParziale;
             }
 
-            pesca = ControlloGiocatore.decisione(giocatore);
+            if (giocatore instanceof Bot) {
+                pesca = decisioneBot((Bot) giocatore);
+            } else {
+                abilitaPulsanti();
+                pesca = decisioneGiocatore().join();
+                disabilitaPulsanti();
+            }
+
+            
             while (pesca) {
                 cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
                 CartaScoperta.setImage(cartaPescata.getImmagine());
@@ -150,7 +175,7 @@ public class GiocoController implements Initializable {
 
                 giocatore.punteggio = Regole.gestisciEffetto(cartaPescata, giocatore.punteggio, effettoDouble);
                 System.out.println("Il tuo punteggio è ora " + (punteggioParziale + giocatore.punteggio));
-               
+
                 if (controlloVittoria(giocatore.punteggio, giocatore))
                     return punteggioParziale + giocatore.punteggio;
 
@@ -166,7 +191,14 @@ public class GiocoController implements Initializable {
                     return punteggioParziale;
                 }
 
-                pesca = ControlloGiocatore.decisione(giocatore);
+                if (giocatore instanceof Bot) {
+                    pesca = decisioneBot((Bot) giocatore);
+                } else {
+                    abilitaPulsanti();
+                    pesca = decisioneGiocatore().join();
+                    disabilitaPulsanti();
+                    
+                }
             }
 
             System.out.println("Hai salvato il tuo punteggio: " + (giocatore.punteggio + punteggioParziale));
@@ -174,7 +206,68 @@ public class GiocoController implements Initializable {
             System.out.println("---------------------------------------- \n");
             return giocatore.punteggio + punteggioParziale;
         }
+
+        private boolean decisioneBot(Bot bot) {
+            try {
+                // Attendi 3 secondi (3000 millisecondi)
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                // Gestione dell'eccezione (se necessario)
+                e.printStackTrace();
+            }
+            return bot.getPunteggioParziale() < bot.getPunteggioMinimo();
+        }
+
+        private CompletableFuture<Boolean> decisioneGiocatore() {
+
+            // Crea un CompletableFuture che attende l'azione del giocatore
+            CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+            // Azione quando viene premuto il pulsante per pescare
+            BottonePesca.setOnAction(event -> {
+                future.complete(true); // Completa il futuro con true per indicare che il giocatore vuole pescare
+            });
+
+            // Azione quando viene premuto il pulsante per fermarsi
+            BottoneFermati.setOnAction(event -> {
+                future.complete(false); // Completa il futuro con false per indicare che il giocatore si ferma
+            });
+
+            try {
+                // Attendi 3 secondi (3000 millisecondi)
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                // Gestione dell'eccezione (se necessario)
+                e.printStackTrace();
+            }
+
+            return future; // Restituisci il CompletableFuture per attendere l'azione del giocatore
+        }
+
+        private CompletableFuture<Boolean> decisioneObbligataGiocatore() {
+
+            // Crea un CompletableFuture che attende l'azione del giocatore
+            CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+            // Azione quando viene premuto il pulsante per pescare
+            BottonePesca.setOnAction(event -> {
+                future.complete(true); // Completa il futuro con true per indicare che il giocatore vuole pescare
+            });
+
+            // Azione quando viene premuto il pulsante per fermarsi
+            BottoneFermati.setOnAction(event -> {
+                future.complete(false); // Completa il futuro con false per indicare che il giocatore si ferma
+            });
+
+            try {
+                // Attendi 3 secondi (3000 millisecondi)
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                // Gestione dell'eccezione (se necessario)
+                e.printStackTrace();
+            }
+
+            return future; // Restituisci il CompletableFuture per attendere l'azione del giocatore
+        }
     }
 }
-
-

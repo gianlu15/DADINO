@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 
-
 public class ControlloGiocatore {
 
     private static final int PUNTEGGIO_MINIMO_BOT = 17;
