@@ -23,7 +23,7 @@ public class StageGioco extends Application {
             // Creamo un nodo root caricando il file FXML di prima
             Parent root = (Parent) fxmlLoader.load();
 
-            Scene scene = new Scene(root, 900, 500);
+            Scene scene = new Scene(root, 1000, 800);
             String css = this.getClass().getResource("StageGioco.css").toExternalForm();
 
             scene.getStylesheets().add(css);

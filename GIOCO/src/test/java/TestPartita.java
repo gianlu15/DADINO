@@ -16,7 +16,7 @@ public class TestPartita extends Application {
         t = new Tavolo();
 
         Giocatore g1 = new Giocatore("GIANLUCA");
-        Bot g2 = new Bot ("ANA");
+        Giocatore g2 = new Giocatore("ANA");
         t.nuovoPunteggio(g2);
         t.nuovoPunteggio(g1);
 
@@ -37,6 +37,7 @@ public class TestPartita extends Application {
 
         // Mostra la scena
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("GestioneGioco/StageGioco.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
 

@@ -8,9 +8,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import GestioneCarte.Carta;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -18,6 +20,12 @@ public class GiocoController implements Initializable {
 
     @FXML
     private Button BottonePesca;
+
+    @FXML
+    private Label fraseTurno;
+
+    @FXML
+    private Label giocatoreTurno;
 
     @FXML
     private ImageView CartaCoperta;
@@ -28,6 +36,9 @@ public class GiocoController implements Initializable {
     @FXML
     private Button BottoneFermati;
 
+    @FXML
+    private Label PunteggioParziale;
+
     private Tavolo tavolo;
     ArrayList<Giocatore> giocatori;
     int turnoCorrente;
@@ -35,16 +46,14 @@ public class GiocoController implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        inizializzaVista();
-        disabilitaPulsanti();
-
-    }
-
-    private void inizializzaVista() {
         String pathName = "CarteImmagini/Retro.png";
 
         CartaCoperta.setImage(new Image(Carta.class.getResourceAsStream(pathName)));
 
+        disabilitaPulsanti();
+        PunteggioParziale.setVisible(false);
+        fraseTurno.setVisible(false);
+        giocatoreTurno.setVisible(false);
     }
 
     public void setTavolo(Tavolo t) {
@@ -65,7 +74,15 @@ public class GiocoController implements Initializable {
 
     public void eseguiPartita() {
         while (!PartitaTerminata()) {
+            CartaScoperta.setImage(null);
             eseguiTurno(turnoCorrente);
+            try {
+                // Attendi 3 secondi (3000 millisecondi)
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                // Gestione dell'eccezione (se necessario)
+                e.printStackTrace();
+            }
             turnoCorrente++;
             if (turnoCorrente == giocatori.size())
                 turnoCorrente = 0;
@@ -128,6 +145,14 @@ public class GiocoController implements Initializable {
             System.out.println("Ricominci da " + punteggioParziale);
             boolean pesca = false;
 
+            fraseTurno.setVisible(true);
+            giocatoreTurno.setVisible(true);
+            PunteggioParziale.setVisible(true);
+            Platform.runLater(() -> {
+                PunteggioParziale.setText(Integer.toString(punteggioParziale));
+                giocatoreTurno.setText(giocatore.getNome());
+            });
+
             if (giocatore instanceof Bot) {
                 pesca = decisioneBot((Bot) giocatore);
             } else {
@@ -155,8 +180,13 @@ public class GiocoController implements Initializable {
                 System.out.println("Il tuo punteggio è tornato a " + punteggioParziale);
                 System.out.println("Turno di " + giocatore.nome + " terminato");
                 System.out.println("---------------------------------------- \n");
+                PunteggioParziale.setVisible(false);
                 return punteggioParziale;
             }
+
+            Platform.runLater(() -> {
+                PunteggioParziale.setText(Integer.toString(punteggioParziale + giocatore.punteggio));
+            });
 
             if (giocatore instanceof Bot) {
                 pesca = decisioneBot((Bot) giocatore);
@@ -166,7 +196,6 @@ public class GiocoController implements Initializable {
                 disabilitaPulsanti();
             }
 
-            
             while (pesca) {
                 cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
                 CartaScoperta.setImage(cartaPescata.getImmagine());
@@ -188,8 +217,16 @@ public class GiocoController implements Initializable {
                     System.out.println("Il tuo punteggio è tornato a " + punteggioParziale);
                     System.out.println("Turno di " + giocatore.nome + " terminato");
                     System.out.println("---------------------------------------- \n");
+                    Platform.runLater(() -> {
+                        PunteggioParziale.setText(Integer.toString(punteggioParziale));
+                    });
+                    PunteggioParziale.setVisible(false);
                     return punteggioParziale;
                 }
+
+                Platform.runLater(() -> {
+                    PunteggioParziale.setText(Integer.toString(punteggioParziale + giocatore.punteggio));
+                });
 
                 if (giocatore instanceof Bot) {
                     pesca = decisioneBot((Bot) giocatore);
@@ -197,13 +234,14 @@ public class GiocoController implements Initializable {
                     abilitaPulsanti();
                     pesca = decisioneGiocatore().join();
                     disabilitaPulsanti();
-                    
+
                 }
             }
 
             System.out.println("Hai salvato il tuo punteggio: " + (giocatore.punteggio + punteggioParziale));
             System.out.println("Turno di " + giocatore.nome + " terminato");
             System.out.println("---------------------------------------- \n");
+            PunteggioParziale.setVisible(false);
             return giocatore.punteggio + punteggioParziale;
         }
 
