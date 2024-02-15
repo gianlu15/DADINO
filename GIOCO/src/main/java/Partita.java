@@ -39,6 +39,6 @@ public class Partita extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        controller.eseguiPartita();
+        controller.esegui();
     }
 }

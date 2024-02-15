@@ -43,7 +43,7 @@ public class TestPartita extends Application {
 
        // Avvia l'esecuzione della partita in un thread separato
         Thread partitaThread = new Thread(() -> {
-            controller.eseguiPartita();
+            controller.esegui();
         });
         partitaThread.start();
     }
