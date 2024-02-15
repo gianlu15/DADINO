@@ -11,22 +11,36 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneGioco.GiocoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneGioco.GiocoController">
    <children>
       <VBox alignment="CENTER" layoutX="250.0" layoutY="9.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" prefHeight="114.0" prefWidth="600.0" />
             <HBox alignment="CENTER" prefHeight="53.0" prefWidth="600.0">
                <children>
-                  <Label fx:id="fraseTurno" prefHeight="17.0" prefWidth="154.0" text="è il turno del giocatore:">
-                     <font>
-                        <Font name="Arial" size="13.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="giocatoreTurno" prefHeight="17.0" prefWidth="136.0">
-                     <font>
-                        <Font name="Avenir Black" size="24.0" />
-                     </font></Label>
+                  <StackPane alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="273.0">
+                     <children>
+                        <Label fx:id="fraseTurno" prefHeight="17.0" prefWidth="275.0" text="è il turno del giocatore:">
+                           <font>
+                              <Font name="Arial" size="13.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets left="10.0" />
+                           </StackPane.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </Label>
+                        <Label fx:id="giocatoreTurno" alignment="CENTER" contentDisplay="CENTER" lineSpacing="2.0" prefHeight="16.0" prefWidth="91.0" StackPane.alignment="CENTER_RIGHT">
+                           <font>
+                              <Font name="Arial" size="14.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets right="10.0" />
+                           </StackPane.margin>
+                        </Label>
+                     </children>
+                  </StackPane>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="195.0" prefWidth="600.0">
@@ -34,7 +48,8 @@
                   <Button fx:id="BottonePesca" mnemonicParsing="false" text="Pesca">
                      <font>
                         <Font name="Arial" size="13.0" />
-                     </font></Button>
+                     </font>
+                  </Button>
                   <StackPane prefHeight="202.0" prefWidth="200.0">
                      <HBox.margin>
                         <Insets />
@@ -42,12 +57,12 @@
                      <children>
                         <ImageView fx:id="CartaCoperta" fitHeight="131.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
                            <image>
-                              <Image url="@../../../../../../../Carte%20Ufficiali/Retro.png" />
+                              <Image url="@../GestioneCarte/CarteImmagini/Retro.png" />
                            </image>
                         </ImageView>
                         <ImageView fx:id="CartaScoperta" fitHeight="131.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                            <image>
-                              <Image url="@../../../../../../../Carte%20Ufficiali/Jack_Quadri.png" />
+                              <Image url="@../GestioneCarte/CarteImmagini/Dieci_Cuori.png" />
                            </image>
                            <StackPane.margin>
                               <Insets top="50.0" />
@@ -58,14 +73,15 @@
                   <Button fx:id="BottoneFermati" mnemonicParsing="false" text="Fermati">
                      <font>
                         <Font name="Arial" size="13.0" />
-                     </font></Button>
+                     </font>
+                  </Button>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="54.0" prefWidth="600.0">
                <children>
-                  <Label fx:id="PunteggioParziale" alignment="TOP_RIGHT" style="-fx-padding: 20;">
+                  <Label fx:id="PunteggioParziale" alignment="TOP_RIGHT">
                      <font>
-                        <Font name="Arial" size="20.0" />
+                        <Font name="Arial Bold" size="14.0" />
                      </font></Label>
                </children>
             </HBox>
