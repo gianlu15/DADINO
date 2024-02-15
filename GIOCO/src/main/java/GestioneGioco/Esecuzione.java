@@ -36,6 +36,7 @@ public class Esecuzione {
         giocatoreCorrente = giocatori.get(indiceGiocatore);
         int punteggioTurno = giocaTurno(giocatoreCorrente);
         tavolo.aggiornaPunteggio(giocatoreCorrente, punteggioTurno);
+        controller.aggiornaVistaPunteggio(giocatoreCorrente, punteggioTurno);
     }
 
     private boolean controlloVittoria(int p, Giocatore g) {
@@ -117,12 +118,12 @@ public class Esecuzione {
             System.out.println("Il tuo punteggio è tornato a " + punteggioParziale);
             System.out.println("Turno di " + giocatore.nome + " terminato");
             System.out.println("---------------------------------------- \n");
-            controller.aggiornaVistaPunteggio(punteggioParziale);
+            controller.aggiornaVistaPunteggioParziale(punteggioParziale);
             controller.disabilitaPunteggio();
             return punteggioParziale;
         }
 
-        controller.aggiornaVistaPunteggio((punteggioParziale+giocatore.punteggio));
+        controller.aggiornaVistaPunteggioParziale((punteggioParziale+giocatore.punteggio));
 
         if (giocatore instanceof Bot) {
             pesca = decisioneBot((Bot) giocatore);
@@ -153,12 +154,12 @@ public class Esecuzione {
                 System.out.println("Il tuo punteggio è tornato a " + punteggioParziale);
                 System.out.println("Turno di " + giocatore.nome + " terminato");
                 System.out.println("---------------------------------------- \n");
-                controller.aggiornaVistaPunteggio(punteggioParziale);
+                controller.aggiornaVistaPunteggioParziale(punteggioParziale);
                 controller.disabilitaPunteggio();
                 return punteggioParziale;
             }
 
-            controller.aggiornaVistaPunteggio((punteggioParziale+giocatore.punteggio));
+            controller.aggiornaVistaPunteggioParziale((punteggioParziale+giocatore.punteggio));
 
             if (giocatore instanceof Bot) {
                 pesca = decisioneBot((Bot) giocatore);

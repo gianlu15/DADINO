@@ -16,9 +16,11 @@ public class TestPartita extends Application {
         t = new Tavolo();
 
         Giocatore g1 = new Giocatore("GIANLUCA");
-        Giocatore g2 = new Giocatore("ANA");
+        Bot g2 = new Bot("Bot1");
+        Bot g3 = new Bot("Bot2");
         t.nuovoPunteggio(g2);
         t.nuovoPunteggio(g1);
+        t.nuovoPunteggio(g3);
 
         launch();
     }
@@ -36,9 +38,10 @@ public class TestPartita extends Application {
         controller.setTavolo(t);
 
         // Mostra la scena
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,900,500);
         scene.getStylesheets().add(getClass().getResource("GestioneGioco/StageGioco.css").toExternalForm());
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
        // Avvia l'esecuzione della partita in un thread separato

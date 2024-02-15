@@ -13,8 +13,33 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.Map;
 
 public class GiocoController implements Initializable {
+
+    @FXML
+    private Label Giocatore0;
+
+    @FXML
+    private Label punteggioGiocatore0;
+
+    @FXML
+    private Label Giocatore1;
+
+    @FXML
+    private Label punteggioGiocatore1;
+
+    @FXML
+    private Label Giocatore2;
+
+    @FXML
+    private Label punteggioGiocatore2;
+
+    @FXML
+    private Label Giocatore3;
+
+    @FXML
+    private Label punteggioGiocatore3;
 
     @FXML
     private Button BottonePesca;
@@ -62,6 +87,33 @@ public class GiocoController implements Initializable {
         turnoCorrente = 0;
 
         e = new Esecuzione(tavolo, giocatori, this);
+
+        setLeaderboard();
+    }
+
+    public void setLeaderboard() {
+
+        Giocatore0.setText(giocatori.get(0).getNome());
+        punteggioGiocatore0.setText("0");
+
+        Giocatore1.setText(giocatori.get(1).getNome());
+        punteggioGiocatore1.setText("0");
+
+        Giocatore2.setText("");
+        punteggioGiocatore2.setText("");
+
+        Giocatore3.setText("");
+        punteggioGiocatore3.setText("");
+
+        if (giocatori.size() == 3) {
+            Giocatore2.setText(giocatori.get(2).getNome());
+            punteggioGiocatore2.setText("0");
+        }
+
+        if (giocatori.size() == 4) {
+            Giocatore3.setText(giocatori.get(3).getNome());
+            punteggioGiocatore3.setText("0");
+        }
     }
 
     public void disabilitaPulsanti() {
@@ -78,7 +130,7 @@ public class GiocoController implements Initializable {
         e.eseguiPartita(turnoCorrente);
     }
 
-    public void inizioTurno(int punteggioParziale, Giocatore giocatore){
+    public void inizioTurno(int punteggioParziale, Giocatore giocatore) {
         CartaScoperta.setImage(null);
         fraseTurno.setVisible(true);
         giocatoreTurno.setVisible(true);
@@ -89,15 +141,14 @@ public class GiocoController implements Initializable {
         });
     }
 
-    public void disabilitaPesca(){
+    public void disabilitaPesca() {
         BottonePesca.setDisable(true);
     }
 
-    public void abilitaPesca(){
+    public void abilitaPesca() {
         BottonePesca.setDisable(false);
     }
 
-    
     CompletableFuture<Boolean> decisioneGiocatore() {
 
         // Crea un CompletableFuture che attende l'azione del giocatore
@@ -142,13 +193,44 @@ public class GiocoController implements Initializable {
         CartaScoperta.setImage(immagine);
     }
 
-    public void disabilitaPunteggio(){
+    public void disabilitaPunteggio() {
         PunteggioParziale.setVisible(false);
     }
 
-    public void aggiornaVistaPunteggio(int punteggioParziale){
+    public void aggiornaVistaPunteggioParziale(int punteggioParziale) {
         Platform.runLater(() -> {
             PunteggioParziale.setText(Integer.toString(punteggioParziale));
         });
+    }
+
+    public void aggiornaVistaPunteggio(Giocatore giocatoreCorrente, int punteggioTurno) {
+        int indice = giocatori.indexOf(giocatoreCorrente);
+
+        switch (indice) {
+            case 0:
+                Platform.runLater(() -> {
+                    punteggioGiocatore0.setText(Integer.toString(punteggioTurno));
+                });
+                break;
+
+            case 1:
+                Platform.runLater(() -> {
+                    punteggioGiocatore1.setText(Integer.toString(punteggioTurno));
+                });
+                break;
+            case 2:
+                Platform.runLater(() -> {
+                    punteggioGiocatore2.setText(Integer.toString(punteggioTurno));
+                });
+                break;
+            case 3:
+                Platform.runLater(() -> {
+                    punteggioGiocatore3.setText(Integer.toString(punteggioTurno));
+                });
+                break;
+            default:
+                System.err.println("Giocatore non trovato nella leaderboard");
+                break;
+        }
     }
 }

@@ -6,7 +6,6 @@ GestioneCarte/Carta$Seme.class
 Partita.class
 GestioneGiocoFX/StageGioco.class
 GestioneGioco/Regole.class
-GestioneGioco/GiocoController$Turno.class
 GestioneCarte/Mazzo.class
 Main.class
 GestioneGioco/Tavolo.class

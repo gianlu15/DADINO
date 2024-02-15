@@ -1,7 +1,7 @@
 .root {
   -fx-font-size: 12pt;
-  /*-fx-background-image: url("Poker_background.jpg");*/
-  -fx-background-color: #567568;
+  -fx-background-image: url("Poker_background.png");
+  -fx-background-size: contain;
 }
 
 .label {
