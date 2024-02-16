@@ -6,14 +6,18 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
 import GestioneCarte.Carta;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import java.util.Map;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 public class GiocoController implements Initializable {
 
@@ -191,6 +195,11 @@ public class GiocoController implements Initializable {
 
     public void setImmagine(Image immagine) {
         CartaScoperta.setImage(immagine);
+        RotateTransition rotate = new RotateTransition();
+        rotate.setNode(CartaScoperta);
+        rotate.setDuration(Duration.millis(500));
+        rotate.setByAngle(360);
+        rotate.play();
     }
 
     public void disabilitaPunteggio() {
@@ -232,5 +241,22 @@ public class GiocoController implements Initializable {
                 System.err.println("Giocatore non trovato nella leaderboard");
                 break;
         }
+    }
+
+    @FXML
+    public void alertVittoria(Giocatore vincitore){
+        Platform.runLater(() -> {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Partita terminata");
+        alert.setContentText("Il giocatore " + vincitore.getNome() + " ha vinto!");
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                getClass().getResource("alertStyle.css").toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
+
+        alert.showAndWait();
+        });
+        
     }
 }

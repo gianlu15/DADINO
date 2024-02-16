@@ -10,4 +10,5 @@ GestioneCarte/Mazzo.class
 Main.class
 GestioneGioco/Tavolo.class
 GestioneGioco/Regole$1.class
+GestioneGioco/Esecuzione.class
 GestioneGioco/Giocatore.class

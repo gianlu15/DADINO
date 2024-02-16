@@ -64,8 +64,10 @@ public class Esecuzione {
                 System.out.println("-------------------------");
                 System.out.println("Il giocatore  " + entry.getKey().getNome() + " ha vinto!!!");
                 System.out.println("-------------------------");
+                controller.alertVittoria(entry.getKey());
             }
         }
+        
 
     }
 
@@ -79,8 +81,7 @@ public class Esecuzione {
         }
     }
 
-    public int giocaTurno(Giocatore g) {
-        Giocatore giocatore = g;
+    public int giocaTurno(Giocatore giocatore) {
         int punteggioParziale = tavolo.punteggi.get(giocatore);
         boolean effettoDouble = false;
         giocatore.punteggio = 0;
@@ -91,13 +92,7 @@ public class Esecuzione {
 
         controller.inizioTurno(punteggioParziale, giocatore);
 
-        if (giocatore instanceof Bot) {
-            pesca = decisioneBot((Bot) giocatore);
-        } else {
-            controller.abilitaPesca();
-            pesca = controller.decisioneObbligataGiocatore().join();
-            controller.disabilitaPesca();
-        }
+        pesca = descisionePesca(giocatore);
 
         Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
         controller.setImmagine(cartaPescata.getImmagine());
@@ -105,9 +100,6 @@ public class Esecuzione {
 
         giocatore.punteggio = Regole.gestisciEffetto(cartaPescata, giocatore.punteggio, effettoDouble);
         System.out.println("Il tuo punteggio è ora " + (punteggioParziale + giocatore.punteggio));
-
-        if (controlloVittoria(giocatore.punteggio, giocatore))
-            return punteggioParziale + giocatore.punteggio;
 
         if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
             System.out.println("Punti doppi attivati!");
@@ -125,13 +117,10 @@ public class Esecuzione {
 
         controller.aggiornaVistaPunteggioParziale((punteggioParziale+giocatore.punteggio));
 
-        if (giocatore instanceof Bot) {
-            pesca = decisioneBot((Bot) giocatore);
-        } else {
-            controller.abilitaPulsanti();
-            pesca = controller.decisioneGiocatore().join();
-            controller.disabilitaPulsanti();
-        }
+        if (controlloVittoria(giocatore.punteggio, giocatore))
+        return punteggioParziale + giocatore.punteggio;
+
+        pesca = descisionePesca(giocatore);
 
         while (pesca) {
             cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
@@ -141,9 +130,6 @@ public class Esecuzione {
 
             giocatore.punteggio = Regole.gestisciEffetto(cartaPescata, giocatore.punteggio, effettoDouble);
             System.out.println("Il tuo punteggio è ora " + (punteggioParziale + giocatore.punteggio));
-
-            if (controlloVittoria(giocatore.punteggio, giocatore))
-                return punteggioParziale + giocatore.punteggio;
 
             if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
                 System.out.println("Punti doppi attivati!");
@@ -161,14 +147,10 @@ public class Esecuzione {
 
             controller.aggiornaVistaPunteggioParziale((punteggioParziale+giocatore.punteggio));
 
-            if (giocatore instanceof Bot) {
-                pesca = decisioneBot((Bot) giocatore);
-            } else {
-                controller.abilitaPulsanti();
-                pesca = controller.decisioneGiocatore().join();
-                controller.disabilitaPulsanti();
+            if (controlloVittoria(giocatore.punteggio, giocatore))
+            return punteggioParziale + giocatore.punteggio;
 
-            }
+            pesca = descisionePesca(giocatore);
         }
 
         System.out.println("Hai salvato il tuo punteggio: " + (giocatore.punteggio + punteggioParziale));
@@ -176,6 +158,18 @@ public class Esecuzione {
         System.out.println("---------------------------------------- \n");
         controller.disabilitaPunteggio();
         return giocatore.punteggio + punteggioParziale;
+    }
+
+    private boolean descisionePesca(Giocatore giocatore){
+        boolean p;
+        if (giocatore instanceof Bot) {
+            p = decisioneBot((Bot) giocatore);
+        } else {
+            controller.abilitaPulsanti();
+            p = controller.decisioneGiocatore().join();
+            controller.disabilitaPulsanti();
+        }
+        return p;
     }
 
     private boolean decisioneBot(Bot bot) {
