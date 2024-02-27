@@ -16,7 +16,6 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 public class GiocoController implements Initializable {
