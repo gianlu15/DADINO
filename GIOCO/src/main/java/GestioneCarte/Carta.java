@@ -1,4 +1,5 @@
 package GestioneCarte;
+import javafx.scene.image.Image;
 
 public class Carta{
 
@@ -51,5 +52,10 @@ public class Carta{
 
     public String toString(){
         return valoreCarta + " di " + semeCarta;
+    }
+
+    public Image getImmagine(){
+        String pathName = "CarteImmagini/" + valoreCarta + "_" + semeCarta + ".png";
+        return new Image(Carta.class.getResourceAsStream(pathName));
     }
 }

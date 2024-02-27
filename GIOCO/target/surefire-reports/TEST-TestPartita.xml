@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="TestPartita" time="0.009" tests="0" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="TestPartita" time="0.015" tests="0" errors="0" skipped="0" failures="0">
   <properties>
     <property name="gopherProxySet" value="false"/>
     <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
     <property name="java.specification.version" value="11"/>
     <property name="sun.cpu.isalist" value=""/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/test-classes:/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/classes:"/>
+    <property name="java.class.path" value="/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/test-classes:/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/classes:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-controls/11/javafx-controls-11.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-controls/11/javafx-controls-11-mac.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-graphics/11/javafx-graphics-11.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-graphics/11/javafx-graphics-11-mac.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-base/11/javafx-base-11.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-base/11/javafx-base-11-mac.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-fxml/11/javafx-fxml-11.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-fxml/11/javafx-fxml-11-mac.jar:"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://openjdk.java.net/"/>
@@ -16,10 +16,10 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IT"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-11.0.12.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/surefire/surefirebooter-20240202201350012_3.jar /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/surefire 2024-02-02T20-13-49_889-jvmRun1 surefire-20240202201350012_1tmp surefire_0-20240202201350012_2tmp"/>
+    <property name="sun.java.command" value="/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/surefire/surefirebooter-20240227211206172_3.jar /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/surefire 2024-02-27T21-12-06_090-jvmRun1 surefire-20240227211206172_1tmp surefire_0-20240227211206172_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/test-classes:/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/classes:"/>
+    <property name="surefire.test.class.path" value="/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/test-classes:/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/classes:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-controls/11/javafx-controls-11.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-controls/11/javafx-controls-11-mac.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-graphics/11/javafx-graphics-11.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-graphics/11/javafx-graphics-11-mac.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-base/11/javafx-base-11.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-base/11/javafx-base-11-mac.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-fxml/11/javafx-fxml-11.jar:/Users/gianlucatondo/.m2/repository/org/openjfx/javafx-fxml/11/javafx-fxml-11-mac.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/gianlucatondo"/>
     <property name="user.language" value="it"/>
@@ -33,7 +33,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.awt.graphicsenv" value="sun.awt.CGraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/surefire/surefirebooter-20240202201350012_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/target/surefire/surefirebooter-20240227211206172_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="11.0.12+8-LTS-237"/>

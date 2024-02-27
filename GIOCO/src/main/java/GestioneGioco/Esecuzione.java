@@ -2,25 +2,29 @@ package GestioneGioco;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import java.util.concurrent.TimeUnit;
+
 import GestioneCarte.Carta;
 
 public class Esecuzione {
 
     Tavolo tavolo;
     ArrayList<Giocatore> giocatori;
-    int turnoCorrente;
     Giocatore giocatoreCorrente;
 
-    public Esecuzione(Tavolo tavolo) {
+    GiocoController controller;
+
+    public Esecuzione(Tavolo tavolo, ArrayList<Giocatore> giocatori, GiocoController controller) {
+        this.controller = controller;
         this.tavolo = tavolo;
-        giocatori = new ArrayList<>(tavolo.punteggi.keySet()); // copiamo le chiavi di punteggi nell'arraylist dei
-                                                               // giocatori
-        turnoCorrente = 0;
+        this.giocatori = giocatori;
     }
 
-    public void eseguiPartita() {
+    public void eseguiPartita(int turnoCorrente) {
         while (!PartitaTerminata()) {
             eseguiTurno(turnoCorrente);
+            attendi();
             turnoCorrente++;
             if (turnoCorrente == giocatori.size())
                 turnoCorrente = 0;
@@ -30,9 +34,9 @@ public class Esecuzione {
 
     public void eseguiTurno(int indiceGiocatore) {
         giocatoreCorrente = giocatori.get(indiceGiocatore);
-        Turno nuovoTurno = new Turno(giocatoreCorrente);
-        int punteggioTurno = nuovoTurno.giocaTurno();
+        int punteggioTurno = giocaTurno(giocatoreCorrente);
         tavolo.aggiornaPunteggio(giocatoreCorrente, punteggioTurno);
+        controller.aggiornaVistaPunteggio(giocatoreCorrente, punteggioTurno);
     }
 
     private boolean controlloVittoria(int p, Giocatore g) {
@@ -60,39 +64,72 @@ public class Esecuzione {
                 System.out.println("-------------------------");
                 System.out.println("Il giocatore  " + entry.getKey().getNome() + " ha vinto!!!");
                 System.out.println("-------------------------");
+                controller.alertVittoria(entry.getKey());
             }
         }
+        
 
     }
 
-    public class Turno {
+    public void attendi() {
+        try {
+            // Attendi 3 secondi (3000 millisecondi)
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            // Gestione dell'eccezione (se necessario)
+            e.printStackTrace();
+        }
+    }
 
-        private Giocatore giocatore;
-        private int punteggioParziale;
-        private boolean effettoDouble;
+    public int giocaTurno(Giocatore giocatore) {
+        int punteggioParziale = tavolo.punteggi.get(giocatore);
+        boolean effettoDouble = false;
+        giocatore.punteggio = 0;
 
-        public Turno(Giocatore giocatore) {
-            this.giocatore = giocatore;
-            this.punteggioParziale = tavolo.punteggi.get(giocatore);
-            this.effettoDouble = false;
-            giocatore.punteggio = 0;
+        System.out.println("Comando passato al giocatore " + giocatore.nome);
+        System.out.println("Ricominci da " + punteggioParziale);
+        boolean pesca = false;
+
+        controller.inizioTurno(punteggioParziale, giocatore);
+
+        pesca = descisionePesca(giocatore);
+
+        Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
+        controller.setImmagine(cartaPescata.getImmagine());
+        System.out.println("------> Hai pescato " + cartaPescata.getValore());
+
+        giocatore.punteggio = Regole.gestisciEffetto(cartaPescata, giocatore.punteggio, effettoDouble);
+        System.out.println("Il tuo punteggio è ora " + (punteggioParziale + giocatore.punteggio));
+
+        if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
+            System.out.println("Punti doppi attivati!");
+            effettoDouble = true;
         }
 
-        public int giocaTurno() {
-            System.out.println("Comando passato al giocatore " + giocatore.nome);
-            System.out.println("Ricominci da " + punteggioParziale);
-            boolean pesca = false;
+        if (cartaPescata.getValore() == Carta.Valore.Bombetta) {
+            System.out.println("Il tuo punteggio è tornato a " + punteggioParziale);
+            System.out.println("Turno di " + giocatore.nome + " terminato");
+            System.out.println("---------------------------------------- \n");
+            controller.aggiornaVistaPunteggioParziale(punteggioParziale);
+            controller.disabilitaPunteggio();
+            return punteggioParziale;
+        }
 
-            // La prima volta il giocatore è obbligato a pescare
-            pesca = ControlloGiocatore.decisioneObbligata(giocatore); // restituisce sempre true
-            Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
+        controller.aggiornaVistaPunteggioParziale((punteggioParziale+giocatore.punteggio));
+
+        if (controlloVittoria(giocatore.punteggio, giocatore))
+        return punteggioParziale + giocatore.punteggio;
+
+        pesca = descisionePesca(giocatore);
+
+        while (pesca) {
+            cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
+            controller.setImmagine(cartaPescata.getImmagine());
+
             System.out.println("------> Hai pescato " + cartaPescata.getValore());
 
             giocatore.punteggio = Regole.gestisciEffetto(cartaPescata, giocatore.punteggio, effettoDouble);
             System.out.println("Il tuo punteggio è ora " + (punteggioParziale + giocatore.punteggio));
-
-            if (controlloVittoria(giocatore.punteggio, giocatore))
-                    return punteggioParziale + giocatore.punteggio;
 
             if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
                 System.out.println("Punti doppi attivati!");
@@ -103,40 +140,41 @@ public class Esecuzione {
                 System.out.println("Il tuo punteggio è tornato a " + punteggioParziale);
                 System.out.println("Turno di " + giocatore.nome + " terminato");
                 System.out.println("---------------------------------------- \n");
+                controller.aggiornaVistaPunteggioParziale(punteggioParziale);
+                controller.disabilitaPunteggio();
                 return punteggioParziale;
             }
 
-            pesca = ControlloGiocatore.decisione(giocatore);
-            while (pesca) {
-                cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
+            controller.aggiornaVistaPunteggioParziale((punteggioParziale+giocatore.punteggio));
 
-                System.out.println("------> Hai pescato " + cartaPescata.getValore());
+            if (controlloVittoria(giocatore.punteggio, giocatore))
+            return punteggioParziale + giocatore.punteggio;
 
-                giocatore.punteggio = Regole.gestisciEffetto(cartaPescata, giocatore.punteggio, effettoDouble);
-                System.out.println("Il tuo punteggio è ora " + (punteggioParziale + giocatore.punteggio));
-               
-                if (controlloVittoria(giocatore.punteggio, giocatore))
-                    return punteggioParziale + giocatore.punteggio;
-
-                if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
-                    System.out.println("Punti doppi attivati!");
-                    effettoDouble = true;
-                }
-
-                if (cartaPescata.getValore() == Carta.Valore.Bombetta) {
-                    System.out.println("Il tuo punteggio è tornato a " + punteggioParziale);
-                    System.out.println("Turno di " + giocatore.nome + " terminato");
-                    System.out.println("---------------------------------------- \n");
-                    return punteggioParziale;
-                }
-
-                pesca = ControlloGiocatore.decisione(giocatore);
-            }
-
-            System.out.println("Hai salvato il tuo punteggio: " + (giocatore.punteggio + punteggioParziale));
-            System.out.println("Turno di " + giocatore.nome + " terminato");
-            System.out.println("---------------------------------------- \n");
-            return giocatore.punteggio + punteggioParziale;
+            pesca = descisionePesca(giocatore);
         }
+
+        System.out.println("Hai salvato il tuo punteggio: " + (giocatore.punteggio + punteggioParziale));
+        System.out.println("Turno di " + giocatore.nome + " terminato");
+        System.out.println("---------------------------------------- \n");
+        controller.disabilitaPunteggio();
+        return giocatore.punteggio + punteggioParziale;
     }
+
+    private boolean descisionePesca(Giocatore giocatore){
+        boolean p;
+        if (giocatore instanceof Bot) {
+            p = decisioneBot((Bot) giocatore);
+        } else {
+            controller.abilitaPulsanti();
+            p = controller.decisioneGiocatore().join();
+            controller.disabilitaPulsanti();
+        }
+        return p;
+    }
+
+    private boolean decisioneBot(Bot bot) {
+        attendi();
+        return bot.getPunteggioParziale() < bot.getPunteggioMinimo();
+    }
+
 }

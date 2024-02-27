@@ -1,0 +1,7 @@
+.myDialog {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    /* Altre regole CSS se vogliamo metterle */
+}

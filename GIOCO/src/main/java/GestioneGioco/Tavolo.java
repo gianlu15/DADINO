@@ -11,7 +11,6 @@ public class Tavolo {
 
     // Costruttore
     public Tavolo() {
-        // DEVO GESTIRE IL CASO IN CUI DEVO FARE 2 MAZZI
         mazzoDiGioco = new Mazzo();
         mazzoDiGioco.inizializzaMazzo();
         mazzoDiGioco.mescolaMazzo();

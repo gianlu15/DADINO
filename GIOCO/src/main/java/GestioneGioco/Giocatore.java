@@ -6,6 +6,12 @@ public class Giocatore {
     String nome;
     int punteggio;
 
+    int carteTotaliPescate;
+    int puntiTotaliFatti;
+    int bombettePescate;
+    int partiteGiocate;
+    int vittorie;
+
     public Giocatore(String nome){
         this.nome = nome;
         punteggio = 0;
