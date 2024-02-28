@@ -23,7 +23,7 @@ public class ListViewClass extends Application {
         scene.getStylesheets().add(getClass().getResource("listViewStyle.css").toExternalForm());
 
         Stage stage = new Stage();
-        stage.setTitle("Lista Utenti");
+        stage.setTitle("Modifica Utenti");
         stage.setResizable(false);
 
         stage.setScene(scene);

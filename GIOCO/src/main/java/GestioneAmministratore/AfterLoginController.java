@@ -16,10 +16,22 @@ import javafx.stage.Stage;
 public class AfterLoginController {
 
     @FXML
+    private Button modificaUtenti;
+
+    @FXML
+    private Button creaPartita;
+
+    @FXML
     private Button logout;
 
     @FXML
-    private Button modificaUtenti;
+    private Button gestisciPartite;
+
+    @FXML
+    private Button creaTorneo;
+
+    @FXML
+    private Button gestisciTornei;
 
     @FXML
     public void userLogOut(ActionEvent event) throws IOException {
@@ -39,6 +51,13 @@ public class AfterLoginController {
         ListViewClass lw = new ListViewClass();
         Stage lwStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         lw.start(lwStage);
+    }
+
+    @FXML
+    public void creaPartita(ActionEvent event) throws IOException {
+        PartiteView pw = new PartiteView();
+        Stage pwStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        pw.start(pwStage);
     }
 
 }

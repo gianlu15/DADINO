@@ -4,10 +4,10 @@ GestioneGioco/GiocoController.class
 GestioneGioco/Bot.class
 GestioneCarte/Carta.class
 GestioneAmministratore/AfterLoginController.class
+GestioneAmministratore/PartiteViewController.class
 GestioneAmministratore/ListViewClass.class
 GestioneCarte/Carta$Valore.class
 GestioneCarte/Carta$Seme.class
-Partita.class
 GestioneGiocoFX/StageGioco.class
 GestioneGioco/Regole.class
 GestioneCarte/Mazzo.class
@@ -19,6 +19,8 @@ GestioneGioco/Tavolo.class
 GestioneGioco/Regole$1.class
 GestioneGioco/Esecuzione.class
 GestioneGioco/Giocatore.class
+GestionePartite/Partita.class
 GestioneLogin/HomeLoginController.class
 GestioneLogin/HomeLogin.class
 GestioneUtenti/IdManager.class
+GestioneAmministratore/PartiteView.class
