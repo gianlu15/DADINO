@@ -1,4 +1,4 @@
-package GestioneAmministratore;
+package GestioneAmministratore.ListaUtenti;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,6 +65,7 @@ public class ListViewController {
                 if (file.createNewFile()) {
                     Utente nuovoUtente = new Utente("Admin");
                     utenti.add(nuovoUtente);
+                    caricaDati();
 
                     System.out.println("File creato con successo.");
                 } else {
@@ -85,6 +86,16 @@ public class ListViewController {
 
         if (username.isEmpty()) {
             showEmptyError();
+            return;
+        }
+
+        if (username.startsWith("Admin")) {
+            showAdminNameError();
+            return;
+        }
+
+        if (username.startsWith("Bot")) {
+            showBotError();
             return;
         }
 
@@ -125,6 +136,16 @@ public class ListViewController {
 
     private void showAdminError() {
         infoLabel.setText("Impossibile eliminare l'Admin");
+        infoLabel.setStyle("-fx-text-fill: red;");
+    }
+
+    private void showAdminNameError() {
+        infoLabel.setText("Non è possibile chiamarsi Admin");
+        infoLabel.setStyle("-fx-text-fill: red;");
+    }
+
+    private void showBotError() {
+        infoLabel.setText("Non è possibile chiamarsi Bot");
         infoLabel.setStyle("-fx-text-fill: red;");
     }
 

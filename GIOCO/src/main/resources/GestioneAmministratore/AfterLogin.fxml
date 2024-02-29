@@ -39,7 +39,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="gestisciPartite" layoutX="91.0" layoutY="174.0" mnemonicParsing="false" text="GESTISCI PARTITE">
+      <Button fx:id="gestisciPartite" layoutX="91.0" layoutY="174.0" mnemonicParsing="false" onAction="#gestisciPartite" text="GESTISCI PARTITE">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>

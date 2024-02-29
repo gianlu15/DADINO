@@ -1,11 +1,17 @@
-package GestioneAmministratore;
+package GestioneAmministratore.ListaPartite;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
@@ -17,9 +23,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import GestionePartite.Partita;
-import GestioneUtenti.Utente;
 
-public class PartiteViewController {
+public class CreaPartiteController {
 
     @FXML
     private TextField nomePartitaField;
@@ -47,7 +52,7 @@ public class PartiteViewController {
     }
 
     @FXML
-    public void creaPartita(ActionEvent ev) {
+    public void creaPartita(ActionEvent ev) throws IOException {
 
         String nome = nomePartitaField.getText();
         String str = codicePartitaField.getText();
@@ -81,25 +86,38 @@ public class PartiteViewController {
         try {
             int codice = Integer.parseInt(str);
 
-            boolean partitaEsiste = false;
+            boolean nomeEsistente = false;
+            boolean codiceEsistente = false;
             for (Partita p : partite) {
                 if (nome.equals(p.getNome())) {
-                    partitaEsiste = true;
+                    nomeEsistente = true;
+                    showNomePresente();
+                    break;
+                }
+                if (codice == p.getCodice()) {
+                    codiceEsistente = true;
+                    showCodicePresente();
                     break;
                 }
             }
 
-            if (!partitaEsiste) {
+            if (!nomeEsistente && !codiceEsistente) {
                 Partita nuovaPartita = new Partita(nome, numGiocatori, codice);
-                partite.add(nuovaPartita);
-                showSucces();
 
-            } else {
-                showNomePresente();
-                return;
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/GestioneAmministratore/ListaPartite/partitaGiocatori.fxml"));
+                Parent root = loader.load();
+
+                // Ottieni lo Stage della finestra di Login
+                Stage loginStage = (Stage) ((Node) ev.getSource()).getScene().getWindow();
+
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+                loginStage.setScene(scene);
+                PartitaGiocatoriController pgc = loader.getController();
+                pgc.setPartita(nuovaPartita);
+                
             }
-
-            showSucces();
         } catch (NumberFormatException e) {
             showNotNumberError();
             return;
@@ -141,22 +159,30 @@ public class PartiteViewController {
         errorLabel.setStyle("-fx-text-fill: red;");
     }
 
+    private void showCodicePresente() {
+        errorLabel.setText("Codice già usato");
+        errorLabel.setStyle("-fx-text-fill: red;");
+    }
+
     private void showSucces() {
         errorLabel.setText("Partita creata");
         errorLabel.setStyle("-fx-text-fill: green;");
     }
 
-    // FASE 1: "scarico" la lista dal file .ser
     private void scaricaDati() {
         try (ObjectInputStream inputStream = new ObjectInputStream(
                 new FileInputStream("src/main/resources/GestionePartite/partite.ser"))) {
 
+            System.out.println("File partite trovato in CreaPartiteController");
             partite = (List<Partita>) inputStream.readObject();
 
         } catch (FileNotFoundException e) { // Se il file non esiste...
             File file = new File("src/main/resources/GestionePartite/partite.ser");
             try {
                 if (file.createNewFile()) {
+                    Partita nuova = new Partita("Default", 0, 0000);
+                    partite.add(nuova);
+                    caricaDati();
                     System.out.println("File creato con successo.");
                 } else {
                     System.out.println("Impossibile creare il file.");

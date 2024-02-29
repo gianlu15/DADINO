@@ -1,4 +1,4 @@
-package GestioneAmministratore;
+package GestioneAmministratore.ListaUtenti;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class ListViewClass extends Application {
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("listViewStyle.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
 
         Stage stage = new Stage();
         stage.setTitle("Modifica Utenti");
@@ -38,7 +38,7 @@ public class ListViewClass extends Application {
 
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.getStylesheets().add(
-                    getClass().getResource("alertChiusuraStyle.css").toExternalForm());
+                    getClass().getResource("/GestioneAmministratore/alertChiusuraStyle.css").toExternalForm());
             dialogPane.getStyleClass().add("myDialog");
 
             ButtonType esciButton = new ButtonType("Esci");

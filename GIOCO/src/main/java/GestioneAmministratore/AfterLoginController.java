@@ -2,6 +2,9 @@ package GestioneAmministratore;
 
 import java.io.IOException;
 
+import GestioneAmministratore.ListaPartite.CreaPartite;
+import GestioneAmministratore.ListaPartite.PartiteListView;
+import GestioneAmministratore.ListaUtenti.ListViewClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +36,8 @@ public class AfterLoginController {
     @FXML
     private Button gestisciTornei;
 
+    
+
     @FXML
     public void userLogOut(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneLogin/HomeLogin.fxml"));
@@ -55,9 +60,16 @@ public class AfterLoginController {
 
     @FXML
     public void creaPartita(ActionEvent event) throws IOException {
-        PartiteView pw = new PartiteView();
+        CreaPartite pw = new CreaPartite();
         Stage pwStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         pw.start(pwStage);
+    }
+
+    @FXML
+    public void gestisciPartite(ActionEvent event) throws IOException {
+        PartiteListView plw = new PartiteListView();
+        Stage plwStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        plw.start(plwStage);
     }
 
 }

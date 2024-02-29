@@ -1,4 +1,5 @@
 package GestionePartite;
+
 import GestioneGioco.Bot;
 import GestioneGioco.Giocatore;
 import GestioneGioco.GiocoController;
@@ -13,47 +14,57 @@ import java.io.Serializable;
 
 public class Partita extends Application implements Serializable {
 
+    public enum Stato {
+        Pronta, Sospesa, Terminata;
+    }
+
     String nomePartita;
     int numGiocatori;
     int codice;
+    Stato statoPartita;
 
     static Tavolo t;
 
-
-    public Partita(String nomePartita, int numGiocatori, int codice){
+    public Partita(String nomePartita, int numGiocatori, int codice) {
         t = new Tavolo();
         this.nomePartita = nomePartita;
         this.numGiocatori = numGiocatori;
         this.codice = codice;
+        statoPartita = Stato.Pronta;
     }
 
-    public String getNome(){
+    public String getNome() {
         return nomePartita;
     }
 
-    public int getNumGiocatori(){
+    public int getNumGiocatori() {
         return numGiocatori;
     }
 
-    public int getCodice(){
+    public int getCodice() {
         return codice;
     }
 
-    public void aggiungiGiocatore(Utente u){
+    public Stato getStato() {
+        return statoPartita;
+    }
+
+    public void aggiungiGiocatore(Utente u) {
         Giocatore g = new Giocatore(u.getNome());
         t.nuovoPunteggio(g);
     }
 
-    public void aggiungiBot(int numeroBot){
-        Bot b = new Bot("Bot-"+numeroBot);
+    public void aggiungiBot(int numeroBot) {
+        Bot b = new Bot("Bot-" + numeroBot);
         t.nuovoPunteggio(b);
     }
 
-    public static void avvio(){
+    public static void avvio() {
         launch();
     }
 
-    public void start(Stage primaryStage) throws Exception {;
+    public void start(Stage primaryStage) throws Exception {
+        ;
 
         // Carica il file FXML e crea il controller
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GestioneGioco/StageGioco.fxml"));
@@ -66,13 +77,13 @@ public class Partita extends Application implements Serializable {
         controller.setTavolo(t);
 
         // Mostra la scena
-        Scene scene = new Scene(root,900,500);
+        Scene scene = new Scene(root, 900, 500);
         scene.getStylesheets().add(getClass().getResource("GestioneGioco/StageGioco.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
 
-       // Avvia l'esecuzione della partita in un thread separato
+        // Avvia l'esecuzione della partita in un thread separato
         Thread partitaThread = new Thread(() -> {
             controller.esegui();
         });

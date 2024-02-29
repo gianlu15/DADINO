@@ -1,4 +1,4 @@
-package GestioneAmministratore;
+package GestioneAmministratore.ListaPartite;
 
 import java.io.IOException;
 
@@ -8,28 +8,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class PartiteView extends Application {
-
+public class PartiteListView extends Application {
+    
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("partiteView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("partiteListView.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("listViewStyle.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
 
         Stage stage = new Stage();
         stage.setResizable(false);
 
-        stage.setOnCloseRequest(event -> {
-            PartiteViewController pw = loader.getController();
-            pw.caricaDati();
-            stage.close();
-        });
-
         stage.setScene(scene);
         stage.show();
     }
-    
 }

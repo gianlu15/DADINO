@@ -1,9 +1,6 @@
 package GestioneLogin;
 
 import java.io.IOException;
-
-import GestioneAmministratore.AfterLogin;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,10 +34,15 @@ public class LoginController {
     @FXML
     private void checkLogin(ActionEvent event) throws IOException {
         if (amministratoreUsername.equals(username.getText()) && amministratorePassword.equals(password.getText())) {
-            result.setText("Success!");
-            AfterLogin af = new AfterLogin();
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // Ricavo lo stage da Login
-            af.start(stage);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneAmministratore/AfterLogin.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
 
         } else if (username.getText().isEmpty() || password.getText().isEmpty()) {
             result.setText("Please enter your data.");
@@ -54,13 +56,11 @@ public class LoginController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("HomeLogin.fxml"));
         Parent root = loader.load();
 
-        // Ottieni lo Stage della finestra di Login
-        Stage loginStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
 
-        loginStage.setScene(scene);
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
     }
 
 }

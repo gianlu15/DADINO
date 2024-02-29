@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="388.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneAmministratore.PartiteViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="388.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneAmministratore.ListaPartite.CreaPartiteController">
    <children>
       <Label layoutX="116.0" layoutY="14.0" prefHeight="23.0" prefWidth="157.0" text="CREA PARTITA">
          <font>
@@ -39,13 +39,13 @@
             <Font name="Arial Italic" size="15.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="numGiocatoriChoice" layoutX="29.0" layoutY="239.0" prefWidth="150.0" stylesheets="@choiceBox.css" />
+      <ChoiceBox fx:id="numGiocatoriChoice" layoutX="29.0" layoutY="239.0" prefWidth="150.0" stylesheets="@../choiceBox.css" />
       <Label fx:id="errorLabel" layoutX="28.0" layoutY="289.0" prefHeight="34.0" prefWidth="305.0">
          <font>
             <Font name="Arial Italic" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="creaButton" layoutX="273.0" layoutY="375.0" mnemonicParsing="false" onAction="#creaPartita" prefHeight="34.0" prefWidth="86.0" text="CREA">
+      <Button fx:id="creaButton" layoutX="147.0" layoutY="375.0" mnemonicParsing="false" onAction="#creaPartita" prefHeight="34.0" prefWidth="212.0" text="AGGIUNGI GIOCATORI">
          <font>
             <Font name="Arial" size="13.0" />
          </font>
