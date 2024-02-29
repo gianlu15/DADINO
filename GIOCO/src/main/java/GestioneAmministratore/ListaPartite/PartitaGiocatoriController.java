@@ -14,12 +14,17 @@ import GestionePartite.Partita;
 import GestioneUtenti.Utente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 public class PartitaGiocatoriController {
+
+    @FXML
+    private Label intestazione;
 
     @FXML
     private ChoiceBox<Utente> giocatoriChoice;
@@ -44,18 +49,23 @@ public class PartitaGiocatoriController {
     private List<Utente> utenti = new ArrayList<>();
     private List<Partita> partite = new ArrayList<>();
 
-    private static int numeroBot = 1;
+    private int numeroBot = 1;
+    private int giocatoriDaInserire;
 
     @FXML
     public void initialize() {
         scaricaDatiUtenti();
         scaricaDatiPartite();
+
         giocatoriChoice.getItems().addAll(utenti);
         aggiungiBot.setDisable(true);
+        ;
     }
 
     public void setPartita(Partita p) {
         this.pCorrente = p;
+        giocatoriDaInserire = pCorrente.getNumGiocatori();
+        setIntestazione(giocatoriDaInserire);
     }
 
     @FXML
@@ -80,6 +90,10 @@ public class PartitaGiocatoriController {
         giocatoriListView.getItems().add(selezionato);
         pCorrente.aggiungiGiocatore(selezionato);
         aggiungiBot.setDisable(false);
+
+        giocatoriDaInserire--;
+        setIntestazione(giocatoriDaInserire);
+
         showSuccesUtente();
     }
 
@@ -95,6 +109,10 @@ public class PartitaGiocatoriController {
 
         giocatoriListView.getItems().add(bot);
         pCorrente.aggiungiBot(numeroBot);
+
+        giocatoriDaInserire--;
+        setIntestazione(giocatoriDaInserire);
+
         showSuccesBot();
     }
 
@@ -108,6 +126,33 @@ public class PartitaGiocatoriController {
         partite.add(pCorrente);
         caricaDatiPartite();
         showSuccesPartita();
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.close();
+    }
+
+    private void setIntestazione(int giocatoriDaInserire) {
+        switch (giocatoriDaInserire) {
+
+            case 4:
+                intestazione.setText("INSERISCI 4 GIOCATORI");
+                break;
+
+            case 3:
+                intestazione.setText("INSERISCI 3 GIOCATORI");
+                break;
+
+            case 2:
+                intestazione.setText("INSERISCI 2 GIOCATORI");
+                break;
+
+            case 1:
+                intestazione.setText("INSERISCI UN GIOCATORE");
+                break;
+
+            default:
+            intestazione.setText("PARTITA COMPLETA");
+                break;
+        }
     }
 
     private void showEmptyUtenteError() {

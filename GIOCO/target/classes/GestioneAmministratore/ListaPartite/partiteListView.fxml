@@ -14,11 +14,11 @@
             <Font name="Arial Bold" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="rimuoviPartita" layoutX="25.0" layoutY="306.0" mnemonicParsing="false" text="Rimuovi">
+      <Button fx:id="rimuoviPartita" layoutX="25.0" layoutY="306.0" mnemonicParsing="false" onAction="#rimuoviPartita" text="Rimuovi">
          <font>
             <Font name="Arial" size="13.0" />
          </font></Button>
-      <Button fx:id="salvaEdEsci" layoutX="273.0" layoutY="358.0" mnemonicParsing="false" text="Salva ed esci">
+      <Button fx:id="salvaEdEsci" layoutX="273.0" layoutY="358.0" mnemonicParsing="false" onAction="#fine" text="Salva ed esci">
          <font>
             <Font name="Arial" size="13.0" />
          </font></Button>

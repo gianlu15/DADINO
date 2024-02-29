@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Random;
 
 import GestionePartite.Partita;
 
@@ -28,6 +29,12 @@ public class CreaPartiteController {
 
     @FXML
     private TextField nomePartitaField;
+
+    @FXML
+    private Label codiceField;
+
+    @FXML
+    private Button generaButton;
 
     @FXML
     private TextField codicePartitaField;
@@ -44,6 +51,7 @@ public class CreaPartiteController {
     private List<Partita> partite = new ArrayList<>();
 
     private Integer[] numeriGiocatori = { 2, 3, 4 };
+    private int numeroCasuale = 0;
 
     @FXML
     public void initialize() {
@@ -52,28 +60,39 @@ public class CreaPartiteController {
     }
 
     @FXML
+    private void generaCodice(ActionEvent event) {
+        Random random = new Random();
+        boolean codiceEsistente = false;
+
+        do {
+            numeroCasuale = random.nextInt(9000) + 1000;
+            for (Partita p : partite) {
+                if (numeroCasuale == p.getCodice()) {
+                    codiceEsistente = true;
+                    break;
+                } else
+                    codiceEsistente = false;
+            }
+
+        } while (codiceEsistente);
+
+        codiceField.setText(String.valueOf(numeroCasuale));
+
+    }
+
+    @FXML
     public void creaPartita(ActionEvent ev) throws IOException {
 
         String nome = nomePartitaField.getText();
-        String str = codicePartitaField.getText();
         Integer numGiocatori = numGiocatoriChoice.getValue();
+        
 
         if (nome.isEmpty()) {
             showEmptyError();
             return;
         }
 
-        if (str.isEmpty()) {
-            showCodiceEmpty();
-            return;
-        }
-
-        if (str.length() != 4) {
-            showCodiceLength();
-            return;
-        }
-
-        if (nome.length() > 10 || nome.length() < 3) {
+        if (nome.length() > 17 || nome.length() < 3) {
             showNomeLength();
             return;
         }
@@ -83,64 +102,46 @@ public class CreaPartiteController {
             return;
         }
 
-        try {
-            int codice = Integer.parseInt(str);
-
-            boolean nomeEsistente = false;
-            boolean codiceEsistente = false;
-            for (Partita p : partite) {
-                if (nome.equals(p.getNome())) {
-                    nomeEsistente = true;
-                    showNomePresente();
-                    break;
-                }
-                if (codice == p.getCodice()) {
-                    codiceEsistente = true;
-                    showCodicePresente();
-                    break;
-                }
+        boolean nomeEsistente = false;
+        for (Partita p : partite) {
+            if (nome.equals(p.getNome())) {
+                nomeEsistente = true;
+                showNomePresente();
+                return;
             }
+        }
 
-            if (!nomeEsistente && !codiceEsistente) {
-                Partita nuovaPartita = new Partita(nome, numGiocatori, codice);
-
-                FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/GestioneAmministratore/ListaPartite/partitaGiocatori.fxml"));
-                Parent root = loader.load();
-
-                // Ottieni lo Stage della finestra di Login
-                Stage loginStage = (Stage) ((Node) ev.getSource()).getScene().getWindow();
-
-                Scene scene = new Scene(root);
-                scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
-                loginStage.setScene(scene);
-                PartitaGiocatoriController pgc = loader.getController();
-                pgc.setPartita(nuovaPartita);
-                
-            }
-        } catch (NumberFormatException e) {
-            showNotNumberError();
+        if (numeroCasuale<1000 || numeroCasuale>9999) {
+            showNumeroNonGenerato();
             return;
+        }
+
+        if (!nomeEsistente) {
+            Partita nuovaPartita = new Partita(nome, numGiocatori, numeroCasuale);
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/GestioneAmministratore/ListaPartite/partitaGiocatori.fxml"));
+            Parent root = loader.load();
+
+            // Ottieni lo Stage della finestra di Login
+            Stage loginStage = (Stage) ((Node) ev.getSource()).getScene().getWindow();
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+            loginStage.setScene(scene);
+            PartitaGiocatoriController pgc = loader.getController();
+            pgc.setPartita(nuovaPartita);
+
         }
     }
 
-    private void showCodiceLength() {
-        errorLabel.setText("Il codice deve avere 4 cifre");
-        errorLabel.setStyle("-fx-text-fill: red;");
-    }
-
-    private void showNotNumberError() {
-        errorLabel.setText("Il codice non ammette lettere");
+    private void showNumeroNonGenerato() {
+        errorLabel.setText("Codice non generato");
         errorLabel.setStyle("-fx-text-fill: red;");
     }
 
     private void showEmptyError() {
         errorLabel.setText("Campo nome vuoto");
-        errorLabel.setStyle("-fx-text-fill: red;");
-    }
-
-    private void showCodiceEmpty() {
-        errorLabel.setText("Campo codice vuoto");
         errorLabel.setStyle("-fx-text-fill: red;");
     }
 
@@ -157,16 +158,6 @@ public class CreaPartiteController {
     private void showNomePresente() {
         errorLabel.setText("Partita con lo stesso nome già presente");
         errorLabel.setStyle("-fx-text-fill: red;");
-    }
-
-    private void showCodicePresente() {
-        errorLabel.setText("Codice già usato");
-        errorLabel.setStyle("-fx-text-fill: red;");
-    }
-
-    private void showSucces() {
-        errorLabel.setText("Partita creata");
-        errorLabel.setStyle("-fx-text-fill: green;");
     }
 
     private void scaricaDati() {

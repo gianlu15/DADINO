@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 public class ListViewController {
 
     @FXML
-    private ListView<String> listaUtenti;
+    private ListView<Utente> listaUtenti;
 
     @FXML
     private Button aggiungiUtente;
@@ -44,12 +44,11 @@ public class ListViewController {
     private int indiceSelezionato = -1;
 
     private List<Utente> utenti = new ArrayList<>();
-    private List<String> nomi = new ArrayList<>();
 
     @FXML
     public void initialize() {
         scaricaDati();
-        mostraLista();
+        listaUtenti.getItems().addAll(utenti);
     }
 
     // FASE 1: "scarico" la lista dal file .ser
@@ -111,9 +110,7 @@ public class ListViewController {
         if (!utenteEsiste) {
             Utente nuovoUtente = new Utente(username);
             utenti.add(nuovoUtente);
-            nomi.add(nuovoUtente.getNome());
-
-            listaUtenti.getItems().add(nuovoUtente.getNome());
+            listaUtenti.getItems().add(nuovoUtente);
 
             showSuccesUtente();
 
@@ -179,7 +176,6 @@ public class ListViewController {
         }
 
         utenti.remove(indiceSelezionato);
-        nomi.remove(indiceSelezionato);
         listaUtenti.getItems().remove(indiceSelezionato);
         showEliminatoSucces();
     }
@@ -200,15 +196,6 @@ public class ListViewController {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
-    }
-
-    private void mostraLista() {
-
-        for (Utente u : utenti) {
-            nomi.add(u.getNome());
-        }
-
-        listaUtenti.getItems().addAll(nomi);
     }
 
 }
