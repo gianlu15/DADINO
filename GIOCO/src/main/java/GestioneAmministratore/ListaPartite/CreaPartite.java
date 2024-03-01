@@ -2,7 +2,6 @@ package GestioneAmministratore.ListaPartite;
 
 import java.io.IOException;
 
-import GestioneAmministratore.ListaUtenti.ListViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +20,7 @@ public class CreaPartite extends Application {
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/Styles/Style2.css").toExternalForm());
 
         Stage stage = new Stage();
         stage.setResizable(false);
@@ -52,5 +51,5 @@ public class CreaPartite extends Application {
 
         stage.show();
     }
-    
+
 }

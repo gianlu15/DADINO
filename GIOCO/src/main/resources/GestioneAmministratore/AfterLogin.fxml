@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneAmministratore.AfterLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneAmministratore.AfterLoginController">
    <children>
-      <Button fx:id="modificaUtenti" layoutX="91.0" layoutY="60.0" mnemonicParsing="false" onAction="#modificaUtentiAction" text="MODIFICA UTENTI">
+      <Button fx:id="modificaUtenti" layoutX="90.0" layoutY="60.0" mnemonicParsing="false" onAction="#modificaUtentiAction" text="MODIFICA UTENTI">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -23,7 +23,7 @@
             <Image url="@../images/benventuto.png" />
          </image>
       </ImageView>
-      <Button fx:id="creaPartita" layoutX="90.0" layoutY="124.0" mnemonicParsing="false" onAction="#creaPartita" text="CREA PARTITA">
+      <Button fx:id="creaPartita" layoutX="90.0" layoutY="120.0" mnemonicParsing="false" onAction="#creaPartita" text="CREA PARTITA">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -31,7 +31,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="logout" layoutX="437.0" layoutY="290.0" mnemonicParsing="false" onAction="#userLogOut" text="LOGOUT">
+      <Button fx:id="logout" layoutX="440.0" layoutY="300.0" mnemonicParsing="false" onAction="#userLogOut" text="LOGOUT">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -39,7 +39,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="gestisciPartite" layoutX="91.0" layoutY="174.0" mnemonicParsing="false" onAction="#gestisciPartite" text="GESTISCI PARTITE">
+      <Button fx:id="gestisciPartite" layoutX="90.0" layoutY="180.0" mnemonicParsing="false" onAction="#gestisciPartite" text="GESTISCI PARTITE">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -47,7 +47,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="creaTorneo" layoutX="90.0" layoutY="245.0" mnemonicParsing="false" text="CREA TORNEO">
+      <Button fx:id="creaTorneo" layoutX="90.0" layoutY="240.0" mnemonicParsing="false" text="CREA TORNEO">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -55,7 +55,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="gestisciTornei" layoutX="91.0" layoutY="290.0" mnemonicParsing="false" text="GESTISCI TORNEI">
+      <Button fx:id="gestisciTornei" layoutX="90.0" layoutY="300.0" mnemonicParsing="false" text="GESTISCI TORNEI">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>

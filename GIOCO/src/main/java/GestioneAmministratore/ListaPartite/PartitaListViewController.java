@@ -83,12 +83,12 @@ public class PartitaListViewController {
 
     private void showNoIndexError() {
         infoLabel.setText("Nessuna partita selezionata");
-        infoLabel.setStyle("-fx-text-fill: red;");
+        infoLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void showOneMatchError() {
         infoLabel.setText("La tabella non può essere vuota");
-        infoLabel.setStyle("-fx-text-fill: red;");
+        infoLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void showEliminatoSucces() {

@@ -15,15 +15,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneGioco.GiocoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@StageGioco.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneGioco.GiocoController">
    <children>
       <VBox alignment="CENTER" layoutX="250.0" layoutY="9.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="114.0" prefWidth="600.0">
+            <HBox prefHeight="108.0" prefWidth="243.0">
                <children>
-                  <GridPane alignment="BOTTOM_LEFT" prefHeight="90.0" prefWidth="231.0">
+                  <GridPane id="gridPunteggi" alignment="BOTTOM_LEFT" prefHeight="90.0" prefWidth="231.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="125.0" />
+                      <ColumnConstraints fx:id="gridPunteggi" hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="125.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="75.0" />
                     </columnConstraints>
                     <rowConstraints>
@@ -83,7 +83,7 @@
                      <children>
                         <Label fx:id="fraseTurno" prefHeight="17.0" prefWidth="275.0" text="è il turno del giocatore:">
                            <font>
-                              <Font name="Arial" size="13.0" />
+                              <Font name="Arial Bold" size="13.0" />
                            </font>
                            <StackPane.margin>
                               <Insets left="10.0" />
@@ -108,7 +108,7 @@
                <children>
                   <Button fx:id="BottonePesca" mnemonicParsing="false" text="Pesca">
                      <font>
-                        <Font name="Arial" size="13.0" />
+                        <Font name="Arial Bold" size="13.0" />
                      </font>
                   </Button>
                   <StackPane prefHeight="199.0" prefWidth="207.0">
@@ -133,7 +133,7 @@
                   </StackPane>
                   <Button fx:id="BottoneFermati" mnemonicParsing="false" text="Fermati">
                      <font>
-                        <Font name="Arial" size="13.0" />
+                        <Font name="Arial Bold" size="13.0" />
                      </font>
                   </Button>
                </children>

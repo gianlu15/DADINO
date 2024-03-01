@@ -36,8 +36,6 @@ public class AfterLoginController {
     @FXML
     private Button gestisciTornei;
 
-    
-
     @FXML
     public void userLogOut(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneLogin/HomeLogin.fxml"));
@@ -47,7 +45,7 @@ public class AfterLoginController {
         Stage loginStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/Styles/Style2.css").toExternalForm());
         loginStage.setScene(scene);
     }
 

@@ -1,5 +1,17 @@
 package GestioneAmministratore.ListaPartite;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import GestionePartite.Partita;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,19 +23,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Random;
-
-import GestionePartite.Partita;
 
 public class CreaPartiteController {
 
@@ -85,7 +84,6 @@ public class CreaPartiteController {
 
         String nome = nomePartitaField.getText();
         Integer numGiocatori = numGiocatoriChoice.getValue();
-        
 
         if (nome.isEmpty()) {
             showEmptyError();
@@ -111,7 +109,7 @@ public class CreaPartiteController {
             }
         }
 
-        if (numeroCasuale<1000 || numeroCasuale>9999) {
+        if (numeroCasuale < 1000 || numeroCasuale > 9999) {
             showNumeroNonGenerato();
             return;
         }
@@ -127,7 +125,7 @@ public class CreaPartiteController {
             Stage loginStage = (Stage) ((Node) ev.getSource()).getScene().getWindow();
 
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/Styles/Style2.css").toExternalForm());
             loginStage.setScene(scene);
             PartitaGiocatoriController pgc = loader.getController();
             pgc.setPartita(nuovaPartita);
@@ -137,27 +135,27 @@ public class CreaPartiteController {
 
     private void showNumeroNonGenerato() {
         errorLabel.setText("Codice non generato");
-        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void showEmptyError() {
         errorLabel.setText("Campo nome vuoto");
-        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void showNomeLength() {
         errorLabel.setText("Il nome è troppo lungo/corto");
-        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void showNumGiocatiriNotSelected() {
         errorLabel.setText("Numero giocatori non selezionato");
-        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void showNomePresente() {
         errorLabel.setText("Partita con lo stesso nome già presente");
-        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void scaricaDati() {

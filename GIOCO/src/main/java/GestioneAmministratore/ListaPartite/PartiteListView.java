@@ -12,7 +12,7 @@ import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 
 public class PartiteListView extends Application {
-    
+
     @Override
     public void start(Stage primaryStage) throws IOException {
 
@@ -20,7 +20,7 @@ public class PartiteListView extends Application {
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/Styles/Style2.css").toExternalForm());
 
         Stage stage = new Stage();
         stage.setResizable(false);

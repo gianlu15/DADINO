@@ -20,7 +20,7 @@ public class ListViewClass extends Application {
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/Styles/Style2.css").toExternalForm());
 
         Stage stage = new Stage();
         stage.setTitle("Modifica Utenti");

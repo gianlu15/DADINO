@@ -150,24 +150,24 @@ public class PartitaGiocatoriController {
                 break;
 
             default:
-            intestazione.setText("PARTITA COMPLETA");
+                intestazione.setText("PARTITA COMPLETA");
                 break;
         }
     }
 
     private void showEmptyUtenteError() {
         infoLabel.setText("Nessun utente selezionato");
-        infoLabel.setStyle("-fx-text-fill: red;");
+        infoLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void showMaxGiocatoriError() {
         infoLabel.setText("Massimo giocatori raggiunto");
-        infoLabel.setStyle("-fx-text-fill: red;");
+        infoLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void showGiocatoriMancantiError() {
         infoLabel.setText("Giocatori mancanti");
-        infoLabel.setStyle("-fx-text-fill: red;");
+        infoLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void showSuccesUtente() {
@@ -187,7 +187,7 @@ public class PartitaGiocatoriController {
 
     private void showUtenteAlreadyExistsError() {
         infoLabel.setText("Utente già presente");
-        infoLabel.setStyle("-fx-text-fill: red;");
+        infoLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
     private void scaricaDatiUtenti() {
