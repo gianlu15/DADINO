@@ -34,7 +34,7 @@ public class HomeLoginController {
     @FXML
     private void handleUtenteButtonClick(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("UtenteBoard.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/GestioneUtente/UtenteBoard.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
 

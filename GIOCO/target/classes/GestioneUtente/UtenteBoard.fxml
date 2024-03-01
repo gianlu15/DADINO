@@ -15,7 +15,7 @@
             <Image url="@../images/benventuto.png" />
          </image>
       </ImageView>
-      <Button fx:id="creaTorneo" layoutX="90.0" layoutY="60.0" mnemonicParsing="false" text="CREA TORNEO">
+      <Button fx:id="creaTorneo" layoutX="90.0" layoutY="60.0" mnemonicParsing="false" text="ACCEDI A PARTITA">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -23,7 +23,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="gestisciTornei" layoutX="90.0" layoutY="300.0" mnemonicParsing="false" text="GESTISCI TORNEI">
+      <Button fx:id="creaTorneo1" layoutX="90.0" layoutY="120.0" mnemonicParsing="false" text="ACCEDI  A TORNEO">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -31,7 +31,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="creaTorneo1" layoutX="90.0" layoutY="120.0" mnemonicParsing="false" text="CREA TORNEO">
+      <Button fx:id="creaTorneo11" layoutX="90.0" layoutY="180.0" mnemonicParsing="false" text="STATISTICHE">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -39,15 +39,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="creaTorneo11" layoutX="90.0" layoutY="180.0" mnemonicParsing="false" text="CREA TORNEO">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="creaTorneo111" layoutX="90.0" layoutY="240.0" mnemonicParsing="false" text="CREA TORNEO">
+      <Button fx:id="creaTorneo111" layoutX="90.0" layoutY="240.0" mnemonicParsing="false" text="TUTORIAL">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
