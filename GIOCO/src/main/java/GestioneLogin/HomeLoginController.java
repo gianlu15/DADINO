@@ -1,6 +1,7 @@
 package GestioneLogin;
 
 import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,21 @@ public class HomeLoginController {
     private void handleAmministratoreButtonClick(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // Ricavo lo stage da HomeLogin
+            stage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleUtenteButtonClick(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("UtenteBoard.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
 
