@@ -1,5 +1,6 @@
 package GestioneGioco;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -9,13 +10,19 @@ import GestioneCarte.Carta;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class GiocoController implements Initializable {
@@ -65,11 +72,15 @@ public class GiocoController implements Initializable {
     @FXML
     private Label PunteggioParziale;
 
+    @FXML
+    private Node rootNode;
+
     private Tavolo tavolo;
     ArrayList<Giocatore> giocatori;
     int turnoCorrente;
     Giocatore giocatoreCorrente;
     Esecuzione e;
+    Stage stage;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,7 +92,6 @@ public class GiocoController implements Initializable {
         PunteggioParziale.setVisible(false);
         fraseTurno.setVisible(false);
         giocatoreTurno.setVisible(false);
-
     }
 
     public void setTavolo(Tavolo t) {
@@ -92,6 +102,10 @@ public class GiocoController implements Initializable {
         e = new Esecuzione(tavolo, giocatori, this);
 
         setLeaderboard();
+    }
+
+    public void setStage(Stage primaryStage) {
+        stage = primaryStage;
     }
 
     public void setLeaderboard() {
@@ -245,17 +259,42 @@ public class GiocoController implements Initializable {
     @FXML
     public void alertVittoria(Giocatore vincitore){
         Platform.runLater(() -> {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Partita terminata");
-        alert.setContentText("Il giocatore " + vincitore.getNome() + " ha vinto!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Partita terminata");
+            alert.setHeaderText("Vittoria!");
+            alert.setContentText("Il giocatore " + vincitore.getNome() + " ha vinto!");
 
-        DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(
-                getClass().getResource("alertStyle.css").toExternalForm());
-        dialogPane.getStyleClass().add("myDialog");
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add(
+                    getClass().getResource("alertStyle.css").toExternalForm());
+            dialogPane.getStyleClass().add("myDialog");
 
-        alert.showAndWait();
+            alert.getButtonTypes().clear();
+
+            ButtonType homeButton = new ButtonType("Torna alla Home");
+            ButtonType statsButton = new ButtonType("Statistiche Partita");
+
+            alert.getButtonTypes().addAll(homeButton, statsButton);
+
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == homeButton) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneLogin/HomeLogin.fxml"));
+                    Parent root;
+                    try {
+                        root = loader.load();
+                        Scene scene = new Scene(root);
+                        scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+                        stage.setScene(scene);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else if (buttonType == statsButton) {
+                   
+                }
+            });
         });
-        
+
     }
+
+
 }

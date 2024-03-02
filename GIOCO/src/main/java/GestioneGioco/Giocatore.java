@@ -1,7 +1,8 @@
 package GestioneGioco;
 //CLASSE provvisoria per il giocatore
+import java.io.Serializable;
 
-public class Giocatore {
+public class Giocatore implements Serializable {
 
     String nome;
     int punteggio;

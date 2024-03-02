@@ -1,5 +1,6 @@
 GestioneUtenti/Utente.class
 GestioneAmministratore/ListaUtenti/ListViewController.class
+GestioneLoginUtente/UtenteBoardController.class
 GestioneGioco/GiocoController.class
 GestioneGioco/Bot.class
 GestioneAmministratore/ListaPartite/PartitaGiocatoriController.class
@@ -11,6 +12,7 @@ GestioneCarte/Carta$Valore.class
 GestioneCarte/Carta$Seme.class
 GestioneGiocoFX/StageGioco.class
 GestioneGioco/Regole.class
+GestioneLoginUtente/UtentePartitaBoardController.class
 GestioneCarte/Mazzo.class
 Main.class
 GestioneLogin/LoginController.class

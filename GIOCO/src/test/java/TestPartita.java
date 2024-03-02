@@ -36,6 +36,7 @@ public class TestPartita extends Application {
 
         // Imposta il tavolo nel controller
         controller.setTavolo(t);
+        controller.setStage(primaryStage);
 
         // Mostra la scena
         Scene scene = new Scene(root,900,500);

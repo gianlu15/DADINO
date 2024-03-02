@@ -11,8 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Partita extends Application implements Serializable {
+public class Partita implements Serializable {
 
     public enum Stato {
         Pronta, Sospesa, Terminata;
@@ -22,6 +24,8 @@ public class Partita extends Application implements Serializable {
     int numGiocatori;
     int codice;
     Stato statoPartita;
+
+    public List<Giocatore> accessi = new ArrayList();
 
     static Tavolo t;
 
@@ -49,9 +53,14 @@ public class Partita extends Application implements Serializable {
         return statoPartita;
     }
 
+    public Tavolo getTavolo(){
+        return t;
+    }
+
     public void aggiungiGiocatore(Utente u) {
         Giocatore g = new Giocatore(u.getNome());
         t.nuovoPunteggio(g);
+        accessi.add(g);
     }
 
     public void aggiungiBot(int numeroBot) {
@@ -59,34 +68,32 @@ public class Partita extends Application implements Serializable {
         t.nuovoPunteggio(b);
     }
 
-    public static void avvio() {
-        launch();
+    public void effettuaAccesso(String nome) {
+        for (int i = 0; i < accessi.size(); i++) {
+            Giocatore giocatoreCorrente = accessi.get(i);
+            if (giocatoreCorrente.getNome().equals(nome)) {
+                accessi.remove(i);
+                break;
+            }
+        }
     }
 
-    public void start(Stage primaryStage) throws Exception {
-        ;
+    public boolean controlloUtente(String nome) {
+        for (Giocatore g : accessi) {
+            if (g.getNome().equals(nome))
+                return true;
+        }
+        return false;
+    }
 
-        // Carica il file FXML e crea il controller
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GestioneGioco/StageGioco.fxml"));
-        Parent root = loader.load();
+    public boolean pronta() {
+        if (accessi.isEmpty())
+            return true;
 
-        // Ottieni il controller
-        GiocoController controller = loader.getController();
+        return false;
+    }
 
-        // Imposta il tavolo nel controller
-        controller.setTavolo(t);
-
-        // Mostra la scena
-        Scene scene = new Scene(root, 900, 500);
-        scene.getStylesheets().add(getClass().getResource("GestioneGioco/StageGioco.css").toExternalForm());
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
-        // Avvia l'esecuzione della partita in un thread separato
-        Thread partitaThread = new Thread(() -> {
-            controller.esegui();
-        });
-        partitaThread.start();
+    public int getGiocatoriAcceduti() {
+        return accessi.size();
     }
 }

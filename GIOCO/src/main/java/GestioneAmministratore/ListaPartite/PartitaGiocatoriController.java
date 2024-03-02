@@ -204,6 +204,7 @@ public class PartitaGiocatoriController {
 
                     Utente nuovoUtente = new Utente("Admin");
                     utenti.add(nuovoUtente);
+                    caricaDatiUtenti();
 
                     System.out.println("File creato con successo.");
                 } else {
@@ -246,6 +247,15 @@ public class PartitaGiocatoriController {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(
                 new FileOutputStream("src/main/resources/GestionePartite/partite.ser"))) {
             outputStream.writeObject(partite);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void caricaDatiUtenti() {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(
+                new FileOutputStream("src/main/resources/GestioneFileUtenti/utenti.ser"))) {
+            outputStream.writeObject(utenti);
         } catch (IOException e) {
             e.printStackTrace();
         }
