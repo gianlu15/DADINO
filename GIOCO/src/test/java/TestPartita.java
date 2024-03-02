@@ -16,11 +16,10 @@ public class TestPartita extends Application {
         t = new Tavolo();
 
         Giocatore g1 = new Giocatore("GIANLUCA");
-        Bot g2 = new Bot("Bot1");
-        Bot g3 = new Bot("Bot2");
+        Giocatore g2 = new Giocatore("ula");
+        
         t.nuovoPunteggio(g2);
         t.nuovoPunteggio(g1);
-        t.nuovoPunteggio(g3);
 
         launch();
     }

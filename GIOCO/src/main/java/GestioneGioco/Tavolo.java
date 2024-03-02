@@ -8,6 +8,10 @@ public class Tavolo {
 
     Mazzo mazzoDiGioco;
     Map<Giocatore, Integer> punteggi; // Memorizza l'associazione Giocatore-punteggio
+    int[] cartePescate;
+    int[] bombePescate;
+    int[] puntiTotali;
+
 
     // Costruttore
     public Tavolo() {
@@ -27,7 +31,26 @@ public class Tavolo {
         punteggi.put(giocatore, punteggioTurno);
     }
 
+    public void setStats(int grandezza){
+        cartePescate = new int[grandezza];
+        bombePescate = new int[grandezza];
+        puntiTotali = new int [grandezza];
+    }
 
+
+    //------------------- test
+    public void mostraStats() {
+        System.out.println("Statistiche:");
+        System.out.println("Giocatori\tCarte Pescate\tBombe Pescate\tPunti Totali");
+    
+        for (int i = 0; i < cartePescate.length; i++) {
+            System.out.print("Giocatore " + (i + 1) + "\t\t");
+            System.out.print(cartePescate[i] + "\t\t");
+            System.out.print(bombePescate[i] + "\t\t");
+            System.out.println(puntiTotali[i]);
+        }
+    }
+    
     //------------------- test
     public void stampaOrdine(){
         for (Map.Entry<Giocatore, Integer> entry : punteggi.entrySet()) {
