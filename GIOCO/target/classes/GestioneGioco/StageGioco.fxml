@@ -17,11 +17,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@StageGioco.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneGioco.GiocoController">
    <children>
-      <VBox alignment="CENTER" layoutX="250.0" layoutY="9.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="250.0" layoutY="9.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="108.0" prefWidth="243.0">
+            <HBox>
                <children>
-                  <GridPane id="gridPunteggi" alignment="BOTTOM_LEFT" prefHeight="90.0" prefWidth="231.0">
+                  <GridPane id="gridPunteggi" fx:id="gridPunteggi" alignment="BOTTOM_LEFT" prefHeight="90.0" prefWidth="231.0">
                     <columnConstraints>
                       <ColumnConstraints fx:id="gridPunteggi" hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="125.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="75.0" />
@@ -35,35 +35,35 @@
                      <children>
                         <Label fx:id="Giocatore0" textFill="WHITE">
                            <font>
-                              <Font name="Arial Black" size="17.0" />
+                              <Font name="Arial" size="17.0" />
                            </font></Label>
                         <Label fx:id="punteggioGiocatore0" textFill="WHITE" GridPane.columnIndex="1">
                            <font>
-                              <Font name="Arial Black" size="17.0" />
+                              <Font name="Arial" size="17.0" />
                            </font></Label>
                         <Label fx:id="Giocatore1" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
-                              <Font name="Arial Black" size="17.0" />
+                              <Font name="Arial" size="17.0" />
                            </font></Label>
                         <Label fx:id="punteggioGiocatore1" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
-                              <Font name="Arial Black" size="17.0" />
+                              <Font name="Arial" size="17.0" />
                            </font></Label>
                         <Label fx:id="Giocatore2" textFill="WHITE" GridPane.rowIndex="2">
                            <font>
-                              <Font name="Arial Black" size="17.0" />
+                              <Font name="Arial" size="17.0" />
                            </font></Label>
                         <Label fx:id="punteggioGiocatore2" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
-                              <Font name="Arial Black" size="17.0" />
+                              <Font name="Arial" size="17.0" />
                            </font></Label>
                         <Label fx:id="Giocatore3" textFill="WHITE" GridPane.rowIndex="3">
                            <font>
-                              <Font name="Arial Black" size="17.0" />
+                              <Font name="Arial" size="17.0" />
                            </font></Label>
                         <Label fx:id="punteggioGiocatore3" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
-                              <Font name="Arial Black" size="17.0" />
+                              <Font name="Arial" size="17.0" />
                            </font></Label>
                      </children>
                      <opaqueInsets>
@@ -73,15 +73,17 @@
                         <Insets left="20.0" top="20.0" />
                      </HBox.margin>
                   </GridPane>
-               </children>
-               <opaqueInsets>
-                  <Insets bottom="20.0" left="20.0" top="20.0" />
-               </opaqueInsets></HBox>
-            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="600.0">
-               <children>
-                  <StackPane alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="273.0">
+                  <StackPane alignment="CENTER_RIGHT" prefHeight="108.0" prefWidth="327.0">
                      <children>
-                        <Label fx:id="fraseTurno" prefHeight="17.0" prefWidth="275.0" text="è il turno del giocatore:">
+                        <Label fx:id="giocatoreTurno" alignment="CENTER_RIGHT" contentDisplay="CENTER" lineSpacing="2.0" prefHeight="16.0" prefWidth="130.0" StackPane.alignment="CENTER_RIGHT">
+                           <font>
+                              <Font name="Arial" size="14.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets right="10.0" />
+                           </StackPane.margin>
+                        </Label>
+                        <Label fx:id="fraseTurno" prefHeight="17.0" prefWidth="275.0" text="TURNO DEL GIOCATORE:">
                            <font>
                               <Font name="Arial Bold" size="13.0" />
                            </font>
@@ -92,21 +94,16 @@
                               <Insets />
                            </opaqueInsets>
                         </Label>
-                        <Label fx:id="giocatoreTurno" alignment="CENTER" contentDisplay="CENTER" lineSpacing="2.0" prefHeight="16.0" prefWidth="91.0" StackPane.alignment="CENTER_RIGHT">
-                           <font>
-                              <Font name="Arial" size="14.0" />
-                           </font>
-                           <StackPane.margin>
-                              <Insets right="10.0" />
-                           </StackPane.margin>
-                        </Label>
                      </children>
                   </StackPane>
                </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="204.0" prefWidth="600.0">
+               <opaqueInsets>
+                  <Insets bottom="20.0" left="20.0" top="20.0" />
+               </opaqueInsets></HBox>
+            <HBox alignment="CENTER" prefHeight="12.0" prefWidth="600.0" />
+            <HBox alignment="CENTER" prefHeight="238.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="BottonePesca" mnemonicParsing="false" text="Pesca">
+                  <Button fx:id="BottonePesca" mnemonicParsing="false" text="PESCA">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font>
@@ -131,14 +128,14 @@
                         </ImageView>
                      </children>
                   </StackPane>
-                  <Button fx:id="BottoneFermati" mnemonicParsing="false" text="Fermati">
+                  <Button fx:id="BottoneFermati" mnemonicParsing="false" text="FERMATI">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font>
                   </Button>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="54.0" prefWidth="600.0">
+            <StackPane>
                <children>
                   <Label fx:id="PunteggioParziale" alignment="TOP_RIGHT">
                      <font>
@@ -148,7 +145,7 @@
                         <Glow />
                      </effect></Label>
                </children>
-            </HBox>
+            </StackPane>
          </children>
       </VBox>
    </children>

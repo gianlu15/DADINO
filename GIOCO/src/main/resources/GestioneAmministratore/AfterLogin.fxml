@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneAmministratore.AfterLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/StyleSP.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GestioneAmministratore.AfterLoginController">
    <children>
       <Button fx:id="modificaUtenti" layoutX="90.0" layoutY="60.0" mnemonicParsing="false" onAction="#modificaUtentiAction" text="MODIFICA UTENTI">
          <font>
@@ -18,9 +18,9 @@
          </opaqueInsets>
       </Button>
 
-                  <ImageView fitHeight="338.0" fitWidth="451.0" layoutX="222.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="184.0" fitWidth="317.0" layoutX="291.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/benventuto.png" />
+            <Image url="@../images/omarino5.png" />
          </image>
       </ImageView>
       <Button fx:id="creaPartita" layoutX="90.0" layoutY="120.0" mnemonicParsing="false" onAction="#creaPartita" text="CREA PARTITA">

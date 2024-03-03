@@ -19,7 +19,9 @@
 }
 
 #password,
-#username {
+#username,
+#usernameField,
+#codiceFiled {
   -fx-padding: 13px 14px;
   -fx-border-radius: 5px;
   -fx-background-radius: 5px;

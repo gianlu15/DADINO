@@ -1,8 +1,7 @@
 .root {
   -fx-font-size: 12pt;
-  /*-fx-background-image: url("Poker_background.png");*/
-  -fx-background-color: #557365;
-  -fx-background-size: contain;
+  /*-fx-background-image: url("poker.jpg");*/
+  /*-fx-background-color: #557365;*/
 }
 
 .button {
@@ -20,10 +19,10 @@
 }
 
 #BottoneFermati {
-  -fx-background-color: #98c1d9;
+  -fx-background-color: #171a21;
 }
 #BottoneFermati:hover {
-  -fx-background-color: #afd6ec;
+  -fx-background-color: #313849;
   -fx-cursor: hand;
 }
 
@@ -32,10 +31,19 @@
 }
 
 #PunteggioParziale {
+  -fx-text-fill: #ff2626;
 }
 
 #fraseTurno {
+  -fx-text-fill: #171a21;
 }
 
 #giocatoreTurno {
+  -fx-text-fill: #171a21;
+}
+
+#gridPunteggi {
+  -fx-border-color: black; /* Colore del bordo */
+  -fx-border-width: 1px; /* Spessore del bordo */
+  -fx-border-radius: 5px; /* Raggio degli angoli del bordo */
 }
