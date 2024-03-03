@@ -7,10 +7,11 @@ import GestioneCarte.Mazzo;
 public class Tavolo {
 
     Mazzo mazzoDiGioco;
-    Map<Giocatore, Integer> punteggi; // Memorizza l'associazione Giocatore-punteggio
+    public Map<Giocatore, Integer> punteggi; // Memorizza l'associazione Giocatore-punteggio
     int[] cartePescate;
     int[] bombePescate;
     int[] puntiTotali;
+    int turniTotali;
 
 
     // Costruttore
@@ -35,12 +36,14 @@ public class Tavolo {
         cartePescate = new int[grandezza];
         bombePescate = new int[grandezza];
         puntiTotali = new int [grandezza];
+        turniTotali = 0;
     }
 
 
     //------------------- test
     public void mostraStats() {
         System.out.println("Statistiche:");
+        System.out.println("Turni totali: " + turniTotali);
         System.out.println("Giocatori\tCarte Pescate\tBombe Pescate\tPunti Totali");
     
         for (int i = 0; i < cartePescate.length; i++) {
