@@ -10,6 +10,7 @@ GestioneAmministratore/ListaUtenti/ListViewClass.class
 GestioneAmministratore/AfterLoginController.class
 GestioneCarte/Carta$Valore.class
 GestioneCarte/Carta$Seme.class
+GestionePartite/StatistichePartitaController.class
 GestioneGiocoFX/StageGioco.class
 GestioneGioco/Regole.class
 GestioneLoginUtente/UtentePartitaBoardController.class
