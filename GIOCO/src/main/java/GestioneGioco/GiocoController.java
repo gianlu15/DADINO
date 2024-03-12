@@ -371,6 +371,9 @@ public class GiocoController implements Initializable, Serializable {
         }
 
         if (giocatori.size() == 4) {
+            Giocatore2.setText(giocatori.get(2).getNome());
+            punteggioGiocatore2.setText(Integer.toString(tavoloPartita.getPunteggi().get(giocatori.get(2))));
+
             Giocatore3.setText(giocatori.get(3).getNome());
             punteggioGiocatore3.setText(Integer.toString(tavoloPartita.getPunteggi().get(giocatori.get(3))));
         }
