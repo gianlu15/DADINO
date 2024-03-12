@@ -270,8 +270,6 @@ public class UtentePartitaBoardController {
         infoLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
-    // TODO PUPA metodo allert riferito a scaricaPartiteDaFile (guarda sotto)
-
     @FXML
     public void alertNessunaPartita() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -296,12 +294,6 @@ public class UtentePartitaBoardController {
         alert.showAndWait();
     }
 
-    /*
-     * Ispirati al metodo allert Vittoria di GiocoController.
-     * Quello è un allert di informazione (Alert.AlertType.INFORMATION)
-     * ma esistono anche allert di errore più appropriati per questo caso.
-     */
-
     private void scaricaPartiteDaFile() {
         try {
             // Se il file esiste lo leggiamo
@@ -311,8 +303,6 @@ public class UtentePartitaBoardController {
                 // Se il file non è vuoto lo leggiamo
                 if (filePartite.length() == 0) {
                     System.out.println("Il file JSON è vuoto.");
-
-                    // TODO PUPA (metodo allertNessunaPartita: non esiste nessuna partita)
                     alertNessunaPartita();
 
                     return;
@@ -323,16 +313,11 @@ public class UtentePartitaBoardController {
 
             } else {
                 System.out.println("Il file non esiste");
-
-                // TODO PUPA (metodo allertNessunaPartita: non esiste nessuna partita)
                 alertNessunaPartita();
             }
 
         } catch (IOException e) {
-
-            // TODO PUPA (metodo allert DIVERSO: impossibile trovare le partite)
             alertImpossibileTrovarePartita();
-
             e.printStackTrace();
         }
     }
@@ -372,15 +357,11 @@ public class UtentePartitaBoardController {
 
             } else {
                 System.out.println("Il file non esiste");
-                // TODO PUPA Alert nessun utente creato!
                 alertNessunUtente();
             }
 
         } catch (IOException e) {
-
-            // TODO PUPA (metodo allert DIVERSO: impossibile trovare gli utenti)
             alertImpossibileTrovareUtenti();
-
             e.printStackTrace();
         }
     }

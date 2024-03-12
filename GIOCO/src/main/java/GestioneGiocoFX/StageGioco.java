@@ -57,7 +57,6 @@ public class StageGioco extends Application {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Conferma chiusura");
             alert.setHeaderText("La partita verrà sospesa");
-            alert.setContentText("I progressi non salvati verranno persi.");
             alert.getDialogPane().getStylesheets()
                     .add(StageGioco.class.getResource("/Styles/alertStyle.css").toExternalForm());
 

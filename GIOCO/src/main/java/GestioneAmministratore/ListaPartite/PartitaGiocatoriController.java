@@ -49,7 +49,6 @@ public class PartitaGiocatoriController {
     private File fileUtenti;
     private ObjectMapper objectMapper;
 
-
     @FXML
     public void initialize() {
         this.utenti = new ArrayList<>();
@@ -109,11 +108,11 @@ public class PartitaGiocatoriController {
         }
 
         Utente bot = new Utente("Bot" + numeroBot);
-        numeroBot++;
 
         giocatoriListView.getItems().add(bot);
         partitaCorrente.aggiungiBot(numeroBot);
-
+        
+        numeroBot++;
         giocatoriDaInserire--;
         setIntestazione(giocatoriDaInserire);
 
@@ -133,7 +132,6 @@ public class PartitaGiocatoriController {
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }
-
 
     private void setIntestazione(int giocatoriDaInserire) {
         switch (giocatoriDaInserire) {
@@ -175,19 +173,19 @@ public class PartitaGiocatoriController {
                     fileUtenti.createNewFile();
                     System.out.println("Il file utenti.json è stato creato con successo.");
 
-                    //Aggiungiamo l'Admin
+                    // Aggiungiamo l'Admin
                     Utente admin = new Utente("Admin");
                     utenti.add(admin);
                     caricaUtentiSuFile();
 
                 } catch (Exception e) {
-                    //Alert(?)
+                    // Alert(?)
                     e.printStackTrace();
                 }
             }
 
         } catch (IOException e) {
-            //Alert(?)
+            // Alert(?)
             e.printStackTrace();
         }
     }
@@ -221,12 +219,12 @@ public class PartitaGiocatoriController {
                     filePartite.createNewFile();
                     System.out.println("Il file partite.json è stato creato con successo.");
                 } catch (Exception e) {
-                     //Alert impossibile creare il file(?)
+                    // Alert impossibile creare il file(?)
                     e.printStackTrace();
                 }
             }
         } catch (IOException e) {
-             //Alert impossibile scaricare il file(?)
+            // Alert impossibile scaricare il file(?)
             e.printStackTrace();
         }
     }
