@@ -48,7 +48,7 @@ public class StageGioco extends Application {
         // Avvia l'esecuzione della partita in un thread separato #4
         controller.esegui();
 
-        //TODO PUPA sistemare allert
+        // TODO PUPA sistemare allert
 
         primaryStage.setOnCloseRequest(e -> {
             e.consume(); // Consuma l'evento per evitare la chiusura immediata della finestra
@@ -58,6 +58,8 @@ public class StageGioco extends Application {
             alert.setTitle("Conferma chiusura");
             alert.setHeaderText("La partita verrà sospesa");
             alert.setContentText("I progressi non salvati verranno persi.");
+            alert.getDialogPane().getStylesheets()
+                    .add(StageGioco.class.getResource("/Styles/alertStyle.css").toExternalForm());
 
             // Aggiungi pulsanti al dialogo
             ButtonType btnYes = new ButtonType("OK", ButtonBar.ButtonData.YES);

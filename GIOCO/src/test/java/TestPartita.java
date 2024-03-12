@@ -14,7 +14,6 @@ public class TestPartita extends Application {
 
     static Tavolo t;
 
-
     public static void avvio() {
         Partita p = new Partita("prova", 0, 0);
         t = new Tavolo(p.getCodice());
@@ -22,9 +21,8 @@ public class TestPartita extends Application {
         Giocatore g1 = new Giocatore("GIANLUCA");
         Giocatore g2 = new Giocatore("kuka");
 
-        
-       // t.nuovoPunteggio(g2);
-       // t.nuovoPunteggio(g1);
+        // t.nuovoPunteggio(g2);
+        // t.nuovoPunteggio(g1);
 
         launch();
     }
@@ -40,7 +38,7 @@ public class TestPartita extends Application {
         GiocoController controller = loader.getController();
 
         // Imposta il tavolo nel controller
-        //controller.setTavolo(t);
+        // controller.setTavolo(t);
         controller.setStage(primaryStage);
 
         // Mostra la scena

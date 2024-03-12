@@ -1,23 +1,28 @@
 package GestioneLoginUtente;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import GestioneGiocoFX.StageGioco;
 import GestionePartite.Partita;
 import GestionePartite.Partita.Stato;
 import GestioneUtenti.Utente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import GestioneGiocoFX.StageGioco;
 
 public class UtentePartitaBoardController {
 
@@ -62,6 +67,18 @@ public class UtentePartitaBoardController {
         scaricaPartiteDaFile();
 
         titleLabel.setText("ACCEDI ALLA PARTITA");
+    }
+
+    @FXML
+    private void backToBoard(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("UtenteBoard.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
     }
 
     @FXML
@@ -254,14 +271,36 @@ public class UtentePartitaBoardController {
     }
 
     // TODO PUPA metodo allert riferito a scaricaPartiteDaFile (guarda sotto)
-    // @FXML
-    // public void alertNessunaPartita {
 
-        /*
-         * Ispirati al metodo allert Vittoria di GiocoController.
-         * Quello è un allert di informazione (Alert.AlertType.INFORMATION)
-         * ma esistono anche allert di errore più appropriati per questo caso.
-         */
+    @FXML
+    public void alertNessunaPartita() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Nessuna Partita");
+        alert.setHeaderText(null);
+        alert.setContentText("Non esiste nessuna partita.");
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void alertImpossibileTrovarePartita() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setHeaderText(null);
+        alert.setContentText("Impossibile Trovare Partita");
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    /*
+     * Ispirati al metodo allert Vittoria di GiocoController.
+     * Quello è un allert di informazione (Alert.AlertType.INFORMATION)
+     * ma esistono anche allert di errore più appropriati per questo caso.
+     */
 
     private void scaricaPartiteDaFile() {
         try {
@@ -274,6 +313,7 @@ public class UtentePartitaBoardController {
                     System.out.println("Il file JSON è vuoto.");
 
                     // TODO PUPA (metodo allertNessunaPartita: non esiste nessuna partita)
+                    alertNessunaPartita();
 
                     return;
                 } else {
@@ -285,14 +325,40 @@ public class UtentePartitaBoardController {
                 System.out.println("Il file non esiste");
 
                 // TODO PUPA (metodo allertNessunaPartita: non esiste nessuna partita)
+                alertNessunaPartita();
             }
 
         } catch (IOException e) {
 
             // TODO PUPA (metodo allert DIVERSO: impossibile trovare le partite)
+            alertImpossibileTrovarePartita();
 
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void alertNessunUtente() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Nessun Utente!");
+        alert.setHeaderText(null);
+        alert.setContentText("Nessun Utente creato!");
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void alertImpossibileTrovareUtenti() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setHeaderText(null);
+        alert.setContentText("Impossibile Trovare Utenti");
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
     }
 
     private void scaricaUtentiDaFile() {
@@ -307,11 +373,13 @@ public class UtentePartitaBoardController {
             } else {
                 System.out.println("Il file non esiste");
                 // TODO PUPA Alert nessun utente creato!
+                alertNessunUtente();
             }
 
         } catch (IOException e) {
 
             // TODO PUPA (metodo allert DIVERSO: impossibile trovare gli utenti)
+            alertImpossibileTrovareUtenti();
 
             e.printStackTrace();
         }

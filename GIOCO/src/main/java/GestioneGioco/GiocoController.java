@@ -2,6 +2,7 @@ package GestioneGioco;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.io.Serializable;
 
 public class GiocoController implements Initializable, Serializable {
 
@@ -295,7 +295,7 @@ public class GiocoController implements Initializable, Serializable {
 
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.getStylesheets().add(
-                    getClass().getResource("alertStyle.css").toExternalForm());
+                    getClass().getResource("/Styles/alertStyle.css").toExternalForm());
             dialogPane.getStyleClass().add("myDialog");
 
             alert.getButtonTypes().clear();
