@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -94,6 +97,7 @@ public class GiocoController implements Initializable, Serializable {
     private File esecuzioniFile;
     private ObjectMapper objectMapper;
     private Thread partitaThread;
+    private boolean partitaInterrotta;
 
     Stage stage;
 
@@ -116,6 +120,7 @@ public class GiocoController implements Initializable, Serializable {
         this.esecuzioniSalvate = new ArrayList<>();
         this.partiteFile = new File("src/main/resources/FileJson/partite.json");
         this.esecuzioniFile = new File("src/main/resources/FileJson/esecuzioni.json");
+        this.partitaInterrotta = false;
     }
 
     // #2-a
@@ -203,17 +208,26 @@ public class GiocoController implements Initializable, Serializable {
     }
 
     CompletableFuture<Boolean> decisioneGiocatore() {
-
         CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.schedule(() -> {
+            if (!future.isDone() && partitaInterrotta ) {
+                future.complete(false);
+            }
+        }, 5, TimeUnit.SECONDS);
 
         BottonePesca.setOnAction(event -> {
             future.complete(true);
+            executor.shutdown();
         });
 
         BottoneFermati.setOnAction(event -> {
             future.complete(false);
+            executor.shutdown();
         });
 
+        if(!partitaInterrotta)
         esecuzione.attendi();
 
         return future;
@@ -223,10 +237,19 @@ public class GiocoController implements Initializable, Serializable {
 
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.schedule(() -> {
+            if (!future.isDone() && partitaInterrotta) {
+                future.complete(false);
+            }
+        }, 5, TimeUnit.SECONDS);
+
         BottonePesca.setOnAction(event -> {
             future.complete(true);
+            executor.shutdown();
         });
 
+        if(!partitaInterrotta)
         esecuzione.attendi();
 
         return future;
@@ -370,42 +393,37 @@ public class GiocoController implements Initializable, Serializable {
         scaricaEsecuzioniDaFile();
 
         partitaThread.interrupt();
+        partitaInterrotta = true;
 
-        try {
 
-            System.out.println("Mi sono fermato prima del join");
-            partitaThread.join();
-            System.out.println("Mi sono fermato dopo il join");
-
-            for (int i = 0; i < partiteSalvate.size(); i++) {
-                Partita p = partiteSalvate.get(i);
-                if (p.getCodice() == partitaAttiva.getCodice()) {
-                    partiteSalvate.set(i, partitaAttiva);
-                    break;
-                }
+        for (int i = 0; i < partiteSalvate.size(); i++) {
+            Partita p = partiteSalvate.get(i);
+            if (p.getCodice() == partitaAttiva.getCodice()) {
+                partiteSalvate.set(i, partitaAttiva);
+                break;
             }
-
-            boolean esecuzioneTrovata = false;
-
-            for (int i = 0; i < esecuzioniSalvate.size(); i++) {
-                Esecuzione e = esecuzioniSalvate.get(i);
-                if (e.getCodice() == partitaAttiva.getCodice()) {
-                    esecuzioniSalvate.set(i, esecuzione);
-                    esecuzioneTrovata = true;
-                    break;
-                }
-            }
-
-            if (!esecuzioneTrovata) {
-                esecuzioniSalvate.add(esecuzione);
-            }
-
-            caricaPartiteSuFile();
-            caricaEsecuzioniSuFile();
-
-        } catch (InterruptedException e) {
-            return;
         }
+
+        boolean esecuzioneTrovata = false;
+
+        for (int i = 0; i < esecuzioniSalvate.size(); i++) {
+            Esecuzione e = esecuzioniSalvate.get(i);
+            if (e.getCodice() == partitaAttiva.getCodice()) {
+                esecuzioniSalvate.set(i, esecuzione);
+                esecuzioneTrovata = true;
+                break;
+            }
+        }
+
+        if (!esecuzioneTrovata) {
+            esecuzioniSalvate.add(esecuzione);
+        }
+
+        System.out.println("Salvato tutto correttamente");
+
+        caricaPartiteSuFile();
+        caricaEsecuzioniSuFile();
+
     }
 
     private void scaricaPartiteDaFile() {

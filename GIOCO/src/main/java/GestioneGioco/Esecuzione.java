@@ -40,7 +40,8 @@ public class Esecuzione implements Serializable {
     }
 
     public void eseguiPartita() {
-        while (!PartitaTerminata() || Thread.currentThread().interrupted()) {
+        Thread.currentThread();
+        while (!PartitaTerminata() || Thread.interrupted()) {
             // tavolo.turniTotali++;
             eseguiTurno(turnoCorrente);
             turnoCorrente++;
@@ -95,7 +96,8 @@ public class Esecuzione implements Serializable {
             // Attendi 3 secondi (3000 millisecondi)
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Il thread è stato interrotto durante l'attesa.");
+            System.exit(1);
         }
     }
 
