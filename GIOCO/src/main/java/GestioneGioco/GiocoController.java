@@ -212,7 +212,8 @@ public class GiocoController implements Initializable, Serializable {
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.schedule(() -> {
-            if (!future.isDone() && partitaInterrotta ) {
+            if (!future.isDone() && partitaInterrotta) {
+                System.out.println("#4.5 Partita interrotta");
                 future.complete(false);
             }
         }, 5, TimeUnit.SECONDS);
@@ -227,8 +228,8 @@ public class GiocoController implements Initializable, Serializable {
             executor.shutdown();
         });
 
-        if(!partitaInterrotta)
-        esecuzione.attendi();
+        if (!partitaInterrotta)
+            esecuzione.attendi();
 
         return future;
     }
@@ -240,6 +241,7 @@ public class GiocoController implements Initializable, Serializable {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.schedule(() -> {
             if (!future.isDone() && partitaInterrotta) {
+                System.out.println("#4.5 Partita interrotta");
                 future.complete(false);
             }
         }, 5, TimeUnit.SECONDS);
@@ -249,8 +251,8 @@ public class GiocoController implements Initializable, Serializable {
             executor.shutdown();
         });
 
-        if(!partitaInterrotta)
-        esecuzione.attendi();
+        if (!partitaInterrotta)
+            esecuzione.attendi();
 
         return future;
     }
@@ -392,14 +394,11 @@ public class GiocoController implements Initializable, Serializable {
         scaricaPartiteDaFile();
         scaricaEsecuzioniDaFile();
 
-        partitaThread.interrupt();
-        partitaInterrotta = true;
-
-
         for (int i = 0; i < partiteSalvate.size(); i++) {
             Partita p = partiteSalvate.get(i);
             if (p.getCodice() == partitaAttiva.getCodice()) {
                 partiteSalvate.set(i, partitaAttiva);
+                System.out.println("#3 Partita rimpiazzata");
                 break;
             }
         }
@@ -419,18 +418,20 @@ public class GiocoController implements Initializable, Serializable {
             esecuzioniSalvate.add(esecuzione);
         }
 
-        System.out.println("Salvato tutto correttamente");
+        System.out.println("#4 Salvato tutto correttamente");
 
         caricaPartiteSuFile();
         caricaEsecuzioniSuFile();
 
+        partitaInterrotta = true;
+        partitaThread.interrupt();
     }
 
     private void scaricaPartiteDaFile() {
         try {
             // Se il file esiste lo leggiamo
             if (partiteFile.exists()) {
-                System.out.println("Il file partite esiste già.");
+                System.out.println("#1 Il file partite esiste già.");
 
                 // Se il file non è vuoto lo leggiamo
                 if (partiteFile.length() == 0) {
@@ -455,7 +456,7 @@ public class GiocoController implements Initializable, Serializable {
         try {
             // Se il file esiste lo leggiamo
             if (esecuzioniFile.exists()) {
-                System.out.println("Il file esecuzioni esiste già.");
+                System.out.println("#2 Il file esecuzioni esiste già.");
 
                 // Se il file non è vuoto lo leggiamo
                 if (esecuzioniFile.length() == 0) {

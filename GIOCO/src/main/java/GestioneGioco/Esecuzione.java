@@ -31,7 +31,7 @@ public class Esecuzione implements Serializable {
     public Esecuzione() {
     }
 
-    public void setGiocatori(ArrayList<Giocatore> giocatori){
+    public void setGiocatori(ArrayList<Giocatore> giocatori) {
         this.giocatori = giocatori;
     }
 
@@ -96,7 +96,7 @@ public class Esecuzione implements Serializable {
             // Attendi 3 secondi (3000 millisecondi)
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
-            System.err.println("Il thread è stato interrotto durante l'attesa.");
+            System.err.println("#5 Il thread è stato interrotto durante l'attesa.\n");
             System.exit(1);
         }
     }
@@ -147,7 +147,7 @@ public class Esecuzione implements Serializable {
 
         pesca = descisionePesca(giocatore, punteggioTurno);
 
-        while (pesca) {
+        while (pesca && !Thread.interrupted()) {
             cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
             // tavolo.cartePescate[indice]++;
             controller.setImmagine(cartaPescata.getImmagine());
@@ -198,6 +198,7 @@ public class Esecuzione implements Serializable {
             p = decisioneBot((Bot) giocatore, punteggioTurno);
         } else {
             controller.abilitaPulsanti();
+            System.out.println("Effettua una scelta");
             p = controller.decisioneGiocatore().join();
             controller.disabilitaPulsanti();
         }
@@ -210,6 +211,7 @@ public class Esecuzione implements Serializable {
             p = decisioneBot((Bot) giocatore, punteggioTurno);
         } else {
             controller.abilitaPesca();
+            System.out.println("Effettua una scelta");
             p = controller.decisioneObbligataGiocatore().join();
             controller.disabilitaPesca();
         }
@@ -217,7 +219,9 @@ public class Esecuzione implements Serializable {
     }
 
     private boolean decisioneBot(Bot bot, int punteggioTurno) {
-        attendi();
+        if (!Thread.interrupted())
+            attendi();
+
         return punteggioTurno < bot.getPunteggioMinimo();
     }
 
@@ -229,7 +233,7 @@ public class Esecuzione implements Serializable {
         return turnoCorrente;
     }
 
-    public Tavolo getTavolo(){
+    public Tavolo getTavolo() {
         return tavolo;
     }
 }
