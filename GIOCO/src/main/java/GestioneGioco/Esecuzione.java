@@ -40,7 +40,7 @@ public class Esecuzione implements Serializable {
     }
 
     public void eseguiPartita() {
-        while (!PartitaTerminata()) {
+        while (!PartitaTerminata() || Thread.currentThread().interrupted()) {
             // tavolo.turniTotali++;
             eseguiTurno(turnoCorrente);
             turnoCorrente++;

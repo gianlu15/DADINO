@@ -1,6 +1,3 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import GestioneGioco.Giocatore;
 import GestioneGioco.GiocoController;
 import GestioneGioco.Tavolo;

@@ -5,14 +5,8 @@ import GestionePartite.Partita.Stato;
 import GestioneUtenti.Utente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -22,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import GestioneGioco.GiocoController;
+
+import GestioneGiocoFX.StageGioco;
 
 public class UtentePartitaBoardController {
 
@@ -100,15 +95,12 @@ public class UtentePartitaBoardController {
             }
 
             if (partitaAttiva.pronta()) {
-                if (statoPartita == Stato.Pronta) {
-                    partitaAttiva.ripristinaAccessi(accessiBackup);
-                    avviaPartita(event);
-                } else if (statoPartita == Stato.Sospesa) {
-                    partitaAttiva.ripristinaAccessi(accessiBackup);
-                    riprendiPartita(event, codice);
-                } else {
+                if (statoPartita == Stato.Terminata) {
                     showPartitaTerminataError();
                     return;
+                } else {
+                    partitaAttiva.ripristinaAccessi(accessiBackup);
+                    avviaPartita(event);
                 }
             }
 
@@ -136,127 +128,21 @@ public class UtentePartitaBoardController {
             }
 
             if (partitaAttiva.pronta()) {
-                if (statoPartita == Stato.Pronta) {
-                    partitaAttiva.ripristinaAccessi(accessiBackup);
-                    avviaPartita(event);
-                } else if (statoPartita == Stato.Sospesa) {
-                    partitaAttiva.ripristinaAccessi(accessiBackup);
-                    riprendiPartita(event, codice);
-                } else {
+                if (statoPartita == Stato.Terminata) {
                     showPartitaTerminataError();
                     return;
+                } else {
+                    partitaAttiva.ripristinaAccessi(accessiBackup);
+                    avviaPartita(event);
                 }
             }
         }
     }
 
-    private void avviaPartita(ActionEvent event) throws IOException {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneGioco/StageGioco.fxml"));
-        Parent root = loader.load();
-
-        // Ottieni il controller #1
-        GiocoController controller = loader.getController();
-
-        // Crea il tavolo nel controller #2-a
-        controller.creaNuovoTavolo(partitaAttiva);
-
+    private void avviaPartita(ActionEvent event) throws Exception {
+        StageGioco sg = new StageGioco(partitaAttiva);
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // Imposta lo stage nel controller #3
-        controller.setStage(primaryStage);
-
-        // Mostra la scena
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/GestioneGioco/StageGioco.css").toExternalForm());
-        primaryStage.setScene(scene);
-
-        // Avvia l'esecuzione della partita in un thread separato #4
-        Thread partitaThread = new Thread(() -> {
-            controller.esegui();
-        });
-
-        partitaThread.start();
-
-        primaryStage.setOnCloseRequest(e -> {
-            e.consume(); // Consuma l'evento per evitare la chiusura immediata della finestra
-
-            // Mostra un Alert per confermare la chiusura
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Conferma chiusura");
-            alert.setHeaderText("La partita verrà sospesa");
-            alert.setContentText("I progressi non salvati verranno persi.");
-
-            // Aggiungi pulsanti al dialogo
-            ButtonType btnYes = new ButtonType("OK", ButtonBar.ButtonData.YES);
-
-            alert.getButtonTypes().setAll(btnYes);
-
-            // Mostra e gestisci la risposta dell'utente
-            alert.showAndWait().ifPresent(result -> {
-                if (result == btnYes) {
-                    partitaAttiva.setStatoPartita(Stato.Sospesa);
-                    controller.interrompiPartita(partitaAttiva);
-                    primaryStage.close();
-                    partitaThread.interrupt();
-                }
-            });
-        });
-
-    }
-
-    private void riprendiPartita(ActionEvent event, int codice) throws IOException {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneGioco/StageGioco.fxml"));
-        Parent root = loader.load();
-
-        // Ottieni il controller #1
-        GiocoController controller = loader.getController();
-
-        // Trova e imposta il tavolo nel controller #2-b
-        controller.reimpostaTavolo(partitaAttiva);
-
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // Imposta lo stage nel controller #3
-        controller.setStage(primaryStage);
-
-        // Mostra la scena
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/GestioneGioco/StageGioco.css").toExternalForm());
-        primaryStage.setScene(scene);
-
-        // Avvia l'esecuzione della partita in un thread separato #4
-        Thread partitaThread = new Thread(() -> {
-            controller.esegui();
-        });
-
-        partitaThread.start();
-
-        primaryStage.setOnCloseRequest(e -> {
-            e.consume(); // Consuma l'evento per evitare la chiusura immediata della finestra
-
-            // Mostra un Alert per confermare la chiusura
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Conferma chiusura");
-            alert.setHeaderText("La partita verrà sospesa");
-            alert.setContentText("I progressi non salvati verranno persi.");
-
-            // Aggiungi pulsanti al dialogo
-            ButtonType btnYes = new ButtonType("OK", ButtonBar.ButtonData.YES);
-
-            alert.getButtonTypes().setAll(btnYes);
-
-            // Mostra e gestisci la risposta dell'utente
-            alert.showAndWait().ifPresent(result -> {
-                if (result == btnYes) {
-                    partitaAttiva.setStatoPartita(Stato.Sospesa);
-                    controller.interrompiPartita(partitaAttiva);
-                    primaryStage.close();
-                    partitaThread.interrupt();
-                }
-            });
-        });
+        sg.start(primaryStage);
     }
 
     private boolean controlli(String username, String codice) {
@@ -367,6 +253,16 @@ public class UtentePartitaBoardController {
         infoLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
+    // TODO PUPA metodo allert riferito a scaricaPartiteDaFile (guarda sotto)
+    // @FXML
+    // public void alertNessunaPartita {
+
+        /*
+         * Ispirati al metodo allert Vittoria di GiocoController.
+         * Quello è un allert di informazione (Alert.AlertType.INFORMATION)
+         * ma esistono anche allert di errore più appropriati per questo caso.
+         */
+
     private void scaricaPartiteDaFile() {
         try {
             // Se il file esiste lo leggiamo
@@ -376,6 +272,9 @@ public class UtentePartitaBoardController {
                 // Se il file non è vuoto lo leggiamo
                 if (filePartite.length() == 0) {
                     System.out.println("Il file JSON è vuoto.");
+
+                    // TODO PUPA (metodo allertNessunaPartita: non esiste nessuna partita)
+
                     return;
                 } else {
                     partite = objectMapper.readValue(filePartite, new TypeReference<List<Partita>>() {
@@ -384,10 +283,14 @@ public class UtentePartitaBoardController {
 
             } else {
                 System.out.println("Il file non esiste");
-                // Alert nessuna partita creata!
+
+                // TODO PUPA (metodo allertNessunaPartita: non esiste nessuna partita)
             }
+
         } catch (IOException e) {
-            // Alert impossibile scaricare il file(?)
+
+            // TODO PUPA (metodo allert DIVERSO: impossibile trovare le partite)
+
             e.printStackTrace();
         }
     }
@@ -403,11 +306,13 @@ public class UtentePartitaBoardController {
 
             } else {
                 System.out.println("Il file non esiste");
-                // TODO Alert nessun utente creato!
+                // TODO PUPA Alert nessun utente creato!
             }
 
         } catch (IOException e) {
-            // Alert(?)>
+
+            // TODO PUPA (metodo allert DIVERSO: impossibile trovare gli utenti)
+
             e.printStackTrace();
         }
     }

@@ -93,6 +93,7 @@ public class GiocoController implements Initializable, Serializable {
     private File partiteFile;
     private File esecuzioniFile;
     private ObjectMapper objectMapper;
+    private Thread partitaThread;
 
     Stage stage;
 
@@ -172,7 +173,12 @@ public class GiocoController implements Initializable, Serializable {
 
     // #4
     public void esegui() {
-        esecuzione.eseguiPartita();
+        partitaThread = new Thread(() -> {
+            esecuzione.eseguiPartita();
+
+        });
+
+        partitaThread.start();
     }
 
     // Richiamata dall'esecuzione
@@ -363,31 +369,43 @@ public class GiocoController implements Initializable, Serializable {
         scaricaPartiteDaFile();
         scaricaEsecuzioniDaFile();
 
-        for (int i = 0; i < partiteSalvate.size(); i++) {
-            Partita p = partiteSalvate.get(i);
-            if (p.getCodice() == partitaAttiva.getCodice()) {
-                partiteSalvate.set(i, partitaAttiva);
-                break;
+        partitaThread.interrupt();
+
+        try {
+
+            System.out.println("Mi sono fermato prima del join");
+            partitaThread.join();
+            System.out.println("Mi sono fermato dopo il join");
+
+            for (int i = 0; i < partiteSalvate.size(); i++) {
+                Partita p = partiteSalvate.get(i);
+                if (p.getCodice() == partitaAttiva.getCodice()) {
+                    partiteSalvate.set(i, partitaAttiva);
+                    break;
+                }
             }
-        }
 
-        boolean esecuzioneTrovata = false;
+            boolean esecuzioneTrovata = false;
 
-        for (int i = 0; i < esecuzioniSalvate.size(); i++) {
-            Esecuzione e = esecuzioniSalvate.get(i);
-            if (e.getCodice() == partitaAttiva.getCodice()) {
-                esecuzioniSalvate.set(i, esecuzione);
-                esecuzioneTrovata = true;
-                break;
+            for (int i = 0; i < esecuzioniSalvate.size(); i++) {
+                Esecuzione e = esecuzioniSalvate.get(i);
+                if (e.getCodice() == partitaAttiva.getCodice()) {
+                    esecuzioniSalvate.set(i, esecuzione);
+                    esecuzioneTrovata = true;
+                    break;
+                }
             }
-        }
 
-        if (!esecuzioneTrovata) {
-            esecuzioniSalvate.add(esecuzione);
-        }
+            if (!esecuzioneTrovata) {
+                esecuzioniSalvate.add(esecuzione);
+            }
 
-        caricaPartiteSuFile();
-        caricaEsecuzioniSuFile();
+            caricaPartiteSuFile();
+            caricaEsecuzioniSuFile();
+
+        } catch (InterruptedException e) {
+            return;
+        }
     }
 
     private void scaricaPartiteDaFile() {
