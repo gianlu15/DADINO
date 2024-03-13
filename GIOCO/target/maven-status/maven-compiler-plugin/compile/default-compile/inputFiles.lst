@@ -1,7 +1,6 @@
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneLogin/HomeLogin.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneLogin/LoginController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaPartite/PartitaGiocatoriController.java
-/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestionePartite/StatistichePartitaController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaPartite/CreaPartite.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGioco/Giocatore.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaUtenti/ListViewController.java
@@ -23,5 +22,4 @@
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaPartite/CreaPartiteController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGioco/Tavolo.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaUtenti/ListViewClass.java
-/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneUtenti/IdManager.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGioco/Regole.java

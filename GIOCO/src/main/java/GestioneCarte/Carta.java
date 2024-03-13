@@ -1,14 +1,10 @@
 package GestioneCarte;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javafx.scene.image.Image;
 
 public class Carta{
-
-    /*
-     * Per rappresentare le il Colore e il Valore delle carte uso delle enumerazioni.
-     * All'interno delle enumerazioni viene usato un array statico per associare dei numeri
-     * a tutti i valori dell'enumerazione. In questo modo è possibile ottenere un valore dell'
-     * enumerazione in base ad un indice numerico.
-     */
 
     //Eumerazioni
     enum Seme{
@@ -33,29 +29,35 @@ public class Carta{
     }
 
     //Attributi
-     public final Seme semeCarta;
-     public final Valore valoreCarta;
+     public final Seme seme;
+     public final Valore valore;
 
     //Costruttore
-    public Carta(Seme semeCarta, Valore valoreCarta){
-        this.semeCarta = semeCarta;
-        this.valoreCarta = valoreCarta;
+    public Carta(Seme seme, Valore valore){
+        this.seme = seme;
+        this.valore = valore;
+    }
+
+    public Carta(){
+        this.seme = null;
+        this.valore = null;
     }
 
     public Seme getSeme(){
-        return semeCarta;
+        return seme;
     }
 
     public Valore getValore(){
-        return valoreCarta;
+        return valore;
     } 
 
     public String toString(){
-        return valoreCarta + " di " + semeCarta;
+        return valore + " di " + seme;
     }
 
+    @JsonIgnore
     public Image getImmagine(){
-        String pathName = "CarteImmagini/" + valoreCarta + "_" + semeCarta + ".png";
+        String pathName = "CarteImmagini/" + valore + "_" + seme + ".png";
         return new Image(Carta.class.getResourceAsStream(pathName));
     }
 }

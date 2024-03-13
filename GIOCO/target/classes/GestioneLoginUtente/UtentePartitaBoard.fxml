@@ -53,5 +53,10 @@
             <Image url="@../images/omarino1.png" />
          </image>
       </ImageView>
+      <Button fx:id="button" layoutX="191.0" layoutY="305.0" mnemonicParsing="false" onAction="#backToBoard" text="BACK">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

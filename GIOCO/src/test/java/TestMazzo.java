@@ -21,7 +21,7 @@ public class TestMazzo extends Application {
 
         maz.inizializzaMazzo();
 
-        System.out.println("carte nel mazzo " + maz.getNumeroCarte());
+        System.out.println("carte nel mazzo " + maz.getCarteNelMazzo());
 
         maz.mostraMazzo();
 

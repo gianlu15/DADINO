@@ -1,17 +1,10 @@
 package GestioneAmministratore.ListaUtenti;
 
+import GestioneUtenti.Utente;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import GestioneUtenti.Utente;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -20,6 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class ListViewController {
 
@@ -41,84 +37,133 @@ public class ListViewController {
     @FXML
     private Label infoLabel;
 
-    private int indiceSelezionato = -1;
-
-    private List<Utente> utenti = new ArrayList<>();
+    private int indiceSelezionato;
+    private List<Utente> utenti;
+    private File file;
+    private ObjectMapper objectMapper;
 
     @FXML
     public void initialize() {
-        scaricaDati();
-        listaUtenti.getItems().addAll(utenti);
-    }
+        this.utenti = new ArrayList<>();
+        this.indiceSelezionato = -1;
+        this.objectMapper = new ObjectMapper();
+        this.file = new File("src/main/resources/FileJson/utenti.json");
 
-    // FASE 1: "scarico" la lista dal file .ser
-    private void scaricaDati() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(
-                new FileInputStream("src/main/resources/GestioneFileUtenti/utenti.ser"))) {
-
-            utenti = (List<Utente>) inputStream.readObject();
-
-        } catch (FileNotFoundException e) { // Se il file non esiste...
-            File file = new File("src/main/resources/GestioneFileUtenti/utenti.ser");
-            try {
-                if (file.createNewFile()) {
-                    Utente nuovoUtente = new Utente("Admin");
-                    utenti.add(nuovoUtente);
-                    caricaDati();
-
-                    System.out.println("File creato con successo.");
-                } else {
-                    System.out.println("Impossibile creare il file.");
-                }
-            } catch (IOException f) {
-                f.printStackTrace();
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        scaricaUtentiDaFile();
+        listaUtenti.getItems().addAll(utenti); //Mostriamo gli utenti del file sulla ListView
     }
 
     @FXML
     public void aggiungiUtente(ActionEvent event) {
         String username = usernameField.getText();
 
+        if (controlli(username))
+            return;
+
+        Utente nuovoUtente = new Utente(username);
+        utenti.add(nuovoUtente); //Aggiungianmo l'utente all'array
+        listaUtenti.getItems().add(nuovoUtente); //Aggiungiamo l'utente sulla ListView
+        caricaUtentiSuFile();       //Carichiamo gli utenti su file
+
+        showSuccesUtente();
+
+        usernameField.clear();
+    }
+
+    @FXML
+    private void rimuoviUtente(ActionEvent e) {
+        if (listaUtenti.getSelectionModel().isEmpty()) {
+            showNoIndexError();
+            return;
+        }
+
+        indiceSelezionato = listaUtenti.getSelectionModel().getSelectedIndex();
+
+        if (indiceSelezionato == 0) {
+            showAdminError();
+            return;
+        }
+
+        utenti.remove(indiceSelezionato);   //Rimuoviamo l'utente dall'array
+        listaUtenti.getItems().remove(indiceSelezionato); //Rimuoviamo l'utente dalla ListView
+        caricaUtentiSuFile();
+
+        showEliminatoSucces();
+    }
+
+    private void scaricaUtentiDaFile() {
+        try {
+            // Se il file esiste lo leggiamo
+            if (file.exists()) {
+
+                System.out.println("Il file esiste già.");
+                utenti = objectMapper.readValue(file, new TypeReference<List<Utente>>() {
+                });
+
+            } else {
+                // Se il file non esiste, lo creiamo ma non lo leggiamo
+                try {
+                    file.createNewFile();
+                    System.out.println("Il file è stato creato con successo.");
+
+                    //Aggiungiamo l'Admin
+                    Utente admin = new Utente("Admin");
+                    utenti.add(admin);
+                    caricaUtentiSuFile();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void caricaUtentiSuFile() {
+        try {
+            objectMapper.writeValue(file, utenti);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean controlli(String username) {
+
         if (username.isEmpty()) {
             showEmptyError();
-            return;
+            return true;
         }
 
         if (username.startsWith("Admin")) {
             showAdminNameError();
-            return;
+            return true;
         }
 
         if (username.startsWith("Bot")) {
             showBotError();
-            return;
+            return true;
         }
 
-        // FASE 2: aggiungo il nuovo utente alla lista
-        boolean utenteEsiste = false;
+        if (username.length() > 10) {
+            showTooLongError();
+            return true;
+        }
+
+        if (username.length() < 3) {
+            showTooShortError();
+            return true;
+        }
+
         for (Utente utente : utenti) {
-            if (username.equals(utente.getNome())) {
-                utenteEsiste = true;
-                break;
+            if (username.equalsIgnoreCase(utente.getNome())) {
+                showErrorUtente();
+                return true;
             }
         }
 
-        if (!utenteEsiste) {
-            Utente nuovoUtente = new Utente(username);
-            utenti.add(nuovoUtente);
-            listaUtenti.getItems().add(nuovoUtente);
-
-            showSuccesUtente();
-
-            usernameField.clear();
-        } else {
-            showErrorUtente();
-            return;
-        }
+        return false;
     }
 
     private void showErrorUtente() {
@@ -129,6 +174,16 @@ public class ListViewController {
     private void showSuccesUtente() {
         infoLabel.setText("Nome utente inserito");
         infoLabel.setStyle("-fx-text-fill: green;");
+    }
+
+    private void showTooLongError() {
+        infoLabel.setText("Nome utente troppo lungo");
+        infoLabel.setStyle("-fx-text-fill: red;");
+    }
+
+    private void showTooShortError() {
+        infoLabel.setText("Nome utente troppo corto");
+        infoLabel.setStyle("-fx-text-fill: red;");
     }
 
     private void showAdminError() {
@@ -162,38 +217,7 @@ public class ListViewController {
     }
 
     @FXML
-    private void rimuoviUtente(ActionEvent e) {
-        if (listaUtenti.getSelectionModel().isEmpty()) {
-            showNoIndexError();
-            return;
-        }
-
-        indiceSelezionato = listaUtenti.getSelectionModel().getSelectedIndex();
-
-        if (indiceSelezionato == 0) {
-            showAdminError();
-            return;
-        }
-
-        utenti.remove(indiceSelezionato);
-        listaUtenti.getItems().remove(indiceSelezionato);
-        showEliminatoSucces();
-    }
-
-    // FASE 3: carico la lista aggiornata
-    public void caricaDati() {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(
-                new FileOutputStream("src/main/resources/GestioneFileUtenti/utenti.ser"))) {
-            outputStream.writeObject(utenti);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void logout(ActionEvent event) throws IOException {
-        caricaDati();
-
+    public void logout(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }

@@ -1,15 +1,9 @@
 package GestioneAmministratore.ListaPartite;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import GestionePartite.Partita;
 import GestioneUtenti.Utente;
 import javafx.event.ActionEvent;
@@ -20,6 +14,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PartitaGiocatoriController {
 
@@ -44,33 +40,40 @@ public class PartitaGiocatoriController {
     @FXML
     private Label infoLabel;
 
-    private Partita pCorrente;
-
-    private List<Utente> utenti = new ArrayList<>();
-    private List<Partita> partite = new ArrayList<>();
-
-    private int numeroBot = 1;
+    private Partita partitaCorrente;
+    private List<Utente> utenti;
+    private List<Partita> partite;
+    private int numeroBot;
     private int giocatoriDaInserire;
+    private File filePartite;
+    private File fileUtenti;
+    private ObjectMapper objectMapper;
 
     @FXML
     public void initialize() {
-        scaricaDatiUtenti();
-        scaricaDatiPartite();
+        this.utenti = new ArrayList<>();
+        this.partite = new ArrayList<>();
+        this.numeroBot = 1;
+        this.objectMapper = new ObjectMapper();
+        this.filePartite = new File("src/main/resources/FileJson/partite.json");
+        this.fileUtenti = new File("src/main/resources/FileJson/utenti.json");
+
+        scaricaUtentiDaFile();
+        scaricaPartiteDaFile();
 
         giocatoriChoice.getItems().addAll(utenti);
         aggiungiBot.setDisable(true);
-        ;
     }
 
     public void setPartita(Partita p) {
-        this.pCorrente = p;
-        giocatoriDaInserire = pCorrente.getNumGiocatori();
+        this.partitaCorrente = p;
+        giocatoriDaInserire = partitaCorrente.getNumGiocatori();
         setIntestazione(giocatoriDaInserire);
     }
 
     @FXML
     private void aggiungiGiocatore(ActionEvent e) {
-        if (giocatoriListView.getItems().size() == pCorrente.getNumGiocatori()) {
+        if (giocatoriListView.getItems().size() == partitaCorrente.getNumGiocatori()) {
             showMaxGiocatoriError();
             return;
         }
@@ -88,7 +91,7 @@ public class PartitaGiocatoriController {
         }
 
         giocatoriListView.getItems().add(selezionato);
-        pCorrente.aggiungiGiocatore(selezionato);
+        partitaCorrente.aggiungiGiocatore(selezionato);
         aggiungiBot.setDisable(false);
 
         giocatoriDaInserire--;
@@ -99,17 +102,17 @@ public class PartitaGiocatoriController {
 
     @FXML
     private void aggiungiBot(ActionEvent e) {
-        if (giocatoriListView.getItems().size() == pCorrente.getNumGiocatori()) {
+        if (giocatoriListView.getItems().size() == partitaCorrente.getNumGiocatori()) {
             showMaxGiocatoriError();
             return;
         }
 
         Utente bot = new Utente("Bot" + numeroBot);
-        numeroBot++;
 
         giocatoriListView.getItems().add(bot);
-        pCorrente.aggiungiBot(numeroBot);
-
+        partitaCorrente.aggiungiBot(numeroBot);
+        
+        numeroBot++;
         giocatoriDaInserire--;
         setIntestazione(giocatoriDaInserire);
 
@@ -118,13 +121,13 @@ public class PartitaGiocatoriController {
 
     @FXML
     private void creaPartita(ActionEvent e) {
-        if (giocatoriListView.getItems().size() != pCorrente.getNumGiocatori()) {
+        if (giocatoriListView.getItems().size() != partitaCorrente.getNumGiocatori()) {
             showGiocatoriMancantiError();
             return;
         }
+        partite.add(partitaCorrente);
+        caricaPartiteSuFile();
 
-        partite.add(pCorrente);
-        caricaDatiPartite();
         showSuccesPartita();
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
@@ -152,6 +155,85 @@ public class PartitaGiocatoriController {
             default:
                 intestazione.setText("PARTITA COMPLETA");
                 break;
+        }
+    }
+
+    private void scaricaUtentiDaFile() {
+        try {
+            // Se il file esiste lo leggiamo
+            if (fileUtenti.exists()) {
+
+                System.out.println("Il file utenti.json esiste già.");
+                utenti = objectMapper.readValue(fileUtenti, new TypeReference<List<Utente>>() {
+                });
+
+            } else {
+                // Se il file non esiste, lo creiamo ma non lo leggiamo
+                try {
+                    fileUtenti.createNewFile();
+                    System.out.println("Il file utenti.json è stato creato con successo.");
+
+                    // Aggiungiamo l'Admin
+                    Utente admin = new Utente("Admin");
+                    utenti.add(admin);
+                    caricaUtentiSuFile();
+
+                } catch (Exception e) {
+                    // Alert(?)
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (IOException e) {
+            // Alert(?)
+            e.printStackTrace();
+        }
+    }
+
+    private void caricaUtentiSuFile() {
+        try {
+            objectMapper.writeValue(fileUtenti, utenti);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void scaricaPartiteDaFile() {
+        try {
+            // Se il file esiste lo leggiamo
+            if (filePartite.exists()) {
+                System.out.println("Il file partite.json esiste già.");
+
+                // Se il file non è vuoto lo leggiamo
+                if (filePartite.length() == 0) {
+                    System.out.println("Il file partite.json JSON è vuoto.");
+                    return;
+                } else {
+                    partite = objectMapper.readValue(filePartite, new TypeReference<List<Partita>>() {
+                    });
+                }
+
+            } else {
+                // Se il file non esiste, lo creiamo ma non lo leggiamo
+                try {
+                    filePartite.createNewFile();
+                    System.out.println("Il file partite.json è stato creato con successo.");
+                } catch (Exception e) {
+                    // Alert impossibile creare il file(?)
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            // Alert impossibile scaricare il file(?)
+            e.printStackTrace();
+        }
+    }
+
+    private void caricaPartiteSuFile() {
+        try {
+            objectMapper.writeValue(filePartite, partite);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -188,76 +270,5 @@ public class PartitaGiocatoriController {
     private void showUtenteAlreadyExistsError() {
         infoLabel.setText("Utente già presente");
         infoLabel.setStyle("-fx-text-fill: #da2c38;");
-    }
-
-    private void scaricaDatiUtenti() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(
-                new FileInputStream("src/main/resources/GestioneFileUtenti/utenti.ser"))) {
-
-            System.out.println("File utenti trovato in PartiteGiocatoriController");
-            utenti = (List<Utente>) inputStream.readObject();
-
-        } catch (FileNotFoundException e) { // Se il file non esiste...
-            File file = new File("src/main/resources/GestioneFileUtenti/utenti.ser");
-            try {
-                if (file.createNewFile()) {
-
-                    Utente nuovoUtente = new Utente("Admin");
-                    utenti.add(nuovoUtente);
-                    caricaDatiUtenti();
-
-                    System.out.println("File creato con successo.");
-                } else {
-                    System.out.println("Impossibile creare il file.");
-                }
-            } catch (IOException f) {
-                f.printStackTrace();
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void scaricaDatiPartite() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(
-                new FileInputStream("src/main/resources/GestionePartite/partite.ser"))) {
-
-            System.out.println("File partite trovato in CreaPartiteController");
-            partite = (List<Partita>) inputStream.readObject();
-
-        } catch (FileNotFoundException e) { // Se il file non esiste...
-            File file = new File("src/main/resources/GestionePartite/partite.ser");
-            try {
-                if (file.createNewFile()) {
-                    System.out.println("File creato con successo.");
-                } else {
-                    System.out.println("Impossibile creare il file.");
-                }
-            } catch (IOException f) {
-                f.printStackTrace();
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void caricaDatiPartite() {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(
-                new FileOutputStream("src/main/resources/GestionePartite/partite.ser"))) {
-            outputStream.writeObject(partite);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void caricaDatiUtenti() {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(
-                new FileOutputStream("src/main/resources/GestioneFileUtenti/utenti.ser"))) {
-            outputStream.writeObject(utenti);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

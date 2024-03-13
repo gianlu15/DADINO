@@ -1,34 +1,52 @@
 package GestioneGioco;
 
 import java.util.ArrayList;
-import java.util.Map;
-
+import java.util.Map.Entry;
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import GestioneCarte.Carta;
 
-public class Esecuzione {
+public class Esecuzione implements Serializable {
 
     Tavolo tavolo;
     ArrayList<Giocatore> giocatori;
     Giocatore giocatoreCorrente;
+    int codice;
+    int turnoCorrente;
 
+    @JsonIgnore
     GiocoController controller;
 
-    public Esecuzione(Tavolo tavolo, ArrayList<Giocatore> giocatori, GiocoController controller) {
-        this.controller = controller;
+    public Esecuzione(Tavolo tavolo, ArrayList<Giocatore> giocatori) {
         this.tavolo = tavolo;
         this.giocatori = giocatori;
-        tavolo.setStats(giocatori.size());
+        this.codice = tavolo.getCodice();
+        this.turnoCorrente = 0;
+        // tavolo.setStats(giocatori.size());
     }
 
-    public void eseguiPartita(int turnoCorrente) {
-        while (!PartitaTerminata()) {
-            tavolo.turniTotali++;
+    public Esecuzione() {
+    }
+
+    public void setGiocatori(ArrayList<Giocatore> giocatori) {
+        this.giocatori = giocatori;
+    }
+
+    public void setController(GiocoController controller) {
+        this.controller = controller;
+    }
+
+    public void eseguiPartita() {
+        Thread.currentThread();
+        while (!PartitaTerminata() || Thread.interrupted()) {
+            // tavolo.turniTotali++;
             eseguiTurno(turnoCorrente);
-            attendi();
             turnoCorrente++;
-            if (turnoCorrente == giocatori.size())
+            attendi();
+            if (turnoCorrente >= giocatori.size())
                 turnoCorrente = 0;
         }
         dichiaraVincitore();
@@ -42,7 +60,7 @@ public class Esecuzione {
     }
 
     private boolean controlloVittoria(int p, Giocatore g) {
-        int punteggio = tavolo.punteggi.get(g) + p;
+        int punteggio = tavolo.getPunteggi().get(g) + p;
         if (punteggio >= Regole.PUNTEGGIO_OBIETTIVO) {
             return true;
         }
@@ -50,7 +68,7 @@ public class Esecuzione {
     }
 
     private boolean PartitaTerminata() {
-        for (Map.Entry<Giocatore, Integer> entry : tavolo.punteggi.entrySet()) {
+        for (Entry<Giocatore, Integer> entry : tavolo.getPunteggi().entrySet()) {
             int punteggio = entry.getValue();
             if (punteggio >= Regole.PUNTEGGIO_OBIETTIVO) {
                 return true;
@@ -60,16 +78,17 @@ public class Esecuzione {
     }
 
     public void dichiaraVincitore() {
-        for (Map.Entry<Giocatore, Integer> entry : tavolo.punteggi.entrySet()) {
+        for (Entry<Giocatore, Integer> entry : tavolo.getPunteggi().entrySet()) {
             int punteggio = entry.getValue();
             if (punteggio >= Regole.PUNTEGGIO_OBIETTIVO) {
                 System.out.println("-------------------------");
-                System.out.println("Il giocatore  " + entry.getKey().getNome() + " ha vinto!!!");
+                System.out.println("Il giocatore  " + entry.getKey() + " ha vinto!!!");
                 System.out.println("-------------------------");
                 controller.alertVittoria(entry.getKey());
             }
         }
-        tavolo.mostraStats();
+        // tavolo.mostraStats();
+        // tavolo.finePartita();
     }
 
     public void attendi() {
@@ -77,30 +96,31 @@ public class Esecuzione {
             // Attendi 3 secondi (3000 millisecondi)
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("#5 Il thread è stato interrotto durante l'attesa.\n");
+            System.exit(1);
         }
     }
 
     public int giocaTurno(Giocatore giocatore, int indice) {
-        int punteggioParziale = tavolo.punteggi.get(giocatore);
+        int punteggioParziale = tavolo.getPunteggi().get(giocatore);
         boolean effettoDouble = false;
-        giocatore.punteggio = 0;
+        int punteggioTurno = 0;
 
-        System.out.println("Comando passato al giocatore " + giocatore.nome);
+        System.out.println("Comando passato al giocatore " + giocatore.getNome());
         System.out.println("Ricominci da " + punteggioParziale);
         boolean pesca = false;
 
         controller.inizioTurno(punteggioParziale, giocatore);
 
-        pesca = descisionePesca(giocatore);
+        pesca = descisionePescaObbligata(giocatore, punteggioTurno); // Dovrebbe essere obbligata
 
         Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
-        tavolo.cartePescate[indice]++;
+        // tavolo.cartePescate[indice]++;
         controller.setImmagine(cartaPescata.getImmagine());
         System.out.println("------> Hai pescato " + cartaPescata.getValore());
 
-        giocatore.punteggio = Regole.gestisciEffetto(cartaPescata, giocatore.punteggio, effettoDouble);
-        System.out.println("Il tuo punteggio è ora " + (punteggioParziale + giocatore.punteggio));
+        punteggioTurno = Regole.gestisciEffetto(cartaPescata, punteggioTurno, effettoDouble);
+        System.out.println("Il tuo punteggio è ora " + (punteggioParziale + punteggioTurno));
 
         if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
             System.out.println("Punti doppi attivati!");
@@ -109,34 +129,34 @@ public class Esecuzione {
 
         if (cartaPescata.getValore() == Carta.Valore.Bombetta) {
             System.out.println("Il tuo punteggio è tornato a " + punteggioParziale);
-            System.out.println("Turno di " + giocatore.nome + " terminato");
+            System.out.println("Turno di " + giocatore.getNome() + " terminato");
             System.out.println("---------------------------------------- \n");
             controller.aggiornaVistaPunteggioParziale(punteggioParziale);
             controller.disabilitaPunteggio();
-            tavolo.bombePescate[indice]++;
-            tavolo.puntiTotali[indice] += giocatore.punteggio;
+            // tavolo.bombePescate[indice]++;
+            // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
             return punteggioParziale;
         }
 
-        controller.aggiornaVistaPunteggioParziale((punteggioParziale + giocatore.punteggio));
+        controller.aggiornaVistaPunteggioParziale((punteggioParziale + punteggioTurno));
 
-        if (controlloVittoria(giocatore.punteggio, giocatore)) {
-            tavolo.puntiTotali[indice] += giocatore.punteggio;
-            return punteggioParziale + giocatore.punteggio;
+        if (controlloVittoria(punteggioTurno, giocatore)) {
+            // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
+            return punteggioParziale + punteggioTurno;
         }
 
-        pesca = descisionePesca(giocatore);
+        pesca = descisionePesca(giocatore, punteggioTurno);
 
-        while (pesca) {
+        while (pesca && !Thread.interrupted()) {
             cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
-            tavolo.cartePescate[indice]++;
+            // tavolo.cartePescate[indice]++;
             controller.setImmagine(cartaPescata.getImmagine());
 
             System.out.println("------> Hai pescato " + cartaPescata.getValore());
 
-            giocatore.punteggio = Regole.gestisciEffetto(cartaPescata, giocatore.punteggio, effettoDouble);
-            System.out.println("Il tuo punteggio è ora " + (punteggioParziale + giocatore.punteggio));
-            System.out.println(tavolo.puntiTotali[indice]);
+            punteggioTurno = Regole.gestisciEffetto(cartaPescata, punteggioTurno, effettoDouble);
+            System.out.println("Il tuo punteggio è ora " + (punteggioParziale + punteggioTurno));
+            // System.out.println(tavolo.puntiTotali[indice]);
 
             if (cartaPescata.getValore() == Carta.Valore.DoublePoints) {
                 System.out.println("Punti doppi attivati!");
@@ -145,48 +165,75 @@ public class Esecuzione {
 
             if (cartaPescata.getValore() == Carta.Valore.Bombetta) {
                 System.out.println("Il tuo punteggio è tornato a " + punteggioParziale);
-                System.out.println("Turno di " + giocatore.nome + " terminato");
+                System.out.println("Turno di " + giocatore.getNome() + " terminato");
                 System.out.println("---------------------------------------- \n");
                 controller.aggiornaVistaPunteggioParziale(punteggioParziale);
                 controller.disabilitaPunteggio();
-                tavolo.bombePescate[indice]++;
-                tavolo.puntiTotali[indice] += giocatore.punteggio;
+                // tavolo.bombePescate[indice]++;
+                // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
                 return punteggioParziale;
             }
 
-            controller.aggiornaVistaPunteggioParziale((punteggioParziale + giocatore.punteggio));
+            controller.aggiornaVistaPunteggioParziale((punteggioParziale + punteggioTurno));
 
-            if (controlloVittoria(giocatore.punteggio, giocatore)) {
-                tavolo.puntiTotali[indice] += giocatore.punteggio;
-                return punteggioParziale + giocatore.punteggio;
+            if (controlloVittoria(punteggioTurno, giocatore)) {
+                // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
+                return punteggioParziale + punteggioTurno;
             }
 
-            pesca = descisionePesca(giocatore);
+            pesca = descisionePesca(giocatore, punteggioTurno);
         }
 
-        System.out.println("Hai salvato il tuo punteggio: " + (giocatore.punteggio + punteggioParziale));
-        System.out.println("Turno di " + giocatore.nome + " terminato");
+        System.out.println("Hai salvato il tuo punteggio: " + (punteggioTurno + punteggioParziale));
+        System.out.println("Turno di " + giocatore.getNome() + " terminato");
         System.out.println("---------------------------------------- \n");
         controller.disabilitaPunteggio();
-        tavolo.puntiTotali[indice] += giocatore.punteggio;
-        return giocatore.punteggio + punteggioParziale;
+        // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
+        return punteggioTurno + punteggioParziale;
     }
 
-    private boolean descisionePesca(Giocatore giocatore) {
+    private boolean descisionePesca(Giocatore giocatore, int punteggioTurno) {
         boolean p;
         if (giocatore instanceof Bot) {
-            p = decisioneBot((Bot) giocatore);
+            p = decisioneBot((Bot) giocatore, punteggioTurno);
         } else {
             controller.abilitaPulsanti();
+            System.out.println("Effettua una scelta");
             p = controller.decisioneGiocatore().join();
             controller.disabilitaPulsanti();
         }
         return p;
     }
 
-    private boolean decisioneBot(Bot bot) {
-        attendi();
-        return bot.getPunteggioParziale() < bot.getPunteggioMinimo();
+    private boolean descisionePescaObbligata(Giocatore giocatore, int punteggioTurno) {
+        boolean p;
+        if (giocatore instanceof Bot) {
+            p = decisioneBot((Bot) giocatore, punteggioTurno);
+        } else {
+            controller.abilitaPesca();
+            System.out.println("Effettua una scelta");
+            p = controller.decisioneObbligataGiocatore().join();
+            controller.disabilitaPesca();
+        }
+        return p;
     }
 
+    private boolean decisioneBot(Bot bot, int punteggioTurno) {
+        if (!Thread.interrupted())
+            attendi();
+
+        return punteggioTurno < bot.getPunteggioMinimo();
+    }
+
+    public int getCodice() {
+        return codice;
+    }
+
+    public int getTurnoCorrente() {
+        return turnoCorrente;
+    }
+
+    public Tavolo getTavolo() {
+        return tavolo;
+    }
 }

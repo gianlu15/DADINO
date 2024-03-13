@@ -38,7 +38,7 @@ public class CreaPartite extends Application {
 
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.getStylesheets().add(
-                    getClass().getResource("/GestioneAmministratore/alertChiusuraStyle.css").toExternalForm());
+                    getClass().getResource("/Styles/alertStyle.css").toExternalForm());
             dialogPane.getStyleClass().add("myDialog");
 
             // Gestione della risposta dell'utente

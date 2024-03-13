@@ -1,30 +1,59 @@
 import java.io.*;
-import java.util.List;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import GestioneUtenti.Utente;
 
-import java.util.ArrayList;
 
 public class TestUtente {
 
-    public static void main(String[] args) {
+    public static void serializza() throws JsonProcessingException {
 
-       
-        List<Utente> utenti = new ArrayList<>();
+        Utente u1 = new Utente("Mario");
+        Utente u2 = new Utente("Gigi");
 
-        // FASE 4 [test]: "scarico" la lista aggiornata e visualizzo tutti gli utenti
-        // presenti
-        try (ObjectInputStream inputStream = new ObjectInputStream(
-                new FileInputStream("src/main/resources/com/example/utenti.ser"))) {
-            utenti = (List<Utente>) inputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+        String filePath = "src/main/resources/GestioneFileUtenti/utenti.json";
+
+        File file = new File(filePath);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String jsonUtenti = objectMapper.writeValueAsString(u2);
+
+        //Se il file esiste, ci scriviamo sopra
+        if (file.exists()) {
+            System.out.println("Il file esiste già.");
+
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(jsonUtenti);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+
+            // Se il file non esiste, lo creiamo e ci scriviamo
+            try {
+                file.createNewFile();
+                System.out.println("Il file è stato creato con successo.");
+                try (FileWriter fileWriter = new FileWriter(file)) {
+                    fileWriter.write(jsonUtenti);
+                    System.out.println("Ci ho scritto sopra");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void main(String[] args){
+        try {
+            serializza();
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
-        // Visualizza gli utenti
-        for (Utente utente : utenti) {
-            System.out.println("Nome: " + utente.getNome() + ", ID: " + utente.getId());
-        }
-
     }
 }

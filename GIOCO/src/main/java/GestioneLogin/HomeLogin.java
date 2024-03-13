@@ -24,7 +24,7 @@ public class HomeLogin extends Application {
 
         String css = this.getClass().getResource("/Styles/StyleSP.css").toExternalForm();
         scene.getStylesheets().add(css);
-        
+
         stage.setTitle("SPACCA");
         stage.setResizable(false);
 

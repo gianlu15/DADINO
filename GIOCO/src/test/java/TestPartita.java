@@ -1,24 +1,28 @@
 import GestioneGioco.Giocatore;
 import GestioneGioco.GiocoController;
 import GestioneGioco.Tavolo;
+import GestionePartite.Partita;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+//NON FUNZIONA NON VA NON FUNZIONA NON VA NON FUNZIONA NON VA NON FUNZIONA NON VA
+
 public class TestPartita extends Application {
 
     static Tavolo t;
 
     public static void avvio() {
-        t = new Tavolo();
+        Partita p = new Partita("prova", 0, 0);
+        t = new Tavolo(p.getCodice());
 
         Giocatore g1 = new Giocatore("GIANLUCA");
-        Giocatore g2 = new Giocatore("ula");
+        Giocatore g2 = new Giocatore("kuka");
 
-        t.nuovoPunteggio(g2);
-        t.nuovoPunteggio(g1);
+        // t.nuovoPunteggio(g2);
+        // t.nuovoPunteggio(g1);
 
         launch();
     }
@@ -34,7 +38,7 @@ public class TestPartita extends Application {
         GiocoController controller = loader.getController();
 
         // Imposta il tavolo nel controller
-        controller.setTavolo(t);
+        // controller.setTavolo(t);
         controller.setStage(primaryStage);
 
         // Mostra la scena

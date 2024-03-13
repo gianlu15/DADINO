@@ -1,12 +1,24 @@
 package GestioneGioco;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import GestioneCarte.Carta;
+import GestionePartite.Partita;
+import GestionePartite.Partita.Stato;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,7 +37,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class GiocoController implements Initializable {
+public class GiocoController implements Initializable, Serializable {
 
     @FXML
     private Label Giocatore0;
@@ -75,11 +87,19 @@ public class GiocoController implements Initializable {
     @FXML
     private Node rootNode;
 
-    private Tavolo tavolo;
-    ArrayList<Giocatore> giocatori;
-    int turnoCorrente;
-    Giocatore giocatoreCorrente;
-    Esecuzione e;
+    private Tavolo tavoloPartita;
+    private Esecuzione esecuzione;
+    private ArrayList<Giocatore> giocatori;
+    private ArrayList<Integer> punti;
+
+    private List<Partita> partiteSalvate;
+    private List<Esecuzione> esecuzioniSalvate;
+    private File partiteFile;
+    private File esecuzioniFile;
+    private ObjectMapper objectMapper;
+    private Thread partitaThread;
+    private boolean partitaInterrotta;
+
     Stage stage;
 
     @FXML
@@ -92,61 +112,82 @@ public class GiocoController implements Initializable {
         PunteggioParziale.setVisible(false);
         fraseTurno.setVisible(false);
         giocatoreTurno.setVisible(false);
+
+        this.giocatori = new ArrayList<>();
+        this.punti = new ArrayList<>();
+
+        this.objectMapper = new ObjectMapper();
+        this.partiteSalvate = new ArrayList<>();
+        this.esecuzioniSalvate = new ArrayList<>();
+        this.partiteFile = new File("src/main/resources/FileJson/partite.json");
+        this.esecuzioniFile = new File("src/main/resources/FileJson/esecuzioni.json");
+        this.partitaInterrotta = false;
     }
 
-    public void setTavolo(Tavolo t) {
-        tavolo = t;
-        giocatori = new ArrayList<>(tavolo.punteggi.keySet());
-        turnoCorrente = 0;
+    // #2-a
+    public void creaNuovoTavolo(Partita partitaAttiva) {
 
-        e = new Esecuzione(tavolo, giocatori, this);
+        tavoloPartita = new Tavolo(partitaAttiva.getCodice());
+
+        for (Giocatore g : partitaAttiva.getPartecipanti())
+            if (g.getBot()) {
+                Bot b = new Bot(g.getNome());
+                giocatori.add(b);
+            } else {
+                giocatori.add(g);
+            }
+
+        tavoloPartita.assegnaGiocatori(giocatori);
+
+        esecuzione = new Esecuzione(tavoloPartita, giocatori);
+        esecuzione.setController(this);
 
         setLeaderboard();
     }
 
+    // #2-b
+    public void reimpostaTavolo(Partita partitaAttiva) {
+
+        for (Giocatore g : partitaAttiva.getPartecipanti())
+            if (g.getBot()) {
+                Bot b = new Bot(g.getNome());
+                giocatori.add(b);
+            } else {
+                giocatori.add(g);
+            }
+
+        scaricaEsecuzioniDaFile();
+        for (Esecuzione e : esecuzioniSalvate) {
+            if (e.getCodice() == partitaAttiva.getCodice())
+                esecuzione = e;
+        }
+
+        tavoloPartita = esecuzione.getTavolo();
+        esecuzione.setGiocatori(giocatori);
+        punti = tavoloPartita.getListaPunteggi();
+        tavoloPartita.assegnaGiocatoriPunti(giocatori, punti);
+
+        esecuzione.setController(this);
+
+        setLeaderboard();
+    }
+
+    // #3
     public void setStage(Stage primaryStage) {
         stage = primaryStage;
     }
 
-    public void setLeaderboard() {
-
-        Giocatore0.setText(giocatori.get(0).getNome());
-        punteggioGiocatore0.setText("0");
-
-        Giocatore1.setText(giocatori.get(1).getNome());
-        punteggioGiocatore1.setText("0");
-
-        Giocatore2.setText("");
-        punteggioGiocatore2.setText("");
-
-        Giocatore3.setText("");
-        punteggioGiocatore3.setText("");
-
-        if (giocatori.size() == 3) {
-            Giocatore2.setText(giocatori.get(2).getNome());
-            punteggioGiocatore2.setText("0");
-        }
-
-        if (giocatori.size() == 4) {
-            Giocatore3.setText(giocatori.get(3).getNome());
-            punteggioGiocatore3.setText("0");
-        }
-    }
-
-    public void disabilitaPulsanti() {
-        BottonePesca.setDisable(true);
-        BottoneFermati.setDisable(true);
-    }
-
-    public void abilitaPulsanti() {
-        BottonePesca.setDisable(false);
-        BottoneFermati.setDisable(false);
-    }
-
+    // #4
     public void esegui() {
-        e.eseguiPartita(turnoCorrente);
+        partitaThread = new Thread(() -> {
+            esecuzione.eseguiPartita();
+
+        });
+
+        partitaThread.start();
     }
 
+    // Richiamata dall'esecuzione
     public void inizioTurno(int punteggioParziale, Giocatore giocatore) {
         CartaScoperta.setImage(null);
         fraseTurno.setVisible(true);
@@ -158,6 +199,7 @@ public class GiocoController implements Initializable {
         });
     }
 
+    // Servono per la decisione obbligata
     public void disabilitaPesca() {
         BottonePesca.setDisable(true);
     }
@@ -167,43 +209,59 @@ public class GiocoController implements Initializable {
     }
 
     CompletableFuture<Boolean> decisioneGiocatore() {
-
-        // Crea un CompletableFuture che attende l'azione del giocatore
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
-        // Azione quando viene premuto il pulsante per pescare
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
+            if (partitaInterrotta) {
+                System.out.println(("#4.5 partitaThread interrotta"));
+                future.complete(false); 
+                executor.shutdown(); 
+            }
+        }, 0, 3, TimeUnit.SECONDS); 
+
         BottonePesca.setOnAction(event -> {
-            future.complete(true); // Completa il futuro con true per indicare che il giocatore vuole pescare
+            future.complete(true);
+            scheduledFuture.cancel(true);
+            executor.shutdown(); 
         });
 
-        // Azione quando viene premuto il pulsante per fermarsi
         BottoneFermati.setOnAction(event -> {
-            future.complete(false); // Completa il futuro con false per indicare che il giocatore si ferma
+            future.complete(false);
+            scheduledFuture.cancel(true); 
+            executor.shutdown(); 
         });
 
-        e.attendi();
+        if (!partitaInterrotta)
+        esecuzione.attendi();
 
-        return future; // Restituisci il CompletableFuture per attendere l'azione del giocatore
+        return future;
     }
 
     CompletableFuture<Boolean> decisioneObbligataGiocatore() {
 
-        // Crea un CompletableFuture che attende l'azione del giocatore
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
-        // Azione quando viene premuto il pulsante per pescare
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
+            if (partitaInterrotta) {
+                System.out.println(("#4.5 partitaThread interrotta"));
+                future.complete(false); // Completa il futuro con un valore predefinito se il thread è stato interrotto
+                executor.shutdown(); // Chiudi l'ExecutorService
+            }
+        }, 0, 3, TimeUnit.SECONDS); // Controlla ogni secondo se il thread è stato interrotto
+
         BottonePesca.setOnAction(event -> {
-            future.complete(true); // Completa il futuro con true per indicare che il giocatore vuole pescare
+            future.complete(true);
+            scheduledFuture.cancel(true); // Interrompe il controllo periodico quando viene fatta una scelta
+            executor.shutdown(); // Chiudi l'ExecutorService
         });
 
-        // Azione quando viene premuto il pulsante per fermarsi
-        BottoneFermati.setOnAction(event -> {
-            future.complete(false); // Completa il futuro con false per indicare che il giocatore si ferma
-        });
 
-        e.attendi();
+        if (!partitaInterrotta)
+            esecuzione.attendi();
 
-        return future; // Restituisci il CompletableFuture per attendere l'azione del giocatore
+        return future;
     }
 
     public void setImmagine(Image immagine) {
@@ -215,16 +273,19 @@ public class GiocoController implements Initializable {
         rotate.play();
     }
 
+    // disabilita la vista del punteggio parziale
     public void disabilitaPunteggio() {
         PunteggioParziale.setVisible(false);
     }
 
+    // aggiorna la vista del punteggio parziale
     public void aggiornaVistaPunteggioParziale(int punteggioParziale) {
         Platform.runLater(() -> {
             PunteggioParziale.setText(Integer.toString(punteggioParziale));
         });
     }
 
+    // aggiorna la leaderboard
     public void aggiornaVistaPunteggio(Giocatore giocatoreCorrente, int punteggioTurno) {
         int indice = giocatori.indexOf(giocatoreCorrente);
 
@@ -257,7 +318,7 @@ public class GiocoController implements Initializable {
     }
 
     @FXML
-    public void alertVittoria(Giocatore vincitore){
+    public void alertVittoria(Giocatore vincitore) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Partita terminata");
@@ -266,7 +327,7 @@ public class GiocoController implements Initializable {
 
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.getStylesheets().add(
-                    getClass().getResource("alertStyle.css").toExternalForm());
+                    getClass().getResource("/Styles/alertStyle.css").toExternalForm());
             dialogPane.getStyleClass().add("myDialog");
 
             alert.getButtonTypes().clear();
@@ -289,12 +350,157 @@ public class GiocoController implements Initializable {
                         e.printStackTrace();
                     }
                 } else if (buttonType == statsButton) {
-                   
+
                 }
             });
         });
 
     }
 
+    public void setLeaderboard() {
+
+        Giocatore0.setText(giocatori.get(0).getNome());
+        punteggioGiocatore0.setText(Integer.toString(tavoloPartita.getPunteggi().get(giocatori.get(0))));
+
+        System.out.println(giocatori.get(0).getNome());
+        Giocatore1.setText(giocatori.get(1).getNome());
+        punteggioGiocatore1.setText(Integer.toString(tavoloPartita.getPunteggi().get(giocatori.get(1))));
+
+        Giocatore2.setText("");
+        punteggioGiocatore2.setText("");
+
+        Giocatore3.setText("");
+        punteggioGiocatore3.setText("");
+
+        if (giocatori.size() == 3) {
+            Giocatore2.setText(giocatori.get(2).getNome());
+            punteggioGiocatore2.setText(Integer.toString(tavoloPartita.getPunteggi().get(giocatori.get(2))));
+        }
+
+        if (giocatori.size() == 4) {
+            Giocatore2.setText(giocatori.get(2).getNome());
+            punteggioGiocatore2.setText(Integer.toString(tavoloPartita.getPunteggi().get(giocatori.get(2))));
+
+            Giocatore3.setText(giocatori.get(3).getNome());
+            punteggioGiocatore3.setText(Integer.toString(tavoloPartita.getPunteggi().get(giocatori.get(3))));
+        }
+    }
+
+    public void disabilitaPulsanti() {
+        BottonePesca.setDisable(true);
+        BottoneFermati.setDisable(true);
+    }
+
+    public void abilitaPulsanti() {
+        BottonePesca.setDisable(false);
+        BottoneFermati.setDisable(false);
+    }
+
+    public void interrompiPartita(Partita partitaAttiva) {
+
+        partitaAttiva.setStatoPartita(Stato.Sospesa);
+        tavoloPartita.trasformaPunteggiAsArrayList();
+
+        scaricaPartiteDaFile();
+        scaricaEsecuzioniDaFile();
+
+        for (int i = 0; i < partiteSalvate.size(); i++) {
+            Partita p = partiteSalvate.get(i);
+            if (p.getCodice() == partitaAttiva.getCodice()) {
+                partiteSalvate.set(i, partitaAttiva);
+                System.out.println("#3 Partita rimpiazzata");
+                break;
+            }
+        }
+
+        boolean esecuzioneTrovata = false;
+
+        for (int i = 0; i < esecuzioniSalvate.size(); i++) {
+            Esecuzione e = esecuzioniSalvate.get(i);
+            if (e.getCodice() == partitaAttiva.getCodice()) {
+                esecuzioniSalvate.set(i, esecuzione);
+                esecuzioneTrovata = true;
+                break;
+            }
+        }
+
+        if (!esecuzioneTrovata) {
+            esecuzioniSalvate.add(esecuzione);
+        }
+
+        System.out.println("#4 Salvato tutto correttamente");
+
+        caricaPartiteSuFile();
+        caricaEsecuzioniSuFile();
+
+        partitaInterrotta = true;
+        partitaThread.interrupt();
+    }
+
+    private void scaricaPartiteDaFile() {
+        try {
+            // Se il file esiste lo leggiamo
+            if (partiteFile.exists()) {
+                System.out.println("#1 Il file partite esiste già.");
+
+                // Se il file non è vuoto lo leggiamo
+                if (partiteFile.length() == 0) {
+                    System.out.println("Il file partite JSON è vuoto.");
+                    return;
+                } else {
+                    partiteSalvate = objectMapper.readValue(partiteFile, new TypeReference<List<Partita>>() {
+                    });
+                }
+
+            } else {
+                System.out.println("Il file partite non esiste");
+                // Alert nessuna partita creata!
+            }
+        } catch (IOException e) {
+            // Alert impossibile scaricare il file(?)
+            e.printStackTrace();
+        }
+    }
+
+    private void scaricaEsecuzioniDaFile() {
+        try {
+            // Se il file esiste lo leggiamo
+            if (esecuzioniFile.exists()) {
+                System.out.println("#2 Il file esecuzioni esiste già.");
+
+                // Se il file non è vuoto lo leggiamo
+                if (esecuzioniFile.length() == 0) {
+                    System.out.println("Il file esecuzioni JSON è vuoto.");
+                    return;
+                } else {
+                    esecuzioniSalvate = objectMapper.readValue(esecuzioniFile, new TypeReference<List<Esecuzione>>() {
+                    });
+                }
+
+            } else {
+                System.out.println("Il file esecuzioni non esiste");
+                // Alert nessuna partita creata!
+            }
+        } catch (IOException e) {
+            // Alert impossibile scaricare il file(?)
+            e.printStackTrace();
+        }
+    }
+
+    private void caricaPartiteSuFile() {
+        try {
+            objectMapper.writeValue(partiteFile, partiteSalvate);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void caricaEsecuzioniSuFile() {
+        try {
+            objectMapper.writeValue(esecuzioniFile, esecuzioniSalvate);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

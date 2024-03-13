@@ -1,15 +1,9 @@
 package GestioneAmministratore.ListaPartite;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import GestionePartite.Partita;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -21,6 +15,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class PartitaListViewController {
 
@@ -45,12 +42,19 @@ public class PartitaListViewController {
     @FXML
     private TableColumn<Partita, Partita.Stato> colonnaStato;
 
-    private List<Partita> partite = new ArrayList<>();
-    private int indiceSelezionato = -1;
+    private List<Partita> partite;
+    private int indiceSelezionato;
+    private File file;
+    private ObjectMapper objectMapper;
 
     @FXML
     public void initialize() {
-        scaricaDati();
+        this.partite = new ArrayList<>();
+        this.indiceSelezionato = -1;
+        this.objectMapper = new ObjectMapper();
+        this.file = new File("src/main/resources/FileJson/partite.json");
+
+        scaricaPartiteDaFile();
         mostraTabella();
     }
 
@@ -59,7 +63,7 @@ public class PartitaListViewController {
 
         colonnaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colonnaCodice.setCellValueFactory(new PropertyValueFactory<>("codice"));
-        colonnaStato.setCellValueFactory(new PropertyValueFactory<>("stato"));
+        colonnaStato.setCellValueFactory(new PropertyValueFactory<>("statoPartita"));
     }
 
     @FXML
@@ -71,23 +75,54 @@ public class PartitaListViewController {
 
         indiceSelezionato = tabellaPartite.getSelectionModel().getSelectedIndex();
 
-        if (tabellaPartite.getItems().size() == 1) {
-            showOneMatchError();
-            return;
-        }
-
         partite.remove(indiceSelezionato);
         tabellaPartite.getItems().remove(indiceSelezionato);
+        caricaPartiteSuFile();
+
         showEliminatoSucces();
+    }
+
+    private void scaricaPartiteDaFile() {
+        try {
+            // Se il file esiste lo leggiamo
+            if (file.exists()) {
+                System.out.println("Il file esiste già.");
+
+                // Se il file non è vuoto lo leggiamo
+                if (file.length() == 0) {
+                    System.out.println("Il file JSON è vuoto.");
+                    return;
+                } else {
+                    partite = objectMapper.readValue(file, new TypeReference<List<Partita>>() {
+                    });
+                }
+
+            } else {
+                // Se il file non esiste, lo creiamo ma non lo leggiamo
+                try {
+                    file.createNewFile();
+                    System.out.println("Il file è stato creato con successo.");
+                } catch (Exception e) {
+                    // Alert impossibile creare il file(?)
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            // Alert impossibile scaricare il file(?)
+            e.printStackTrace();
+        }
+    }
+
+    private void caricaPartiteSuFile() {
+        try {
+            objectMapper.writeValue(file, partite);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showNoIndexError() {
         infoLabel.setText("Nessuna partita selezionata");
-        infoLabel.setStyle("-fx-text-fill: #da2c38;");
-    }
-
-    private void showOneMatchError() {
-        infoLabel.setText("La tabella non può essere vuota");
         infoLabel.setStyle("-fx-text-fill: #da2c38;");
     }
 
@@ -98,43 +133,7 @@ public class PartitaListViewController {
 
     @FXML
     private void fine(ActionEvent event) {
-        caricaDati();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
-    }
-
-    private void scaricaDati() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(
-                new FileInputStream("src/main/resources/GestionePartite/partite.ser"))) {
-
-            partite = (List<Partita>) inputStream.readObject();
-
-        } catch (FileNotFoundException e) { // Se il file non esiste...
-            File file = new File("src/main/resources/GestionePartite/partite.ser");
-            try {
-                if (file.createNewFile()) {
-                    Partita nuova = new Partita("Default", 0, 0000);
-                    partite.add(nuova);
-                    caricaDati();
-                    System.out.println("File creato con successo.");
-                } else {
-                    System.out.println("Impossibile creare il file.");
-                }
-            } catch (IOException f) {
-                f.printStackTrace();
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void caricaDati() {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(
-                new FileOutputStream("src/main/resources/GestionePartite/partite.ser"))) {
-            outputStream.writeObject(partite);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

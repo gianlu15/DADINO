@@ -1,42 +1,80 @@
 package GestioneGiocoFX;
 
+import java.io.IOException;
+
+import GestioneGioco.GiocoController;
+import GestionePartite.Partita;
+import GestionePartite.Partita.Stato;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 public class StageGioco extends Application {
 
-    public static void avvio() {
-        launch();
+    private Partita partitaAttiva;
+
+    public StageGioco(Partita partitaAttiva) {
+        this.partitaAttiva = partitaAttiva;
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage primaryStage) throws IOException {
 
-        try {
-            // Configuriamo il file FMXL e specifichiamo il suo nome
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StageGioco.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneGioco/StageGioco.fxml"));
+        Parent root = loader.load();
 
-            // Creamo un nodo root caricando il file FXML di prima
-            Parent root = (Parent) fxmlLoader.load();
+        // Ottieni il controller #1
+        GiocoController controller = loader.getController();
 
-            Scene scene = new Scene(root);
-            String css = this.getClass().getResource("StageGioco.css").toExternalForm();
+        // Imposta il tavolo #2
+        if (partitaAttiva.getStatoPartita() == Stato.Pronta)
+            controller.creaNuovoTavolo(partitaAttiva);
+        else
+            controller.reimpostaTavolo(partitaAttiva);
 
-            scene.getStylesheets().add(css);
-            stage.setScene(scene);
+        // Imposta lo stage nel controller #3
+        controller.setStage(primaryStage);
 
-            stage.setTitle("Stage DEMO del gioco"); // Settiamo il titolo dello stage
+        // Mostra la scena
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/GestioneGioco/StageGioco.css").toExternalForm());
+        primaryStage.setScene(scene);
 
-            stage.setResizable(false); // Rendiamo lo stage non ridimensionabile
+        // Avvia l'esecuzione della partita in un thread separato #4
+        controller.esegui();
 
-            stage.show(); // Mostriamo lo stage
+        // TODO PUPA sistemare allert
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        primaryStage.setOnCloseRequest(e -> {
+            e.consume(); // Consuma l'evento per evitare la chiusura immediata della finestra
+
+            // Mostra un Alert per confermare la chiusura
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Conferma chiusura");
+            alert.setHeaderText("La partita verrà sospesa");
+            alert.getDialogPane().getStylesheets()
+                    .add(StageGioco.class.getResource("/Styles/alertStyle.css").toExternalForm());
+
+            // Aggiungi pulsanti al dialogo
+            ButtonType btnYes = new ButtonType("OK", ButtonBar.ButtonData.YES);
+
+            alert.getButtonTypes().setAll(btnYes);
+
+            // Mostra e gestisci la risposta dell'utente
+            alert.showAndWait().ifPresent(result -> {
+                if (result == btnYes) {
+                    partitaAttiva.setStatoPartita(Stato.Sospesa);
+                    controller.interrompiPartita(partitaAttiva);
+                    primaryStage.close();
+                }
+            });
+        });
+
     }
 
 }

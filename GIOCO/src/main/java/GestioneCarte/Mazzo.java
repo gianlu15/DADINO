@@ -69,7 +69,7 @@ public class Mazzo {
         Carta cartaPescata = carte[carteNelMazzo - 1];
         carteNelMazzo--;
 
-        if (cartaPescata.valoreCarta == Carta.Valore.Bombetta)
+        if (cartaPescata.valore == Carta.Valore.Bombetta)
             bombetteNelMazzo--;
 
         if (bombetteNelMazzo == 0) {
@@ -80,8 +80,12 @@ public class Mazzo {
         return cartaPescata;
     }
 
-    public int getNumeroCarte() {
+    public int getCarteNelMazzo() {
         return carteNelMazzo;
+    }
+
+    public Carta[] getCarte(){
+        return carte;
     }
 
     //////// -------------------- test
