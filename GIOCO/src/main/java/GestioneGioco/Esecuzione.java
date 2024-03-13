@@ -25,7 +25,7 @@ public class Esecuzione implements Serializable {
         this.giocatori = giocatori;
         this.codice = tavolo.getCodice();
         this.turnoCorrente = 0;
-        // tavolo.setStats(giocatori.size());
+        tavolo.setStats(giocatori.size());
     }
 
     public Esecuzione() {
@@ -42,7 +42,7 @@ public class Esecuzione implements Serializable {
     public void eseguiPartita() {
         Thread.currentThread();
         while (!PartitaTerminata() || Thread.interrupted()) {
-            // tavolo.turniTotali++;
+            tavolo.aggiornaTurniTotali();
             eseguiTurno(turnoCorrente);
             turnoCorrente++;
             attendi();
@@ -87,13 +87,13 @@ public class Esecuzione implements Serializable {
                 controller.alertVittoria(entry.getKey());
             }
         }
-        // tavolo.mostraStats();
-        // tavolo.finePartita();
+        tavolo.mostraStats();
+        //TODO controller.finePartita();
     }
 
     public void attendi() {
         try {
-            // Attendi 3 secondi (3000 millisecondi)
+            // Attendi 4 secondi
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             System.err.println("#5 Il thread è stato interrotto durante l'attesa.\n");
@@ -115,7 +115,7 @@ public class Esecuzione implements Serializable {
         pesca = descisionePescaObbligata(giocatore, punteggioTurno); // Dovrebbe essere obbligata
 
         Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
-        // tavolo.cartePescate[indice]++;
+        tavolo.aggiornaCartePescate(indice);
         controller.setImmagine(cartaPescata.getImmagine());
         System.out.println("------> Hai pescato " + cartaPescata.getValore());
 
@@ -133,15 +133,15 @@ public class Esecuzione implements Serializable {
             System.out.println("---------------------------------------- \n");
             controller.aggiornaVistaPunteggioParziale(punteggioParziale);
             controller.disabilitaPunteggio();
-            // tavolo.bombePescate[indice]++;
-            // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
+            tavolo.aggiornaBombePescate(indice);
+            tavolo.aggiornaPuntiTotali(indice, punteggioTurno);
             return punteggioParziale;
         }
 
         controller.aggiornaVistaPunteggioParziale((punteggioParziale + punteggioTurno));
 
         if (controlloVittoria(punteggioTurno, giocatore)) {
-            // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
+            tavolo.aggiornaPuntiTotali(indice, punteggioTurno);
             return punteggioParziale + punteggioTurno;
         }
 
@@ -149,7 +149,7 @@ public class Esecuzione implements Serializable {
 
         while (pesca && !Thread.interrupted()) {
             cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
-            // tavolo.cartePescate[indice]++;
+            tavolo.aggiornaCartePescate(indice);
             controller.setImmagine(cartaPescata.getImmagine());
 
             System.out.println("------> Hai pescato " + cartaPescata.getValore());
@@ -169,15 +169,15 @@ public class Esecuzione implements Serializable {
                 System.out.println("---------------------------------------- \n");
                 controller.aggiornaVistaPunteggioParziale(punteggioParziale);
                 controller.disabilitaPunteggio();
-                // tavolo.bombePescate[indice]++;
-                // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
+                tavolo.aggiornaBombePescate(indice);
+                tavolo.aggiornaPuntiTotali(indice, punteggioTurno);
                 return punteggioParziale;
             }
 
             controller.aggiornaVistaPunteggioParziale((punteggioParziale + punteggioTurno));
 
             if (controlloVittoria(punteggioTurno, giocatore)) {
-                // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
+                tavolo.aggiornaPuntiTotali(indice, punteggioTurno);
                 return punteggioParziale + punteggioTurno;
             }
 
@@ -188,7 +188,7 @@ public class Esecuzione implements Serializable {
         System.out.println("Turno di " + giocatore.getNome() + " terminato");
         System.out.println("---------------------------------------- \n");
         controller.disabilitaPunteggio();
-        // tavolo.puntiTotali[indice] += giocatore.getPunteggio();
+        tavolo.aggiornaPuntiTotali(indice, punteggioTurno);
         return punteggioTurno + punteggioParziale;
     }
 

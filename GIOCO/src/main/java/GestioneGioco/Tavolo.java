@@ -1,20 +1,13 @@
 package GestioneGioco;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import GestioneCarte.Mazzo;
-import GestionePartite.Partita;
-import GestionePartite.Partita.Stato;
 
 public class Tavolo {
 
@@ -22,17 +15,12 @@ public class Tavolo {
     private int codice;
     public Map<Giocatore, Integer> punteggi; // Memorizza l'associazione Giocatore-punteggio
 
-
-
     private int[] cartePescate;
     private int[] bombePescate;
     private int[] puntiTotali;
     private int turniTotali;
-    private ArrayList<Integer> listaPunteggi;
 
-    private List<Partita> partiteDaFile;
-    private File filePartite;
-    private ObjectMapper objectMapper;
+    private ArrayList<Integer> listaPunteggi;
 
     // Costruttore
     public Tavolo(int codice) {
@@ -47,9 +35,8 @@ public class Tavolo {
     public Tavolo() {
     }
 
-
-    public void assegnaGiocatori(ArrayList<Giocatore> partecipanti){
-        for(Giocatore g : partecipanti){
+    public void assegnaGiocatori(ArrayList<Giocatore> partecipanti) {
+        for (Giocatore g : partecipanti) {
             punteggi.put(g, 0);
         }
     }
@@ -80,11 +67,11 @@ public class Tavolo {
         return listaPunteggi;
     }
 
-    public ArrayList<Integer> getListaPunteggi(){
+    public ArrayList<Integer> getListaPunteggi() {
         return listaPunteggi;
     }
 
-    public void assegnaGiocatoriPunti(ArrayList<Giocatore> partecipanti, ArrayList<Integer> punti){
+    public void assegnaGiocatoriPunti(ArrayList<Giocatore> partecipanti, ArrayList<Integer> punti) {
         this.punteggi = new LinkedHashMap<>();
         for (int i = 0; i < partecipanti.size(); i++) {
             System.out.println("Partecipante " + partecipanti.get(i) + "punti " + punti.get(i));
@@ -97,6 +84,38 @@ public class Tavolo {
         bombePescate = new int[grandezza];
         puntiTotali = new int[grandezza];
         turniTotali = 0;
+    }
+
+    public int[] getCartePescate() {
+        return cartePescate;
+    }
+
+    public int[] getBombePescate() {
+        return bombePescate;
+    }
+
+    public int[] getPuntiTotali() {
+        return puntiTotali;
+    }
+
+    public int getTurniTotali() {
+        return turniTotali;
+    }
+
+    public void aggiornaCartePescate(int indice) {
+        this.cartePescate[indice]++;
+    }
+
+    public void aggiornaBombePescate(int indice) {
+        this.bombePescate[indice]++;
+    }
+
+    public void aggiornaPuntiTotali(int indice, int punteggio) {
+        this.puntiTotali[indice] += punteggio;
+    }
+
+    public void aggiornaTurniTotali() {
+        this.turniTotali++;
     }
 
     // ------------------- test
@@ -117,41 +136,6 @@ public class Tavolo {
     public void stampaOrdine() {
         for (Entry<Giocatore, Integer> entry : punteggi.entrySet()) {
             System.out.println("Giocatore: " + entry.getKey());
-        }
-    }
-
-    // Metodo per cambiare lo stato della partita a "Terminata"
-    public void finePartita() {
-        this.partiteDaFile = new ArrayList<>();
-        this.objectMapper = new ObjectMapper();
-        this.filePartite = new File("src/main/resources/FileJson/partite.json");
-        scaricaPartiteDaFile();
-        for (Partita p : partiteDaFile) {
-            if (p.getCodice() == codice) {
-                p.setStatoPartita(Stato.Terminata);
-                caricaPartiteSuFile();
-                return;
-            }
-        }
-    }
-
-    // ------------------- mi servono per cambiare lo stato della partita a cui
-    // appartiene il tavolo
-    private void scaricaPartiteDaFile() {
-        try {
-            partiteDaFile = objectMapper.readValue(filePartite, new TypeReference<List<Partita>>() {
-            });
-        } catch (IOException e) {
-            // Alert impossibile scaricare il file(?)
-            e.printStackTrace();
-        }
-    }
-
-    private void caricaPartiteSuFile() {
-        try {
-            objectMapper.writeValue(filePartite, partiteDaFile);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
