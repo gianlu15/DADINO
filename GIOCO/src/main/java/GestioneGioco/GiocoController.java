@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -211,25 +212,28 @@ public class GiocoController implements Initializable, Serializable {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.schedule(() -> {
-            if (!future.isDone() && partitaInterrotta) {
-                System.out.println("#4.5 Partita interrotta");
-                future.complete(false);
+        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
+            if (partitaInterrotta) {
+                System.out.println(("#4.5 partitaThread interrotta"));
+                future.complete(false); 
+                executor.shutdown(); 
             }
-        }, 5, TimeUnit.SECONDS);
+        }, 0, 3, TimeUnit.SECONDS); 
 
         BottonePesca.setOnAction(event -> {
             future.complete(true);
-            executor.shutdown();
+            scheduledFuture.cancel(true);
+            executor.shutdown(); 
         });
 
         BottoneFermati.setOnAction(event -> {
             future.complete(false);
-            executor.shutdown();
+            scheduledFuture.cancel(true); 
+            executor.shutdown(); 
         });
 
         if (!partitaInterrotta)
-            esecuzione.attendi();
+        esecuzione.attendi();
 
         return future;
     }
@@ -239,17 +243,20 @@ public class GiocoController implements Initializable, Serializable {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.schedule(() -> {
-            if (!future.isDone() && partitaInterrotta) {
-                System.out.println("#4.5 Partita interrotta");
-                future.complete(false);
+        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
+            if (partitaInterrotta) {
+                System.out.println(("#4.5 partitaThread interrotta"));
+                future.complete(false); // Completa il futuro con un valore predefinito se il thread è stato interrotto
+                executor.shutdown(); // Chiudi l'ExecutorService
             }
-        }, 5, TimeUnit.SECONDS);
+        }, 0, 3, TimeUnit.SECONDS); // Controlla ogni secondo se il thread è stato interrotto
 
         BottonePesca.setOnAction(event -> {
             future.complete(true);
-            executor.shutdown();
+            scheduledFuture.cancel(true); // Interrompe il controllo periodico quando viene fatta una scelta
+            executor.shutdown(); // Chiudi l'ExecutorService
         });
+
 
         if (!partitaInterrotta)
             esecuzione.attendi();
