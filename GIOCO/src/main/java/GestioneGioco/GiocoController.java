@@ -215,25 +215,25 @@ public class GiocoController implements Initializable, Serializable {
         ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
             if (partitaInterrotta) {
                 System.out.println(("#4.5 partitaThread interrotta"));
-                future.complete(false); 
-                executor.shutdown(); 
+                future.complete(false);
+                executor.shutdown();
             }
-        }, 0, 3, TimeUnit.SECONDS); 
+        }, 0, 3, TimeUnit.SECONDS);
 
         BottonePesca.setOnAction(event -> {
             future.complete(true);
             scheduledFuture.cancel(true);
-            executor.shutdown(); 
+            executor.shutdown();
         });
 
         BottoneFermati.setOnAction(event -> {
             future.complete(false);
-            scheduledFuture.cancel(true); 
-            executor.shutdown(); 
+            scheduledFuture.cancel(true);
+            executor.shutdown();
         });
 
         if (!partitaInterrotta)
-        esecuzione.attendi();
+            esecuzione.attendi();
 
         return future;
     }
@@ -256,7 +256,6 @@ public class GiocoController implements Initializable, Serializable {
             scheduledFuture.cancel(true); // Interrompe il controllo periodico quando viene fatta una scelta
             executor.shutdown(); // Chiudi l'ExecutorService
         });
-
 
         if (!partitaInterrotta)
             esecuzione.attendi();
@@ -339,13 +338,24 @@ public class GiocoController implements Initializable, Serializable {
 
             alert.showAndWait().ifPresent(buttonType -> {
                 if (buttonType == homeButton) {
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneLogin/HomeLogin.fxml"));
                     Parent root;
+
                     try {
                         root = loader.load();
                         Scene scene = new Scene(root);
                         scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
-                        stage.setScene(scene);
+
+                        Stage nuovoStage = new Stage();
+                        nuovoStage.setScene(scene);
+
+                        nuovoStage.show();
+
+                        stage.close();
+
+                        partitaThread.interrupt();
+                        
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
