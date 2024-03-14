@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import GestioneGioco.Giocatore;
+
 
 public class ListViewController {
 
@@ -40,7 +42,9 @@ public class ListViewController {
     private int indiceSelezionato;
     private List<Utente> utenti;
     private File file;
+    private File fileGiocatori;
     private ObjectMapper objectMapper;
+    private List<Giocatore> giocatori;
 
     @FXML
     public void initialize() {
@@ -48,8 +52,11 @@ public class ListViewController {
         this.indiceSelezionato = -1;
         this.objectMapper = new ObjectMapper();
         this.file = new File("src/main/resources/FileJson/utenti.json");
+        this.file = new File("src/main/resources/FileJson/giocatori.json");
+        this.giocatori = new ArrayList<>();
 
         scaricaUtentiDaFile();
+        scaricaGiocatoriDaFile();
         listaUtenti.getItems().addAll(utenti); //Mostriamo gli utenti del file sulla ListView
     }
 
@@ -85,6 +92,16 @@ public class ListViewController {
         }
 
         utenti.remove(indiceSelezionato);   //Rimuoviamo l'utente dall'array
+
+        //Rimuoviamo il giocatore dalla lista
+        for(Giocatore g: giocatori){        
+            if(g.getNome() == utenti.get(indiceSelezionato).getNome()){
+                giocatori.remove(g);
+                caricaGiocatoriSuFile();
+                break;
+            }
+        }
+
         listaUtenti.getItems().remove(indiceSelezionato); //Rimuoviamo l'utente dalla ListView
         caricaUtentiSuFile();
 
@@ -116,6 +133,38 @@ public class ListViewController {
                 }
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void scaricaGiocatoriDaFile() {
+        try {
+            // Se il file esiste lo leggiamo
+            if (file.exists()) {
+                System.out.println("Il file esiste già.");
+                giocatori = objectMapper.readValue(fileGiocatori, new TypeReference<List<Giocatore>>() {
+                });
+
+            } else {
+                // Se il file non esiste, lo creiamo ma non lo leggiamo
+                try {
+                    file.createNewFile();
+                    System.out.println("Il file è stato creato con successo.");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void caricaGiocatoriSuFile() {
+        try {
+            objectMapper.writeValue(fileGiocatori, giocatori);
         } catch (IOException e) {
             e.printStackTrace();
         }

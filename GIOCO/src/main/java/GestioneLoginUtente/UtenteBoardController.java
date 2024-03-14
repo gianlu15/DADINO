@@ -38,6 +38,19 @@ public class UtenteBoardController {
     }
 
     @FXML
+    private void guardaStatistiche(ActionEvent e) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneStatistiche/Statistiche.fxml"));
+        Parent root = loader.load();
+
+        Stage loginStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+        Scene scene = new Scene(root);
+        loginStage.setWidth(700);
+        scene.getStylesheets().add(getClass().getResource("/Styles/Style2.css").toExternalForm());
+        loginStage.setScene(scene);
+    }
+
+    @FXML
     private void backtoHome(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneLogin/HomeLogin.fxml"));
         Parent root = loader.load();

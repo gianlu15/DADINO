@@ -29,6 +29,6 @@ public class HomeLogin extends Application {
         stage.setResizable(false);
 
         stage.setScene(scene);
-        stage.show();
+        stage.show(); 
     }
 }

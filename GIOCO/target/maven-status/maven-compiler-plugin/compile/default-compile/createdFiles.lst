@@ -38,5 +38,8 @@ GestioneLogin/LoginController.class
 GestioneGioco/Tavolo.class
 GestioneGioco/Giocatore.class
 GestionePartite/Partita.class
+GestioneStatistiche/StatisticheController$1.class
+GestioneAmministratore/ListaUtenti/ListViewController$2.class
 GestioneAmministratore/ListaPartite/PartiteListView.class
+GestioneStatistiche/StatisticheController.class
 GestioneAmministratore/ListaPartite/PartitaListViewController.class
