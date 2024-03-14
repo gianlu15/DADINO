@@ -2,6 +2,7 @@
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneLogin/LoginController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaPartite/PartitaGiocatoriController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaPartite/CreaPartite.java
+/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGiocoFX/GiocoController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGioco/Giocatore.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaUtenti/ListViewController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneLoginUtente/UtenteBoardController.java
@@ -13,12 +14,13 @@
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGiocoFX/StageGioco.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaPartite/PartiteListView.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneLogin/HomeLoginController.java
-/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGioco/GiocoController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaPartite/PartitaListViewController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/AfterLoginController.java
+/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGiocoFX/StatistichePostPartitaController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneCarte/Carta.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneLoginUtente/UtentePartitaBoardController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGioco/Esecuzione.java
+/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGiocoFX/StatistichePostPartita.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaPartite/CreaPartiteController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneGioco/Tavolo.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/GestioneAmministratore/ListaUtenti/ListViewClass.java

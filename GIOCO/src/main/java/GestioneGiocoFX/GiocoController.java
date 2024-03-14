@@ -1,4 +1,4 @@
-package GestioneGioco;
+package GestioneGiocoFX;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,16 +17,18 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import GestioneCarte.Carta;
+import GestioneGioco.Bot;
+import GestioneGioco.Esecuzione;
+import GestioneGioco.Giocatore;
+import GestioneGioco.Tavolo;
+import GestioneLogin.HomeLogin;
 import GestionePartite.Partita;
 import GestionePartite.Partita.Stato;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -208,7 +210,7 @@ public class GiocoController implements Initializable, Serializable {
         BottonePesca.setDisable(false);
     }
 
-    CompletableFuture<Boolean> decisioneGiocatore() {
+    public CompletableFuture<Boolean> decisioneGiocatore() {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -238,7 +240,7 @@ public class GiocoController implements Initializable, Serializable {
         return future;
     }
 
-    CompletableFuture<Boolean> decisioneObbligataGiocatore() {
+    public CompletableFuture<Boolean> decisioneObbligataGiocatore() {
 
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
@@ -337,30 +339,23 @@ public class GiocoController implements Initializable, Serializable {
             alert.getButtonTypes().addAll(homeButton, statsButton);
 
             alert.showAndWait().ifPresent(buttonType -> {
-                if (buttonType == homeButton) {
+                try {
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneLogin/HomeLogin.fxml"));
-                    Parent root;
+                    if (buttonType == homeButton) {
+                        HomeLogin hl = new HomeLogin();
+                        hl.start(stage);
 
-                    try {
-                        root = loader.load();
-                        Scene scene = new Scene(root);
-                        scene.getStylesheets().add(getClass().getResource("/Styles/StyleSP.css").toExternalForm());
-
-                        Stage nuovoStage = new Stage();
-                        nuovoStage.setScene(scene);
-
-                        nuovoStage.show();
-
-                        stage.close();
-
-                        partitaThread.interrupt();
-                        
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } else if (buttonType == statsButton) {
+                        StatistichePostPartita spp = new StatistichePostPartita(tavoloPartita, giocatori);
+                        spp.start(stage);
                     }
-                } else if (buttonType == statsButton) {
 
+                    partitaThread.interrupt();
+                    stage.close();
+
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
             });
         });

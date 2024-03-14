@@ -83,7 +83,7 @@ public class Tavolo {
         cartePescate = new int[grandezza];
         bombePescate = new int[grandezza];
         puntiTotali = new int[grandezza];
-        turniTotali = 0;
+        turniTotali = 1;
     }
 
     public int[] getCartePescate() {

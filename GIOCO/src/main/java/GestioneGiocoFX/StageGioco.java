@@ -2,7 +2,6 @@ package GestioneGiocoFX;
 
 import java.io.IOException;
 
-import GestioneGioco.GiocoController;
 import GestionePartite.Partita;
 import GestionePartite.Partita.Stato;
 import javafx.application.Application;
@@ -25,7 +24,7 @@ public class StageGioco extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneGioco/StageGioco.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestioneGiocoFX/StageGioco.fxml"));
         Parent root = loader.load();
 
         // Ottieni il controller #1
@@ -42,7 +41,7 @@ public class StageGioco extends Application {
 
         // Mostra la scena
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/GestioneGioco/StageGioco.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/GestioneGiocoFX/StageGioco.css").toExternalForm());
         primaryStage.setScene(scene);
 
         // Avvia l'esecuzione della partita in un thread separato #4

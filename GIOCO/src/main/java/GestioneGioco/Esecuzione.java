@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import GestioneCarte.Carta;
+import GestioneGiocoFX.GiocoController;
 
 public class Esecuzione implements Serializable {
 
@@ -42,12 +43,13 @@ public class Esecuzione implements Serializable {
     public void eseguiPartita() {
         Thread.currentThread();
         while (!PartitaTerminata() || Thread.interrupted()) {
-            tavolo.aggiornaTurniTotali();
             eseguiTurno(turnoCorrente);
             turnoCorrente++;
             attendi();
-            if (turnoCorrente >= giocatori.size())
+            if (turnoCorrente >= giocatori.size()) {
                 turnoCorrente = 0;
+                tavolo.aggiornaTurniTotali();
+            }
         }
         dichiaraVincitore();
     }
@@ -88,7 +90,7 @@ public class Esecuzione implements Serializable {
             }
         }
         tavolo.mostraStats();
-        //TODO controller.finePartita();
+        // TODO controller.finePartita();
     }
 
     public void attendi() {
