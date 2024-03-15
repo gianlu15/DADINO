@@ -68,7 +68,7 @@ public class StageGioco extends Application {
             alert.showAndWait().ifPresent(result -> {
                 if (result == btnYes) {
                     partitaAttiva.setStatoPartita(Stato.Sospesa);
-                    controller.interrompiPartita(partitaAttiva);
+                    controller.interrompiPartita();
                     primaryStage.close();
                 }
             });

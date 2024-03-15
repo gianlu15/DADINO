@@ -2,8 +2,8 @@
     {
         "nome": "prova",
         "numGiocatori": 3,
-        "codice": 7799,
-        "statoPartita": "Sospesa",
+        "codice": 4687,
+        "statoPartita": "Terminata",
         "accessi": [
             "pupo",
             "pupa"
@@ -11,19 +11,19 @@
         "partecipanti": [
             {
                 "nome": "pupo",
-                "carteTotaliPescate": 0,
-                "puntiTotaliFatti": 0,
-                "bombettePescate": 0,
-                "partiteGiocate": 0,
-                "vittorie": 0,
+                "carteTotaliPescate": 9,
+                "puntiTotaliFatti": 7,
+                "bombettePescate": 1,
+                "partiteGiocate": 2,
+                "vittorie": 2,
                 "bot": false
             },
             {
                 "nome": "pupa",
-                "carteTotaliPescate": 0,
+                "carteTotaliPescate": 1,
                 "puntiTotaliFatti": 0,
-                "bombettePescate": 0,
-                "partiteGiocate": 0,
+                "bombettePescate": 1,
+                "partiteGiocate": 2,
                 "vittorie": 0,
                 "bot": false
             },
@@ -39,80 +39,32 @@
         ]
     },
     {
-        "nome": "èropva",
-        "numGiocatori": 3,
-        "codice": 1947,
-        "statoPartita": "Sospesa",
-        "accessi": [
-            "pupa",
-            "pupo"
-        ],
-        "partecipanti": [
-            {
-                "nome": "pupa",
-                "carteTotaliPescate": 0,
-                "puntiTotaliFatti": 0,
-                "bombettePescate": 0,
-                "partiteGiocate": 0,
-                "vittorie": 0,
-                "bot": false
-            },
-            {
-                "nome": "pupo",
-                "carteTotaliPescate": 0,
-                "puntiTotaliFatti": 0,
-                "bombettePescate": 0,
-                "partiteGiocate": 0,
-                "vittorie": 0,
-                "bot": false
-            },
-            {
-                "nome": "Bot-1",
-                "carteTotaliPescate": 0,
-                "puntiTotaliFatti": 0,
-                "bombettePescate": 0,
-                "partiteGiocate": 0,
-                "vittorie": 0,
-                "bot": true
-            }
-        ]
-    },
-    {
-        "nome": "èrova",
-        "numGiocatori": 3,
-        "codice": 4564,
+        "nome": "frutta",
+        "numGiocatori": 2,
+        "codice": 9183,
         "statoPartita": "Pronta",
         "accessi": [
-            "pupa",
-            "pupo"
+            "cocco",
+            "mela"
         ],
         "partecipanti": [
             {
-                "nome": "pupa",
-                "carteTotaliPescate": 0,
+                "nome": "cocco",
+                "carteTotaliPescate": 5,
                 "puntiTotaliFatti": 0,
                 "bombettePescate": 0,
-                "partiteGiocate": 0,
-                "vittorie": 0,
+                "partiteGiocate": 1,
+                "vittorie": 1,
                 "bot": false
             },
             {
-                "nome": "pupo",
+                "nome": "mela",
                 "carteTotaliPescate": 0,
                 "puntiTotaliFatti": 0,
                 "bombettePescate": 0,
-                "partiteGiocate": 0,
+                "partiteGiocate": 1,
                 "vittorie": 0,
                 "bot": false
-            },
-            {
-                "nome": "Bot-1",
-                "carteTotaliPescate": 0,
-                "puntiTotaliFatti": 0,
-                "bombettePescate": 0,
-                "partiteGiocate": 0,
-                "vittorie": 0,
-                "bot": true
             }
         ]
     }

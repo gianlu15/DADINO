@@ -41,7 +41,7 @@ public class ListViewController {
 
     private int indiceSelezionato;
     private List<Utente> utenti;
-    private File file;
+    private File fileUtenti;
     private File fileGiocatori;
     private ObjectMapper objectMapper;
     private List<Giocatore> giocatori;
@@ -51,8 +51,8 @@ public class ListViewController {
         this.utenti = new ArrayList<>();
         this.indiceSelezionato = -1;
         this.objectMapper = new ObjectMapper();
-        this.file = new File("src/main/resources/FileJson/utenti.json");
-        this.file = new File("src/main/resources/FileJson/giocatori.json");
+        this.fileUtenti = new File("src/main/resources/FileJson/utenti.json");
+        this.fileGiocatori = new File("src/main/resources/FileJson/giocatori.json");
         this.giocatori = new ArrayList<>();
 
         scaricaUtentiDaFile();
@@ -111,16 +111,16 @@ public class ListViewController {
     private void scaricaUtentiDaFile() {
         try {
             // Se il file esiste lo leggiamo
-            if (file.exists()) {
+            if (fileUtenti.exists()) {
 
                 System.out.println("Il file esiste già.");
-                utenti = objectMapper.readValue(file, new TypeReference<List<Utente>>() {
+                utenti = objectMapper.readValue(fileUtenti, new TypeReference<List<Utente>>() {
                 });
 
             } else {
                 // Se il file non esiste, lo creiamo ma non lo leggiamo
                 try {
-                    file.createNewFile();
+                    fileUtenti.createNewFile();
                     System.out.println("Il file è stato creato con successo.");
 
                     //Aggiungiamo l'Admin
@@ -141,7 +141,7 @@ public class ListViewController {
     private void scaricaGiocatoriDaFile() {
         try {
             // Se il file esiste lo leggiamo
-            if (file.exists()) {
+            if (fileGiocatori.exists()) {
                 System.out.println("Il file esiste già.");
                 giocatori = objectMapper.readValue(fileGiocatori, new TypeReference<List<Giocatore>>() {
                 });
@@ -149,7 +149,7 @@ public class ListViewController {
             } else {
                 // Se il file non esiste, lo creiamo ma non lo leggiamo
                 try {
-                    file.createNewFile();
+                    fileGiocatori.createNewFile();
                     System.out.println("Il file è stato creato con successo.");
 
                 } catch (Exception e) {
@@ -172,7 +172,7 @@ public class ListViewController {
 
     private void caricaUtentiSuFile() {
         try {
-            objectMapper.writeValue(file, utenti);
+            objectMapper.writeValue(fileUtenti, utenti);
         } catch (IOException e) {
             e.printStackTrace();
         }

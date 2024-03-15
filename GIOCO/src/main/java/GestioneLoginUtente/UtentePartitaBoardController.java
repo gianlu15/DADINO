@@ -112,13 +112,8 @@ public class UtentePartitaBoardController {
             }
 
             if (partitaAttiva.pronta()) {
-                if (statoPartita == Stato.Terminata) {
-                    showPartitaTerminataError();
-                    return;
-                } else {
-                    partitaAttiva.ripristinaAccessi(accessiBackup);
-                    avviaPartita(event);
-                }
+                partitaAttiva.ripristinaAccessi(accessiBackup);
+                avviaPartita(event);
             }
 
         } else {
@@ -126,6 +121,12 @@ public class UtentePartitaBoardController {
                 if (codice == p.getCodice()) {
                     partitaAttiva = p;
                     statoPartita = partitaAttiva.getStatoPartita();
+
+                    if (statoPartita == Stato.Terminata) {
+                        showPartitaTerminataError();
+                        return;
+                    }
+
                     accessiBackup = new ArrayList<>(partitaAttiva.getAccessi());
                     partitaTrovata = true;
                 }
@@ -145,13 +146,8 @@ public class UtentePartitaBoardController {
             }
 
             if (partitaAttiva.pronta()) {
-                if (statoPartita == Stato.Terminata) {
-                    showPartitaTerminataError();
-                    return;
-                } else {
-                    partitaAttiva.ripristinaAccessi(accessiBackup);
-                    avviaPartita(event);
-                }
+                partitaAttiva.ripristinaAccessi(accessiBackup);
+                avviaPartita(event);
             }
         }
     }

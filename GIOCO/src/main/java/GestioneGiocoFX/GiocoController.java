@@ -93,11 +93,14 @@ public class GiocoController implements Initializable, Serializable {
     private Esecuzione esecuzione;
     private ArrayList<Giocatore> giocatori;
     private ArrayList<Integer> punti;
+    private Partita partitaAttiva;
 
     private List<Partita> partiteSalvate;
     private List<Esecuzione> esecuzioniSalvate;
+    private List<Giocatore> giocatoriSalvati;
     private File partiteFile;
     private File esecuzioniFile;
+    private File giocatoriFile;
     private ObjectMapper objectMapper;
     private Thread partitaThread;
     private boolean partitaInterrotta;
@@ -121,8 +124,10 @@ public class GiocoController implements Initializable, Serializable {
         this.objectMapper = new ObjectMapper();
         this.partiteSalvate = new ArrayList<>();
         this.esecuzioniSalvate = new ArrayList<>();
+        this.giocatoriSalvati = new ArrayList<>();
         this.partiteFile = new File("src/main/resources/FileJson/partite.json");
         this.esecuzioniFile = new File("src/main/resources/FileJson/esecuzioni.json");
+        this.giocatoriFile = new File("src/main/resources/FileJson/giocatori.json");
         this.partitaInterrotta = false;
     }
 
@@ -144,6 +149,7 @@ public class GiocoController implements Initializable, Serializable {
         esecuzione = new Esecuzione(tavoloPartita, giocatori);
         esecuzione.setController(this);
 
+        this.partitaAttiva = partitaAttiva;
         setLeaderboard();
     }
 
@@ -170,6 +176,7 @@ public class GiocoController implements Initializable, Serializable {
         tavoloPartita.assegnaGiocatoriPunti(giocatori, punti);
 
         esecuzione.setController(this);
+        this.partitaAttiva = partitaAttiva;
 
         setLeaderboard();
     }
@@ -401,7 +408,7 @@ public class GiocoController implements Initializable, Serializable {
         BottoneFermati.setDisable(false);
     }
 
-    public void interrompiPartita(Partita partitaAttiva) {
+    public void interrompiPartita() {
 
         partitaAttiva.setStatoPartita(Stato.Sospesa);
         tavoloPartita.trasformaPunteggiAsArrayList();
@@ -506,6 +513,77 @@ public class GiocoController implements Initializable, Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void scaricaGiocatorDaFile() {
+        try {
+            // Se il file esiste lo leggiamo
+            if (giocatoriFile.exists()) {
+                System.out.println("#2 Il file esecuzioni esiste già.");
+
+                // Se il file non è vuoto lo leggiamo
+                if (giocatoriFile.length() == 0) {
+                    System.out.println("Il file esecuzioni JSON è vuoto.");
+                    return;
+                } else {
+                    giocatoriSalvati = objectMapper.readValue(giocatoriFile, new TypeReference<List<Giocatore>>() {
+                    });
+                }
+
+            } else {
+                System.out.println("Il file esecuzioni non esiste");
+                // Alert nessuna partita creata!
+            }
+        } catch (IOException e) {
+            // Alert impossibile scaricare il file(?)
+            e.printStackTrace();
+        }
+    }
+
+    private void caricaGiocatoriDaFile() {
+        try {
+            objectMapper.writeValue(giocatoriFile, giocatoriSalvati);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void terminaPartita(Giocatore vincitore) {
+
+        scaricaGiocatorDaFile();
+        vincitore.aumentaVittorie();
+        for (int i = 0; i < giocatori.size(); i++) {
+            giocatori.get(i).aumentaPartiteGiocate();
+            giocatori.get(i).setBombettePescate(tavoloPartita.getBombePescate()[i]);
+            giocatori.get(i).setCarteTotaliPescate(tavoloPartita.getCartePescate()[i]);
+            giocatori.get(i).setPuntiTotaliFatti(tavoloPartita.getPuntiTotali()[i]);
+        }
+
+        for (Giocatore g : giocatoriSalvati) {
+            for (Giocatore giocatore : giocatori) {
+                if (g.getNome().equals(giocatore.getNome())) {
+                    giocatoriSalvati.set(giocatoriSalvati.indexOf(g), giocatore);
+                    break;
+                }
+            }
+        }
+        caricaGiocatoriDaFile();
+
+        scaricaEsecuzioniDaFile();
+        esecuzioniSalvate.remove(esecuzione);
+        caricaEsecuzioniSuFile();
+
+        scaricaPartiteDaFile();
+        partitaAttiva.setStatoPartita(Stato.Terminata);
+
+        for (int i = 0; i < partiteSalvate.size(); i++) {
+            Partita p = partiteSalvate.get(i);
+            if (p.getCodice() == partitaAttiva.getCodice()) {
+                partiteSalvate.set(i, partitaAttiva);
+                break;
+            }
+        }
+        caricaPartiteSuFile();
     }
 
 }

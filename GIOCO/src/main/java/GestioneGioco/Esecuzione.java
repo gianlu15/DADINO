@@ -64,6 +64,7 @@ public class Esecuzione implements Serializable {
     private boolean controlloVittoria(int p, Giocatore g) {
         int punteggio = tavolo.getPunteggi().get(g) + p;
         if (punteggio >= Regole.PUNTEGGIO_OBIETTIVO) {
+            controller.terminaPartita(g);
             return true;
         }
         return false;
