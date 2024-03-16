@@ -47,10 +47,10 @@ public class Partita {
     }
 
     public void aggiungiGiocatore(Utente u) {
-        scaricaGiocatoriDaFile();
 
         boolean trovato = false;
 
+        scaricaGiocatoriDaFile();
         for (Giocatore g : giocatoriDaFile) {
             if (g.getNome().equals(u.getNome())) {
                 partecipanti.add(g);
@@ -72,6 +72,15 @@ public class Partita {
     public void aggiungiBot(int numeroBot) {
         Bot b = new Bot("Bot-" + numeroBot);
         partecipanti.add(b);
+    }
+
+    //---------------------------  Metodi torneo
+    public void aggiungiGiocatorePartitaToreno(Giocatore g) {
+        partecipanti.add(g);
+    }
+
+    public Giocatore ottieniGiocatore(int indice){
+        return partecipanti.get(indice);
     }
 
     // --------------------------- Metodi per UtenteBoard

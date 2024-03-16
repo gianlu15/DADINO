@@ -1,0 +1,29 @@
+.root {
+  -fx-font-family: "Arial";
+  -fx-font-size: 14px;
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #000000;
+  /* Altre regole CSS se vogliamo metterle */
+}
+
+.myDialog {
+  -fx-font-family: "Arial";
+  -fx-font-size: 14px;
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #000000;
+  /* Altre regole CSS se vogliamo metterle */
+}
+
+.button {
+  -fx-background-color: #da2c38;
+  -fx-border-color: transparent;
+  -fx-text-fill: #ffffff;
+  -fx-padding: 13px 14px;
+  -fx-border-radius: 5px;
+  -fx-background-radius: 5px;
+}
+
+.button:hover {
+  -fx-background-color: #c17c74;
+  -fx-cursor: hand;
+}

@@ -47,8 +47,6 @@ public class StageGioco extends Application {
         // Avvia l'esecuzione della partita in un thread separato #4
         controller.esegui();
 
-        // TODO PUPA sistemare allert
-
         primaryStage.setOnCloseRequest(e -> {
             e.consume(); // Consuma l'evento per evitare la chiusura immediata della finestra
 

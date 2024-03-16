@@ -48,7 +48,7 @@ public class UtentePartitaBoardController {
     private List<Partita> partite;
     private ArrayList<String> accessiBackup;
     private Partita partitaAttiva;
-    private boolean partitaTrovata = false;
+    private boolean partitaTrovata;
     private int giocatoriMancanti;
     private Stato statoPartita;
     private File filePartite;
@@ -59,6 +59,7 @@ public class UtentePartitaBoardController {
     public void initialize() {
         this.utenti = new ArrayList<>();
         this.partite = new ArrayList<>();
+        this.partitaTrovata = false;
         this.objectMapper = new ObjectMapper();
         this.filePartite = new File("src/main/resources/FileJson/partite.json");
         this.fileUtenti = new File("src/main/resources/FileJson/utenti.json");

@@ -2,11 +2,8 @@ package GestioneGiocoFX;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -27,7 +24,6 @@ import GestionePartite.Partita.Stato;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -39,7 +35,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class GiocoController implements Initializable, Serializable {
+public class GiocoController{
 
     @FXML
     private Label Giocatore0;
@@ -108,7 +104,7 @@ public class GiocoController implements Initializable, Serializable {
     Stage stage;
 
     @FXML
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize() {
         String pathName = "CarteImmagini/Retro.png";
 
         CartaCoperta.setImage(new Image(Carta.class.getResourceAsStream(pathName)));

@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import GestioneAmministratore.ListaPartite.CreaPartite;
 import GestioneAmministratore.ListaPartite.PartiteListView;
+import GestioneAmministratore.ListaTornei.CreaTornei;
+import GestioneAmministratore.ListaTornei.TorneiListView;
 import GestioneAmministratore.ListaUtenti.ListViewClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,6 +70,20 @@ public class AfterLoginController {
         PartiteListView plw = new PartiteListView();
         Stage plwStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         plw.start(plwStage);
+    }
+
+    @FXML
+    public void creaTorneo(ActionEvent event) throws IOException {
+        CreaTornei tw = new CreaTornei();
+        Stage pwStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        tw.start(pwStage);
+    }
+
+    @FXML
+    public void gestisciTornei(ActionEvent event) throws IOException {
+        TorneiListView tlw = new TorneiListView();
+        Stage plwStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        tlw.start(plwStage);
     }
 
 }

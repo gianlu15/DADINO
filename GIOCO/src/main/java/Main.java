@@ -1,7 +1,7 @@
-
+import GestioneLogin.HomeLogin;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        HomeLogin.avvio(); // test del mazzo
     }
 }

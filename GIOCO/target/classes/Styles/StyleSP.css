@@ -1,0 +1,32 @@
+.root {
+  -fx-font-size: 12pt;
+  /*-fx-background-image: url("Poker_background.jpg");*/
+  -fx-background-color: #171a21;
+}
+
+.button {
+  -fx-background-color: #da2c38;
+  -fx-border-color: transparent;
+  -fx-text-fill: #ffffff;
+  -fx-padding: 13px 14px;
+  -fx-border-radius: 5px;
+  -fx-background-radius: 5px;
+}
+
+.button:hover {
+  -fx-background-color: #c17c74;
+  -fx-cursor: hand;
+}
+
+#password,
+#username,
+#usernameField,
+#codiceFiled {
+  -fx-padding: 13px 14px;
+  -fx-border-radius: 5px;
+  -fx-background-radius: 5px;
+}
+
+.label {
+  -fx-text-fill: #da2c38;
+}

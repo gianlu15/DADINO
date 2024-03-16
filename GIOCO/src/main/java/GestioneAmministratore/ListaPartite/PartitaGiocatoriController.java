@@ -111,7 +111,7 @@ public class PartitaGiocatoriController {
 
         giocatoriListView.getItems().add(bot);
         partitaCorrente.aggiungiBot(numeroBot);
-        
+
         numeroBot++;
         giocatoriDaInserire--;
         setIntestazione(giocatoriDaInserire);
@@ -134,28 +134,12 @@ public class PartitaGiocatoriController {
     }
 
     private void setIntestazione(int giocatoriDaInserire) {
-        switch (giocatoriDaInserire) {
 
-            case 4:
-                intestazione.setText("INSERISCI 4 GIOCATORI");
-                break;
+        if (giocatoriDaInserire > 0)
+            intestazione.setText("INSERISCI " + giocatoriDaInserire + " GIOCATORI");
+        else
+            intestazione.setText("PARTITA COMPLETA");
 
-            case 3:
-                intestazione.setText("INSERISCI 3 GIOCATORI");
-                break;
-
-            case 2:
-                intestazione.setText("INSERISCI 2 GIOCATORI");
-                break;
-
-            case 1:
-                intestazione.setText("INSERISCI UN GIOCATORE");
-                break;
-
-            default:
-                intestazione.setText("PARTITA COMPLETA");
-                break;
-        }
     }
 
     private void scaricaUtentiDaFile() {
