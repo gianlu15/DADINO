@@ -1,5 +1,5 @@
-import GestioneCarte.Carta;
-import GestioneCarte.Mazzo;
+import com.example.GestioneCarte.Carta;
+import com.example.GestioneCarte.Mazzo;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;

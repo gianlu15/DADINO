@@ -1,7 +1,7 @@
-import GestioneGioco.Giocatore;
-import GestioneGioco.Tavolo;
-import GestioneGiocoFX.GiocoController;
-import GestionePartite.Partita;
+import com.example.GestioneGioco.Giocatore;
+import com.example.GestioneGioco.Tavolo;
+import com.example.GestioneGiocoFX.GiocoController;
+import com.example.GestionePartite.Partita;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

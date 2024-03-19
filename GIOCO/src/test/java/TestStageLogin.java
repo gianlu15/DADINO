@@ -1,4 +1,4 @@
-import GestioneLogin.HomeLogin;
+import com.example.GestioneLogin.HomeLogin;
 
 public class TestStageLogin {
 

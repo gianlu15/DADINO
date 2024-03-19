@@ -1,0 +1,101 @@
+[
+    {
+        "nome": "pupa",
+        "carteTotaliPescate": 10,
+        "puntiTotaliFatti": 10,
+        "bombettePescate": 2,
+        "partiteGiocate": 12,
+        "vittorie": 4,
+        "vittorieTorneo": 0,
+        "vincitore": true,
+        "bot": false
+    },
+    {
+        "nome": "pupo",
+        "carteTotaliPescate": 10,
+        "puntiTotaliFatti": 0,
+        "bombettePescate": 3,
+        "partiteGiocate": 9,
+        "vittorie": 4,
+        "vittorieTorneo": 0,
+        "vincitore": true,
+        "bot": false
+    },
+    {
+        "nome": "ciccio",
+        "carteTotaliPescate": 10,
+        "puntiTotaliFatti": 0,
+        "bombettePescate": 2,
+        "partiteGiocate": 9,
+        "vittorie": 6,
+        "vittorieTorneo": 0,
+        "vincitore": true,
+        "bot": false
+    },
+    {
+        "nome": "mela",
+        "carteTotaliPescate": 7,
+        "puntiTotaliFatti": 4,
+        "bombettePescate": 2,
+        "partiteGiocate": 7,
+        "vittorie": 2,
+        "vittorieTorneo": 0,
+        "vincitore": null,
+        "bot": false
+    },
+    {
+        "nome": "pero",
+        "carteTotaliPescate": 3,
+        "puntiTotaliFatti": 0,
+        "bombettePescate": 2,
+        "partiteGiocate": 3,
+        "vittorie": 1,
+        "vittorieTorneo": 0,
+        "vincitore": true,
+        "bot": false
+    },
+    {
+        "nome": "sisi",
+        "carteTotaliPescate": 3,
+        "puntiTotaliFatti": 0,
+        "bombettePescate": 0,
+        "partiteGiocate": 3,
+        "vittorie": 2,
+        "vittorieTorneo": 0,
+        "vincitore": true,
+        "bot": false
+    },
+    {
+        "nome": "pupi",
+        "carteTotaliPescate": 0,
+        "puntiTotaliFatti": 0,
+        "bombettePescate": 0,
+        "partiteGiocate": 1,
+        "vittorie": 0,
+        "vittorieTorneo": 0,
+        "vincitore": null,
+        "bot": false
+    },
+    {
+        "nome": "pupe",
+        "carteTotaliPescate": 2,
+        "puntiTotaliFatti": 0,
+        "bombettePescate": 0,
+        "partiteGiocate": 2,
+        "vittorie": 2,
+        "vittorieTorneo": 0,
+        "vincitore": true,
+        "bot": false
+    },
+    {
+        "nome": "gianko",
+        "carteTotaliPescate": 0,
+        "puntiTotaliFatti": 0,
+        "bombettePescate": 0,
+        "partiteGiocate": 1,
+        "vittorie": 0,
+        "vittorieTorneo": 0,
+        "vincitore": null,
+        "bot": false
+    }
+]
