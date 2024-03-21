@@ -1,7 +1,7 @@
 package com.example.GestionePartite;
 
-import com.example.GestioneGioco.Bot;
-import com.example.GestioneGioco.Giocatore;
+import com.example.GestioneGiocatori.Bot;
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneUtenti.Utente;
 
 import java.io.File;

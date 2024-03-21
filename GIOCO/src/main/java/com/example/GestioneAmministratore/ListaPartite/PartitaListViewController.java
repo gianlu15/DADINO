@@ -17,7 +17,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 public class PartitaListViewController {
 
@@ -45,14 +46,21 @@ public class PartitaListViewController {
     private List<Partita> partite;
     private int indiceSelezionato;
     private File file;
-    private ObjectMapper objectMapper;
+    private ObjectMapper partitaMapper;
 
     @FXML
     public void initialize() {
         this.partite = new ArrayList<>();
         this.indiceSelezionato = -1;
-        this.objectMapper = new ObjectMapper();
+        this.partitaMapper = new ObjectMapper();
         this.file = new File("src/main/resources/com/example/FileJson/partite.json");
+
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.example")
+                .allowIfSubType("java.util.ArrayList")
+                .allowIfBaseType("java.util.List<com.example.GestionePartite.Partita>")
+                .build();
+        partitaMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
 
         scaricaPartiteDaFile();
         mostraTabella();
@@ -93,7 +101,7 @@ public class PartitaListViewController {
                     System.out.println("Il file JSON è vuoto.");
                     return;
                 } else {
-                    partite = objectMapper.readValue(file, new TypeReference<List<Partita>>() {
+                    partite = partitaMapper.readValue(file, new TypeReference<List<Partita>>() {
                     });
                 }
 
@@ -115,7 +123,7 @@ public class PartitaListViewController {
 
     private void caricaPartiteSuFile() {
         try {
-            objectMapper.writeValue(file, partite);
+            partitaMapper.writeValue(file, partite);
         } catch (IOException e) {
             e.printStackTrace();
         }

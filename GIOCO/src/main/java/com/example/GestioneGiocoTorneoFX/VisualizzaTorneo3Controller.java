@@ -4,7 +4,7 @@ import com.example.GestioneTornei.Torneo;
 
 import java.io.IOException;
 
-import com.example.GestioneGioco.Giocatore;
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestionePartite.Partita;
 import javafx.event.ActionEvent;

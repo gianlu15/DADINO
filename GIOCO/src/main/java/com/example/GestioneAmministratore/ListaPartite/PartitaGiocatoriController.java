@@ -16,6 +16,8 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 public class PartitaGiocatoriController {
 
@@ -48,6 +50,7 @@ public class PartitaGiocatoriController {
     private File filePartite;
     private File fileUtenti;
     private ObjectMapper objectMapper;
+    private ObjectMapper partitaMapper;
 
     @FXML
     public void initialize() {
@@ -55,8 +58,16 @@ public class PartitaGiocatoriController {
         this.partite = new ArrayList<>();
         this.numeroBot = 1;
         this.objectMapper = new ObjectMapper();
+        this.partitaMapper = new ObjectMapper();
         this.filePartite = new File("src/main/resources/com/example/FileJson/partite.json");
         this.fileUtenti = new File("src/main/resources/com/example/FileJson/utenti.json");
+
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+        .allowIfSubType("com.example")
+        .allowIfSubType("java.util.ArrayList")
+        .allowIfBaseType("java.util.List<com.example.GestionePartite.Partita>")
+        .build();
+        partitaMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
 
         scaricaUtentiDaFile();
         scaricaPartiteDaFile();
@@ -193,7 +204,7 @@ public class PartitaGiocatoriController {
                     System.out.println("Il file partite.json JSON è vuoto.");
                     return;
                 } else {
-                    partite = objectMapper.readValue(filePartite, new TypeReference<List<Partita>>() {
+                    partite = partitaMapper.readValue(filePartite, new TypeReference<List<Partita>>() {
                     });
                 }
 
@@ -215,7 +226,7 @@ public class PartitaGiocatoriController {
 
     private void caricaPartiteSuFile() {
         try {
-            objectMapper.writeValue(filePartite, partite);
+            partitaMapper.writeValue(filePartite, partite);
         } catch (IOException e) {
             e.printStackTrace();
         }

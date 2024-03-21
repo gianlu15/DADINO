@@ -9,20 +9,27 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="388.0" stylesheets="@../Styles/StyleSP.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneGiocoTorneoFX.VisualizzaTorneo7Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="388.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneGiocoTorneoFX.VisualizzaTorneo7Controller">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4d7566" height="40.0" layoutX="11.0" layoutY="66.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#98c1d9" height="40.0" layoutX="130.0" layoutY="121.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#98c1d9" height="40.0" layoutX="128.0" layoutY="258.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d84839" height="58.0" layoutX="115.0" layoutY="179.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="158.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4d7566" height="40.0" layoutX="245.0" layoutY="65.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4d7566" height="40.0" layoutX="10.0" layoutY="321.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4d7566" height="40.0" layoutX="250.0" layoutY="321.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
       <HBox layoutX="13.0" layoutY="68.0" prefHeight="36.0" prefWidth="126.0">
          <children>
             <VBox prefHeight="39.0" prefWidth="67.0">
                <children>
-                  <Label fx:id="giocatore0partita0" prefHeight="19.0" prefWidth="64.0" text="Label" />
-                  <Label fx:id="giocatore2partita0" prefHeight="17.0" prefWidth="67.0" text="Label" />
+                  <Label fx:id="giocatore0partita0" prefHeight="19.0" prefWidth="64.0" />
+                  <Label fx:id="giocatore2partita0" prefHeight="17.0" prefWidth="67.0" />
                </children>
             </VBox>
             <VBox prefHeight="39.0" prefWidth="67.0">
                <children>
-                  <Label fx:id="giocatore1partita0" prefHeight="19.0" prefWidth="64.0" text="Label" />
-                  <Label fx:id="giocatore3partita0" prefHeight="17.0" prefWidth="67.0" text="Label" />
+                  <Label fx:id="giocatore1partita0" prefHeight="19.0" prefWidth="64.0" />
+                  <Label fx:id="giocatore3partita0" prefHeight="17.0" prefWidth="67.0" />
                </children>
             </VBox>
          </children>
@@ -31,48 +38,48 @@
          <children>
             <VBox prefHeight="40.0" prefWidth="66.0">
                <children>
-                  <Label fx:id="giocatore0partita1" prefHeight="19.0" prefWidth="63.0" text="Label" />
-                  <Label fx:id="giocatore2partita1" prefHeight="17.0" prefWidth="66.0" text="Label" />
+                  <Label fx:id="giocatore0partita1" prefHeight="19.0" prefWidth="63.0" />
+                  <Label fx:id="giocatore2partita1" prefHeight="17.0" prefWidth="66.0" />
                </children>
             </VBox>
             <VBox prefHeight="39.0" prefWidth="67.0">
                <children>
-                  <Label fx:id="giocatore1partita1" prefHeight="19.0" prefWidth="63.0" text="Label" />
-                  <Label fx:id="giocatore3partita1" prefHeight="17.0" prefWidth="66.0" text="Label" />
+                  <Label fx:id="giocatore1partita1" prefHeight="19.0" prefWidth="63.0" />
+                  <Label fx:id="giocatore3partita1" prefHeight="17.0" prefWidth="66.0" />
                </children>
             </VBox>
          </children>
       </HBox>
       <HBox alignment="CENTER" layoutX="128.0" layoutY="258.0" prefHeight="40.0" prefWidth="130.0">
          <children>
-            <Label fx:id="giocatore0partita5" prefHeight="17.0" prefWidth="64.0" text="Label" />
-            <Label fx:id="giocatore1partita5" prefHeight="17.0" prefWidth="64.0" text="Label" />
+            <Label fx:id="giocatore0partita5" prefHeight="17.0" prefWidth="64.0" />
+            <Label fx:id="giocatore1partita5" prefHeight="17.0" prefWidth="64.0" />
          </children>
       </HBox>
       <VBox alignment="CENTER" layoutX="116.0" layoutY="181.0" prefHeight="54.0" prefWidth="155.0" spacing="5.0">
          <children>
-            <Label fx:id="giocatore0partita6" alignment="CENTER" prefHeight="19.0" prefWidth="102.0" text="Label" />
-            <Label fx:id="giocatore1partita6" prefHeight="17.0" prefWidth="101.0" text="Label" />
+            <Label fx:id="giocatore0partita6" alignment="CENTER" prefHeight="19.0" prefWidth="102.0" />
+            <Label fx:id="giocatore1partita6" alignment="CENTER" prefHeight="17.0" prefWidth="101.0" />
          </children>
       </VBox>
       <HBox alignment="CENTER" layoutX="132.0" layoutY="122.0" prefHeight="37.0" prefWidth="126.0">
          <children>
-            <Label fx:id="giocatore0partita4" prefHeight="17.0" prefWidth="63.0" text="Label" />
-            <Label fx:id="giocatore1partita4" prefHeight="17.0" prefWidth="67.0" text="Label" />
+            <Label fx:id="giocatore0partita4" prefHeight="17.0" prefWidth="63.0" />
+            <Label fx:id="giocatore1partita4" prefHeight="17.0" prefWidth="67.0" />
          </children>
       </HBox>
       <HBox layoutX="12.0" layoutY="323.0" prefHeight="35.0" prefWidth="125.0">
          <children>
             <VBox prefHeight="40.0" prefWidth="66.0">
                <children>
-                  <Label fx:id="giocatore0partita2" prefHeight="19.0" prefWidth="65.0" text="Label" />
-                  <Label fx:id="giocatore2partita2" prefHeight="21.0" prefWidth="65.0" text="Label" />
+                  <Label fx:id="giocatore0partita2" prefHeight="19.0" prefWidth="65.0" />
+                  <Label fx:id="giocatore2partita2" prefHeight="21.0" prefWidth="65.0" />
                </children>
             </VBox>
             <VBox prefHeight="39.0" prefWidth="67.0">
                <children>
-                  <Label fx:id="giocatore1partita2" prefHeight="19.0" prefWidth="65.0" text="Label" />
-                  <Label fx:id="giocatore3partita2" prefHeight="21.0" prefWidth="65.0" text="Label" />
+                  <Label fx:id="giocatore1partita2" prefHeight="19.0" prefWidth="65.0" />
+                  <Label fx:id="giocatore3partita2" prefHeight="21.0" prefWidth="65.0" />
                </children>
             </VBox>
          </children>
@@ -81,14 +88,14 @@
          <children>
             <VBox prefHeight="40.0" prefWidth="66.0">
                <children>
-                  <Label fx:id="giocatore0partita3" prefHeight="17.0" prefWidth="70.0" text="Label" />
-                  <Label fx:id="giocatore2partita3" prefHeight="17.0" prefWidth="70.0" text="Label" />
+                  <Label fx:id="giocatore0partita3" prefHeight="17.0" prefWidth="70.0" />
+                  <Label fx:id="giocatore2partita3" prefHeight="17.0" prefWidth="70.0" />
                </children>
             </VBox>
             <VBox prefHeight="39.0" prefWidth="67.0">
                <children>
-                  <Label fx:id="giocatore1partita3" prefHeight="17.0" prefWidth="70.0" text="Label" />
-                  <Label fx:id="giocatore3partita3" prefHeight="17.0" prefWidth="70.0" text="Label" />
+                  <Label fx:id="giocatore1partita3" prefHeight="17.0" prefWidth="70.0" />
+                  <Label fx:id="giocatore3partita3" prefHeight="17.0" prefWidth="70.0" />
                </children>
             </VBox>
          </children>
@@ -98,13 +105,6 @@
             <Font name="Arial Bold" size="20.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4d7566" height="40.0" layoutX="11.0" layoutY="66.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#98c1d9" height="40.0" layoutX="130.0" layoutY="121.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#98c1d9" height="40.0" layoutX="128.0" layoutY="258.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d84839" height="58.0" layoutX="115.0" layoutY="179.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="158.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4d7566" height="40.0" layoutX="245.0" layoutY="65.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4d7566" height="40.0" layoutX="10.0" layoutY="321.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4d7566" height="40.0" layoutX="250.0" layoutY="321.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
       <Line endX="-16.792884826660156" endY="-6.9999847412109375" layoutX="93.0" layoutY="148.0" startX="-16.99999237060547" startY="-42.00000762939453" stroke="WHITE" />
       <Line endX="-26.292884826660156" endY="-16.999984741210938" layoutX="103.0" layoutY="158.0" startX="27.000015258789062" startY="-16.999984741210938" stroke="WHITE" />
       <Line endX="-17.0" endY="-5.0" layoutX="85.0" layoutY="326.0" startX="-17.207107543945312" startY="-46.0" stroke="WHITE" />
@@ -115,7 +115,7 @@
       <Line endX="-26.292884826660156" endY="-16.999984741210938" layoutX="287.0" layoutY="159.0" startX="27.707122802734375" startY="-16.999984741210938" stroke="WHITE" />
       <Line endX="126.99998474121094" layoutX="67.0" layoutY="179.0" startX="126.99996948242188" startY="-18.0" stroke="WHITE" />
       <Line endX="126.0" endY="1.0" layoutX="68.0" layoutY="257.0" startX="126.0" startY="-20.0" stroke="WHITE" />
-      <Button layoutX="136.0" layoutY="392.0" mnemonicParsing="false" text="GIOCA PARTITA">
+      <Button layoutX="136.0" layoutY="392.0" mnemonicParsing="false" onAction="#giocaPartita" text="GIOCA PARTITA">
          <font>
             <Font name="Arial" size="13.0" />
          </font>

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.example.GestioneCarte.Mazzo;
+import com.example.GestioneGiocatori.Giocatore;
 
 public class Tavolo {
 

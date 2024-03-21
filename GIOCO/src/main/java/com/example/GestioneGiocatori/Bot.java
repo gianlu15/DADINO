@@ -1,4 +1,4 @@
-package com.example.GestioneGioco;
+package com.example.GestioneGiocatori;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,7 +9,6 @@ public class Bot extends Giocatore {
 
     public Bot(String nome) {
         super(nome);
-        this.bot = true;
     }
 
     public Bot(){

@@ -7,8 +7,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.example.GestioneGioco.Giocatore;
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGiocoFX.StageGioco;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

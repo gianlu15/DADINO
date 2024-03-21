@@ -8,7 +8,8 @@ import java.util.Random;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.example.GestioneTornei.Torneo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,6 +59,14 @@ public class CreaTorneiController {
         this.numeroCasuale = 0;
         this.objectMapper = new ObjectMapper();
         this.file = new File("src/main/resources/com/example/FileJson/tornei.json");
+
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.example")
+                .allowIfSubType("java.util.ArrayList")
+                .allowIfSubType("[Lcom.example.GestionePartite.Partita")
+                .allowIfBaseType("java.util.List<com.example.GestioneTornei.Torneo>")
+                .build();
+        objectMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
 
         scaricaTorneiDaFile();
         numGiocatoriChoice.getItems().addAll(numeriGiocatori);
@@ -187,12 +196,12 @@ public class CreaTorneiController {
                     file.createNewFile();
                     System.out.println("Il file è stato creato con successo.");
                 } catch (Exception e) {
-                    //Alert impossibile creare il file(?)
+                    // Alert impossibile creare il file(?)
                     e.printStackTrace();
                 }
             }
         } catch (IOException e) {
-            //Alert impossibile scaricare dal file(?)
+            // Alert impossibile scaricare dal file(?)
             e.printStackTrace();
         }
     }

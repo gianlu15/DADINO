@@ -7,7 +7,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestioneGiocoTorneoFX.VisualizzaTorneo3Controller;
 import com.example.GestioneGiocoTorneoFX.VisualizzaTorneo7Controller;
@@ -56,6 +57,7 @@ public class UtenteTorneoBoardController {
     private File fileTornei;
     private File fileUtenti;
     private ObjectMapper objectMapper;
+    private ObjectMapper torneiMapper;
 
     @FXML
     public void initialize() {
@@ -63,8 +65,17 @@ public class UtenteTorneoBoardController {
         this.tornei = new ArrayList<>();
         this.torneoTrovato = false;
         this.objectMapper = new ObjectMapper();
+        this.torneiMapper = new ObjectMapper();
         this.fileTornei = new File("src/main/resources/com/example/FileJson/tornei.json");
         this.fileUtenti = new File("src/main/resources/com/example/FileJson/utenti.json");
+
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.example")
+                .allowIfSubType("java.util.ArrayList")
+                .allowIfSubType("[Lcom.example.GestionePartite.Partita")
+                .allowIfBaseType("java.util.List<com.example.GestioneTornei.Torneo>")
+                .build();
+        torneiMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
 
         scaricaUtentiDaFile();
         scaricaTorneiDaFile();
@@ -161,12 +172,14 @@ public class UtenteTorneoBoardController {
         Parent root;
 
         if (torneoAttivo.getNumGiocatori() < 10) {
-            loader = new FXMLLoader(getClass().getResource("/com/example/GestioneGiocoTorneoFX/visualizzazioneTornei3.fxml"));
+            loader = new FXMLLoader(
+                    getClass().getResource("/com/example/GestioneGiocoTorneoFX/visualizzazioneTornei3.fxml"));
             root = loader.load();
             VisualizzaTorneo3Controller vtc = loader.getController();
             vtc.setTorneo(torneoAttivo);
-        } else{
-            loader = new FXMLLoader(getClass().getResource("/com/example/GestioneGiocoTorneoFX/visualizzazioneTornei7.fxml"));
+        } else {
+            loader = new FXMLLoader(
+                    getClass().getResource("/com/example/GestioneGiocoTorneoFX/visualizzazioneTornei7.fxml"));
             root = loader.load();
             VisualizzaTorneo7Controller vtc = loader.getController();
             vtc.setTorneo(torneoAttivo);
@@ -324,7 +337,7 @@ public class UtenteTorneoBoardController {
 
                     return;
                 } else {
-                    tornei = objectMapper.readValue(fileTornei, new TypeReference<List<Torneo>>() {
+                    tornei = torneiMapper.readValue(fileTornei, new TypeReference<List<Torneo>>() {
                     });
                 }
 

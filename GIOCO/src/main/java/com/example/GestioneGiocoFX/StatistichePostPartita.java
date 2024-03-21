@@ -3,7 +3,7 @@ package com.example.GestioneGiocoFX;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.example.GestioneGioco.Giocatore;
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGioco.Tavolo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

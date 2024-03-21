@@ -7,7 +7,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.example.GestioneTornei.Torneo;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -54,6 +55,14 @@ public class TorneiListViewController {
         this.indiceSelezionato = -1;
         this.objectMapper = new ObjectMapper();
         this.file = new File("src/main/resources/com/example/FileJson/tornei.json");
+
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.example")
+                .allowIfSubType("java.util.ArrayList")
+                .allowIfSubType("[Lcom.example.GestionePartite.Partita")
+                .allowIfBaseType("java.util.List<com.example.GestioneTornei.Torneo>")
+                .build();
+        objectMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
 
         scaricaTorneiDaFile();
         mostraTabella();

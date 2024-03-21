@@ -7,7 +7,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestionePartite.Partita;
 import com.example.GestionePartite.Partita.Stato;
@@ -54,6 +55,7 @@ public class UtentePartitaBoardController {
     private File filePartite;
     private File fileUtenti;
     private ObjectMapper objectMapper;
+    private ObjectMapper partitaMapper;
 
     @FXML
     public void initialize() {
@@ -61,6 +63,15 @@ public class UtentePartitaBoardController {
         this.partite = new ArrayList<>();
         this.partitaTrovata = false;
         this.objectMapper = new ObjectMapper();
+        this.partitaMapper = new ObjectMapper();
+
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+            .allowIfSubType("com.example")
+            .allowIfSubType("java.util.ArrayList")
+            .allowIfBaseType("java.util.List<com.example.GestionePartite.Partita>")
+            .build();
+        partitaMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
+
         this.filePartite = new File("src/main/resources/com/example/FileJson/partite.json");
         this.fileUtenti = new File("src/main/resources/com/example/FileJson/utenti.json");
 
@@ -154,7 +165,7 @@ public class UtentePartitaBoardController {
     }
 
     private void avviaPartita(ActionEvent event) throws Exception {
-        StageGioco sg = new StageGioco(partitaAttiva);
+        StageGioco sg = new StageGioco(partitaAttiva, null);
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         sg.start(primaryStage);
     }
@@ -304,7 +315,7 @@ public class UtentePartitaBoardController {
 
                     return;
                 } else {
-                    partite = objectMapper.readValue(filePartite, new TypeReference<List<Partita>>() {
+                    partite = partitaMapper.readValue(filePartite, new TypeReference<List<Partita>>() {
                     });
                 }
 

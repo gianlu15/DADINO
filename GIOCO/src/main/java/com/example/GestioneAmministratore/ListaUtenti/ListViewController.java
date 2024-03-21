@@ -1,5 +1,6 @@
 package com.example.GestioneAmministratore.ListaUtenti;
 
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneUtenti.Utente;
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.example.GestioneGioco.Giocatore;
 
 
 public class ListViewController {

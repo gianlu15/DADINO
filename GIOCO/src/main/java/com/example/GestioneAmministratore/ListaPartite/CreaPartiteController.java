@@ -2,6 +2,9 @@ package com.example.GestioneAmministratore.ListaPartite;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,6 +59,13 @@ public class CreaPartiteController {
         this.numeroCasuale = 0;
         this.objectMapper = new ObjectMapper();
         this.file = new File("src/main/resources/com/example/FileJson/partite.json");
+
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.example")
+                .allowIfSubType("java.util.ArrayList")
+                .allowIfBaseType("java.util.List<com.example.GestionePartite.Partita>")
+                .build();
+        objectMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
 
         scaricaPartiteDaFile();
         numGiocatoriChoice.getItems().addAll(numeriGiocatori);
@@ -159,12 +169,12 @@ public class CreaPartiteController {
                     file.createNewFile();
                     System.out.println("Il file è stato creato con successo.");
                 } catch (Exception e) {
-                    //Alert impossibile creare il file(?)
+                    // Alert impossibile creare il file(?)
                     e.printStackTrace();
                 }
             }
         } catch (IOException e) {
-            //Alert impossibile scaricare dal file(?)
+            // Alert impossibile scaricare dal file(?)
             e.printStackTrace();
         }
     }

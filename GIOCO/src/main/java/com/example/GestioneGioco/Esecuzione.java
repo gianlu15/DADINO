@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.example.GestioneCarte.Carta;
+import com.example.GestioneGiocatori.Bot;
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGiocoFX.GiocoController;
 
 public class Esecuzione implements Serializable {

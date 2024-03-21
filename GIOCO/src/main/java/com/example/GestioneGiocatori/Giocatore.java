@@ -1,4 +1,4 @@
-package com.example.GestioneGioco;
+package com.example.GestioneGiocatori;
 
 public class Giocatore {
 
@@ -12,11 +12,8 @@ public class Giocatore {
     private int vittorieTorneo;
     private Boolean vincitore;
 
-    protected boolean bot;
-
     public Giocatore(String nome) {
         this.nome = nome;
-        this.bot = false;
     }
 
     public Giocatore() {
@@ -72,10 +69,6 @@ public class Giocatore {
 
     public void aumentaVittorie() {
         this.vittorie++;
-    }
-
-    public  boolean getBot(){
-        return bot;
     }
 
     public void vinto(){

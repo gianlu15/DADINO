@@ -19,17 +19,10 @@ public class StageGioco extends Application {
 
     private Partita partitaAttiva;
     private Torneo torneoAttivo;
-    private boolean partitaTorneo;
-
-    public StageGioco(Partita partitaAttiva) {
-        this.partitaAttiva = partitaAttiva;
-        this.partitaTorneo = false;
-    }
 
     public StageGioco(Partita partitaAttiva, Torneo torneoAttivo) {
         this.partitaAttiva = partitaAttiva;
         this.torneoAttivo = torneoAttivo;
-        this.partitaTorneo = true;
     }
 
     @Override
@@ -42,17 +35,11 @@ public class StageGioco extends Application {
         GiocoController controller = loader.getController();
 
         // Imposta il tavolo #2
-        if (!partitaTorneo) {
-            if (partitaAttiva.getStatoPartita() == Stato.Pronta)
-                controller.creaNuovoTavolo(partitaAttiva);
-            else
-                controller.reimpostaTavolo(partitaAttiva);
-        } else {
-            if (partitaAttiva.getStatoPartita() == Stato.Pronta)
-                controller.creaNuovoTavoloTorneo(partitaAttiva, torneoAttivo);
-            else
-                controller.reimpostaTavoloTorneo(partitaAttiva, torneoAttivo);
-        }
+
+        if (partitaAttiva.getStatoPartita() == Stato.Pronta)
+            controller.creaNuovoTavolo(partitaAttiva, torneoAttivo);
+        else
+            controller.reimpostaTavolo(partitaAttiva, torneoAttivo);
 
         // Imposta lo stage nel controller #3
         controller.setStage(primaryStage);

@@ -2,7 +2,8 @@ package com.example.GestioneGiocoFX;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import com.example.GestioneGioco.Giocatore;
+
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGioco.Tavolo;
 import com.example.GestioneLogin.HomeLogin;
 import javafx.collections.FXCollections;

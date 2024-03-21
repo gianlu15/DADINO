@@ -7,7 +7,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.example.GestioneTornei.Torneo;
 import com.example.GestioneUtenti.Utente;
 import javafx.event.ActionEvent;
@@ -50,6 +51,7 @@ public class TorneoGiocatoriController {
     private File fileTornei;
     private File fileUtenti;
     private ObjectMapper objectMapper;
+    private ObjectMapper torneiMapper;
 
     @FXML
     public void initialize() {
@@ -57,8 +59,18 @@ public class TorneoGiocatoriController {
         this.tornei = new ArrayList<>();
         this.numeroBot = 1;
         this.objectMapper = new ObjectMapper();
+        this.torneiMapper = new ObjectMapper();
         this.fileTornei = new File("src/main/resources/com/example/FileJson/tornei.json");
         this.fileUtenti = new File("src/main/resources//com/example/FileJson/utenti.json");
+
+
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.example")
+                .allowIfSubType("java.util.ArrayList")
+                .allowIfSubType("[Lcom.example.GestionePartite.Partita")
+                .allowIfBaseType("java.util.List<com.example.GestioneTornei.Torneo>")
+                .build();
+        torneiMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
 
         scaricaUtentiDaFile();
         scaricaTorneiDaFile();
@@ -195,7 +207,7 @@ public class TorneoGiocatoriController {
                     System.out.println("Il file JSON è vuoto.");
                     return;
                 } else {
-                    tornei = objectMapper.readValue(fileTornei, new TypeReference<List<Torneo>>() {
+                    tornei = torneiMapper.readValue(fileTornei, new TypeReference<List<Torneo>>() {
                     });
                 }
 
@@ -217,7 +229,7 @@ public class TorneoGiocatoriController {
 
     private void caricaTorneiSuFile() {
         try {
-            objectMapper.writeValue(fileTornei, tornei);
+            torneiMapper.writeValue(fileTornei, tornei);
         } catch (IOException e) {
             e.printStackTrace();
         }

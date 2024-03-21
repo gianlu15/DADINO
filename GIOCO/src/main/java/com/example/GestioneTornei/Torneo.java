@@ -8,9 +8,8 @@ import java.util.Random;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.example.GestioneGioco.Bot;
-import com.example.GestioneGioco.Giocatore;
+import com.example.GestioneGiocatori.Bot;
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestionePartite.Partita;
 import com.example.GestioneUtenti.Utente;
 
@@ -116,7 +115,7 @@ public class Torneo {
                     return daGiocare;
                 }
             }
-            if (partite[2]==null) {
+            if (partite[2] == null) {
                 partite[2] = new Partita("Partita" + 2, 2, codice);
                 partite[2].aggiungiGiocatorePartitaToreno(partite[0].getVincitore());
                 partite[2].aggiungiGiocatorePartitaToreno(partite[1].getVincitore());
@@ -133,7 +132,7 @@ public class Torneo {
             }
 
             if (partite[4].getStatoPartita() != Partita.Stato.Terminata) {
-                if (partite[4]==null) {
+                if (partite[4] == null) {
                     partite[4] = new Partita("Partita" + 4, 2, codice);
                     partite[4].aggiungiGiocatorePartitaToreno(partite[0].getVincitore());
                     partite[4].aggiungiGiocatorePartitaToreno(partite[0].getVincitore());
@@ -143,7 +142,7 @@ public class Torneo {
             }
 
             if (partite[5].getStatoPartita() != Partita.Stato.Terminata) {
-                if (partite[5]==null) {
+                if (partite[5] == null) {
                     partite[5] = new Partita("Partita" + 5, 2, codice);
                     partite[5].aggiungiGiocatorePartitaToreno(partite[2].getVincitore());
                     partite[5].aggiungiGiocatorePartitaToreno(partite[3].getVincitore());
@@ -152,7 +151,7 @@ public class Torneo {
                 return daGiocare;
             }
 
-            if (partite[6]==null) {
+            if (partite[6] == null) {
                 partite[6] = new Partita("Partita" + 6, 2, codice);
                 partite[6].aggiungiGiocatorePartitaToreno(partite[4].getVincitore());
                 partite[6].aggiungiGiocatorePartitaToreno(partite[5].getVincitore());
@@ -162,16 +161,27 @@ public class Torneo {
         }
     }
 
-    public void aggiungiVincitore(Giocatore vincitore){
-        vincitore.vinto();;
-        if(partite[partite.length-1] != null && partite[partite.length-1].getStatoPartita() == Partita.Stato.Terminata){
+    public void aggiungiVincitore(Giocatore vincitore) {
+        vincitore.vinto();
+        
+        if (partite[partite.length - 1] != null
+                && partite[partite.length - 1].getStatoPartita() == Partita.Stato.Terminata) {
             vincitore.aumentaVittorieTorneo();
+            scaricaGiocatoriDaFile();
+            for (Giocatore g : giocatoriDaFile) {
+                if (g.getNome().equals(vincitore.getNome())) {
+                    giocatoriDaFile.set(giocatoriDaFile.indexOf(g), vincitore);
+                    break;
+                }
+            }
+            caricaGiocatoriSuFile();
             statoTorneo = Stato.Terminato;
         }
     }
 
-    public void aggiungiPerdente(Giocatore perdente){
-        perdente.perso();;
+    public void aggiungiPerdente(Giocatore perdente) {
+        perdente.perso();
+        ;
     }
 
     // --------------------------- Metodi per UtenteBoard

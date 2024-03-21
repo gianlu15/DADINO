@@ -1,4 +1,4 @@
-import com.example.GestioneGioco.Giocatore;
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGioco.Tavolo;
 import com.example.GestioneGiocoFX.GiocoController;
 import com.example.GestionePartite.Partita;

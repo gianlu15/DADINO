@@ -12,11 +12,12 @@ import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.example.GestioneCarte.Carta;
-import com.example.GestioneGioco.Bot;
+import com.example.GestioneGiocatori.Bot;
+import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGioco.Esecuzione;
-import com.example.GestioneGioco.Giocatore;
 import com.example.GestioneGioco.Tavolo;
 import com.example.GestioneGiocoTorneoFX.VisualizzaTorneo3Controller;
 import com.example.GestioneGiocoTorneoFX.VisualizzaTorneo7Controller;
@@ -109,6 +110,8 @@ public class GiocoController {
     private File giocatoriFile;
     private File torneiFile;
     private ObjectMapper objectMapper;
+    private ObjectMapper partitaMapper;
+    private ObjectMapper torneiMapper;;
     private Thread partitaThread;
     private boolean partitaInterrotta;
 
@@ -130,6 +133,8 @@ public class GiocoController {
         this.punti = new ArrayList<>();
 
         this.objectMapper = new ObjectMapper();
+        this.partitaMapper = new ObjectMapper();
+        this.torneiMapper = new ObjectMapper();
         this.partiteSalvate = new ArrayList<>();
         this.esecuzioniSalvate = new ArrayList<>();
         this.giocatoriSalvati = new ArrayList<>();
@@ -139,16 +144,32 @@ public class GiocoController {
         this.torneiFile = new File("src/main/resources/com/example/FileJson/tornei.json");
         this.partitaInterrotta = false;
         this.partitaTorneo = false;
+
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.example")
+                .allowIfSubType("java.util.ArrayList")
+                .allowIfBaseType("java.util.List<com.example.GestionePartite.Partita>")
+                .build();
+        partitaMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
+
+        PolymorphicTypeValidator ptt = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.example")
+                .allowIfSubType("java.util.ArrayList")
+                .allowIfSubType("[Lcom.example.GestionePartite.Partita")
+                .allowIfBaseType("java.util.List<com.example.GestioneTornei.Torneo>")
+                .build();
+        torneiMapper.activateDefaultTyping(ptt, ObjectMapper.DefaultTyping.NON_FINAL);
+
     }
 
     // #2-a
-    public void creaNuovoTavolo(Partita partitaAttiva) {
+    public void creaNuovoTavolo(Partita partitaAttiva, Torneo torneoAttivo) {
 
         tavoloPartita = new Tavolo(partitaAttiva.getCodice());
 
         for (Giocatore g : partitaAttiva.getPartecipanti())
-            if (g.getBot()) {
-                Bot b = new Bot(g.getNome());
+            if (g instanceof Bot) {
+                Bot b = (Bot) g;
                 giocatori.add(b);
             } else {
                 giocatori.add(g);
@@ -160,38 +181,22 @@ public class GiocoController {
         esecuzione.setController(this);
 
         this.partitaAttiva = partitaAttiva;
-        setLeaderboard();
-    }
 
-    public void creaNuovoTavoloTorneo(Partita partitaAttiva, Torneo torneoAttivo) {
+        if (torneoAttivo != null) {
+            this.torneoAttivo = torneoAttivo;
+            this.partitaTorneo = true;
+        } else
+            this.partitaTorneo = false;
 
-        tavoloPartita = new Tavolo(partitaAttiva.getCodice());
-
-        for (Giocatore g : partitaAttiva.getPartecipanti())
-            if (g.getBot()) {
-                Bot b = new Bot(g.getNome());
-                giocatori.add(b);
-            } else {
-                giocatori.add(g);
-            }
-
-        tavoloPartita.assegnaGiocatori(giocatori);
-
-        esecuzione = new Esecuzione(tavoloPartita, giocatori);
-        esecuzione.setController(this);
-
-        this.partitaAttiva = partitaAttiva;
-        this.torneoAttivo = torneoAttivo;
-        this.partitaTorneo = true;
         setLeaderboard();
     }
 
     // #2-b
-    public void reimpostaTavolo(Partita partitaAttiva) {
+    public void reimpostaTavolo(Partita partitaAttiva, Torneo torneoAttivo) {
 
         for (Giocatore g : partitaAttiva.getPartecipanti())
-            if (g.getBot()) {
-                Bot b = new Bot(g.getNome());
+            if (g instanceof Bot) {
+                Bot b = (Bot) g;
                 giocatori.add(b);
             } else {
                 giocatori.add(g);
@@ -211,34 +216,12 @@ public class GiocoController {
         esecuzione.setController(this);
         this.partitaAttiva = partitaAttiva;
 
-        setLeaderboard();
-    }
+        if (torneoAttivo != null) {
+            this.torneoAttivo = torneoAttivo;
+            this.partitaTorneo = true;
+        } else
+            this.partitaTorneo = false;
 
-    public void reimpostaTavoloTorneo(Partita partitaAttiva, Torneo torneoAttivo) {
-
-        for (Giocatore g : partitaAttiva.getPartecipanti())
-            if (g.getBot()) {
-                Bot b = new Bot(g.getNome());
-                giocatori.add(b);
-            } else {
-                giocatori.add(g);
-            }
-
-        scaricaEsecuzioniDaFile();
-        for (Esecuzione e : esecuzioniSalvate) {
-            if (e.getCodice() == partitaAttiva.getCodice())
-                esecuzione = e;
-        }
-
-        tavoloPartita = esecuzione.getTavolo();
-        esecuzione.setGiocatori(giocatori);
-        punti = tavoloPartita.getListaPunteggi();
-        tavoloPartita.assegnaGiocatoriPunti(giocatori, punti);
-
-        esecuzione.setController(this);
-        this.partitaAttiva = partitaAttiva;
-        this.torneoAttivo = torneoAttivo;
-        this.partitaTorneo = true;
         setLeaderboard();
     }
 
@@ -603,7 +586,7 @@ public class GiocoController {
                     System.out.println("Il file partite JSON è vuoto.");
                     return;
                 } else {
-                    partiteSalvate = objectMapper.readValue(partiteFile, new TypeReference<List<Partita>>() {
+                    partiteSalvate = partitaMapper.readValue(partiteFile, new TypeReference<List<Partita>>() {
                     });
                 }
 
@@ -653,7 +636,7 @@ public class GiocoController {
                     System.out.println("Il file tornei JSON è vuoto.");
                     return;
                 } else {
-                    torneiSalvati = objectMapper.readValue(torneiFile, new TypeReference<List<Torneo>>() {
+                    torneiSalvati = torneiMapper.readValue(torneiFile, new TypeReference<List<Torneo>>() {
                     });
                 }
 
@@ -669,7 +652,7 @@ public class GiocoController {
 
     private void caricaPartiteSuFile() {
         try {
-            objectMapper.writeValue(partiteFile, partiteSalvate);
+            partitaMapper.writeValue(partiteFile, partiteSalvate);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -685,7 +668,7 @@ public class GiocoController {
 
     private void caricaTorneiSuFile() {
         try {
-            objectMapper.writeValue(torneiFile, torneiSalvati);
+            torneiMapper.writeValue(torneiFile, torneiSalvati);
         } catch (IOException e) {
             e.printStackTrace();
         }
