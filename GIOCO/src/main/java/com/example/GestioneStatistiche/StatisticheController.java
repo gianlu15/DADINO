@@ -49,6 +49,9 @@ public class StatisticheController {
     @FXML
     private TableColumn<Giocatore, Integer> bombeColumn;
 
+    @FXML
+    private TableColumn<Giocatore, Integer> vittorieColumn1;
+
     private File fileGiocatori;
     private ObjectMapper objectMapper;
     private List<Giocatore> giocatori;
@@ -70,6 +73,7 @@ public class StatisticheController {
 
         giocatoriColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
         vittorieColumn.setCellValueFactory(new PropertyValueFactory<>("vittorie"));
+        vittorieColumn1.setCellValueFactory(new PropertyValueFactory<>("vittorieTorneo"));
         partiteColumn.setCellValueFactory(new PropertyValueFactory<>("partiteGiocate"));
         carteColumn.setCellValueFactory(new PropertyValueFactory<>("carteTotaliPescate"));
         puntiColumn.setCellValueFactory(new PropertyValueFactory<>("puntiTotaliFatti"));

@@ -57,7 +57,7 @@ public class UtenteBoardController {
         Stage loginStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
         Scene scene = new Scene(root);
-        loginStage.setWidth(700);
+        loginStage.setWidth(760);
         scene.getStylesheets().add(getClass().getResource("/com/example/Styles/Style2.css").toExternalForm());
         loginStage.setScene(scene);
     }

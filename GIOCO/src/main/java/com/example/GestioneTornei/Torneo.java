@@ -163,20 +163,20 @@ public class Torneo {
 
     public void aggiungiVincitore(Giocatore vincitore) {
         vincitore.vinto();
-        
+
         if (partite[partite.length - 1] != null
                 && partite[partite.length - 1].getStatoPartita() == Partita.Stato.Terminata) {
             vincitore.aumentaVittorieTorneo();
-            scaricaGiocatoriDaFile();
-            for (Giocatore g : giocatoriDaFile) {
-                if (g.getNome().equals(vincitore.getNome())) {
-                    giocatoriDaFile.set(giocatoriDaFile.indexOf(g), vincitore);
-                    break;
-                }
-            }
-            caricaGiocatoriSuFile();
             statoTorneo = Stato.Terminato;
         }
+    }
+
+    public boolean controlloUltimaPartita() {
+        if (partite[partite.length - 1] != null
+                && partite[partite.length - 1].getStatoPartita() == Partita.Stato.Terminata)
+            return true;
+        else
+            return false;
     }
 
     public void aggiungiPerdente(Giocatore perdente) {

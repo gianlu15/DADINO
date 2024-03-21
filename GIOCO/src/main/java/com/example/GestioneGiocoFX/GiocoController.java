@@ -159,7 +159,6 @@ public class GiocoController {
                 .allowIfBaseType("java.util.List<com.example.GestioneTornei.Torneo>")
                 .build();
         torneiMapper.activateDefaultTyping(ptt, ObjectMapper.DefaultTyping.NON_FINAL);
-
     }
 
     // #2-a
@@ -709,8 +708,26 @@ public class GiocoController {
 
     public void terminaPartita(Giocatore vincitore) {
 
+        scaricaPartiteDaFile();
+        partitaAttiva.setStatoPartita(Stato.Terminata);
+
+        for (int i = 0; i < partiteSalvate.size(); i++) {
+            Partita p = partiteSalvate.get(i);
+            if (p.getCodice() == partitaAttiva.getCodice()) {
+                partiteSalvate.set(i, partitaAttiva);
+                break;
+            }
+        }
+        caricaPartiteSuFile();
+
         scaricaGiocatorDaFile();
         vincitore.aumentaVittorie();
+
+        if (partitaTorneo && torneoAttivo.controlloUltimaPartita()) {
+            vincitore.aumentaVittorieTorneo();
+            torneoAttivo.setStatoTorneo(Torneo.Stato.Terminato);
+        }
+
         for (int i = 0; i < giocatori.size(); i++) {
             giocatori.get(i).aumentaPartiteGiocate();
             giocatori.get(i).setBombettePescate(tavoloPartita.getBombePescate()[i]);
@@ -731,18 +748,6 @@ public class GiocoController {
         scaricaEsecuzioniDaFile();
         esecuzioniSalvate.remove(esecuzione);
         caricaEsecuzioniSuFile();
-
-        scaricaPartiteDaFile();
-        partitaAttiva.setStatoPartita(Stato.Terminata);
-
-        for (int i = 0; i < partiteSalvate.size(); i++) {
-            Partita p = partiteSalvate.get(i);
-            if (p.getCodice() == partitaAttiva.getCodice()) {
-                partiteSalvate.set(i, partitaAttiva);
-                break;
-            }
-        }
-        caricaPartiteSuFile();
 
         if (partitaTorneo) {
             partitaAttiva.setVincitore(vincitore);
