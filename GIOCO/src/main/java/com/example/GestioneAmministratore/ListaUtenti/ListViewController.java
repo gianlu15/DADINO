@@ -4,6 +4,7 @@ import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneUtenti.Utente;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
@@ -46,7 +47,7 @@ public class ListViewController {
     private List<Giocatore> giocatori;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         this.utenti = new ArrayList<>();
         this.indiceSelezionato = -1;
         this.objectMapper = new ObjectMapper();
