@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/StyleSP.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneAmministratore.AfterLoginController">
+   <children>
+      <Button fx:id="modificaUtenti" layoutX="90.0" layoutY="60.0" mnemonicParsing="false" onAction="#modificaUtentiAction" text="MODIFICA UTENTI">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+
+                  <ImageView fitHeight="184.0" fitWidth="317.0" layoutX="291.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/omarino5.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="creaPartita" layoutX="90.0" layoutY="120.0" mnemonicParsing="false" onAction="#creaPartita" text="CREA PARTITA">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="logout" layoutX="440.0" layoutY="300.0" mnemonicParsing="false" onAction="#userLogOut" text="LOGOUT">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="gestisciPartite" layoutX="90.0" layoutY="180.0" mnemonicParsing="false" onAction="#gestisciPartite" text="GESTISCI PARTITE">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="creaTorneo" layoutX="90.0" layoutY="240.0" mnemonicParsing="false" onAction="#creaTorneo" text="CREA TORNEO">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="gestisciTornei" layoutX="90.0" layoutY="300.0" mnemonicParsing="false" onAction="#gestisciTornei" text="GESTISCI TORNEI">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+
+
+
+   </children>
+</AnchorPane>
