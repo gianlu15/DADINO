@@ -2,8 +2,11 @@ package com.example.GestioneAmministratore.ListaPartite;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.GestisciFile;
 import com.example.GestionePartite.Partita;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -49,11 +52,14 @@ public class PartitaListViewController {
     private ObjectMapper partitaMapper;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         this.partite = new ArrayList<>();
         this.indiceSelezionato = -1;
         this.partitaMapper = new ObjectMapper();
-        this.file = new File("src/main/resources/com/example/FileJson/partite.json");
+
+        String path = GestisciFile.ottieniDirectory();
+
+        this.file= new File(path, "partite.json");
 
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
                 .allowIfSubType("com.example")

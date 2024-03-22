@@ -1,11 +1,13 @@
 package com.example.GestionePartite;
 
+import com.example.GestisciFile;
 import com.example.GestioneGiocatori.Bot;
 import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneUtenti.Utente;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class Partita {
     private File fileGiocatori;
     private ObjectMapper objectMapper;
 
-    public Partita(String nome, int numGiocatori, int codice) {
+    public Partita(String nome, int numGiocatori, int codice) throws URISyntaxException {
         this.nome = nome;
         this.numGiocatori = numGiocatori;
         this.codice = codice;
@@ -40,7 +42,10 @@ public class Partita {
         this.statoPartita = Stato.Pronta;
 
         this.giocatoriDaFile = new ArrayList<>();
-        this.fileGiocatori = new File("src/main/resources/com/example/FileJson/giocatori.json");
+
+        String path = GestisciFile.ottieniDirectory();
+
+        this.fileGiocatori = new File(path, "giocatori.json");
         this.objectMapper = new ObjectMapper();
     }
 
@@ -75,12 +80,12 @@ public class Partita {
         partecipanti.add(b);
     }
 
-    //---------------------------  Metodi torneo
+    // --------------------------- Metodi torneo
     public void aggiungiGiocatorePartitaToreno(Giocatore g) {
         partecipanti.add(g);
     }
 
-    public Giocatore ottieniGiocatore(int indice){
+    public Giocatore ottieniGiocatore(int indice) {
         return partecipanti.get(indice);
     }
 
@@ -114,7 +119,7 @@ public class Partita {
         return false;
     }
 
-    public void ripristinaAccessi(ArrayList<String> accessiBackup){
+    public void ripristinaAccessi(ArrayList<String> accessiBackup) {
         this.accessi = new ArrayList<>(accessiBackup);
     }
 
@@ -147,11 +152,11 @@ public class Partita {
         statoPartita = nuovoStato;
     }
 
-    public void setVincitore(Giocatore vincitore){
+    public void setVincitore(Giocatore vincitore) {
         this.vincitore = vincitore;
     }
 
-    public Giocatore getVincitore(){
+    public Giocatore getVincitore() {
         return vincitore;
     }
 

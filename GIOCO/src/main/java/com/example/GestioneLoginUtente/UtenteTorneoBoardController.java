@@ -2,6 +2,7 @@ package com.example.GestioneLoginUtente;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import com.example.GestisciFile;
 import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestioneGiocoTorneoFX.VisualizzaTorneo3Controller;
 import com.example.GestioneGiocoTorneoFX.VisualizzaTorneo7Controller;
@@ -60,14 +62,17 @@ public class UtenteTorneoBoardController {
     private ObjectMapper torneiMapper;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         this.utenti = new ArrayList<>();
         this.tornei = new ArrayList<>();
         this.torneoTrovato = false;
         this.objectMapper = new ObjectMapper();
         this.torneiMapper = new ObjectMapper();
-        this.fileTornei = new File("src/main/resources/com/example/FileJson/tornei.json");
-        this.fileUtenti = new File("src/main/resources/com/example/FileJson/utenti.json");
+
+        String path = GestisciFile.ottieniDirectory();
+
+        this.fileTornei = new File(path, "tornei.json");
+        this.fileUtenti = new File(path, "utenti.json");
 
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
                 .allowIfSubType("com.example")
@@ -307,7 +312,7 @@ public class UtenteTorneoBoardController {
         alert.setHeaderText(null);
         alert.setContentText("Non esiste nessun torneo.");
         alert.getDialogPane().getStylesheets()
-                .add(StageGioco.class.getResource("/com/exampleyles/alertStyle.css").toExternalForm());
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
 
         alert.showAndWait();
     }

@@ -2,6 +2,7 @@ package com.example.GestioneGiocoFX;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import com.example.GestisciFile;
 import com.example.GestioneCarte.Carta;
 import com.example.GestioneGiocatori.Bot;
 import com.example.GestioneGiocatori.Giocatore;
@@ -118,7 +120,7 @@ public class GiocoController {
     Stage stage;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         String pathName = "CarteImmagini/Retro.png";
 
         CartaCoperta.setImage(new Image(Carta.class.getResourceAsStream(pathName)));
@@ -138,12 +140,15 @@ public class GiocoController {
         this.partiteSalvate = new ArrayList<>();
         this.esecuzioniSalvate = new ArrayList<>();
         this.giocatoriSalvati = new ArrayList<>();
-        this.partiteFile = new File("src/main/resources/com/example/FileJson/partite.json");
-        this.esecuzioniFile = new File("src/main/resources/com/example/FileJson/esecuzioni.json");
-        this.giocatoriFile = new File("src/main/resources/com/example/FileJson/giocatori.json");
-        this.torneiFile = new File("src/main/resources/com/example/FileJson/tornei.json");
         this.partitaInterrotta = false;
         this.partitaTorneo = false;
+
+        String path = GestisciFile.ottieniDirectory();
+
+        this.torneiFile = new File(path, "tornei.json");
+        this.partiteFile = new File(path, "partite.json");
+        this.giocatoriFile = new File(path, "giocatori.json");
+        this.esecuzioniFile = new File(path, "esecuzioni.json");
 
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
                 .allowIfSubType("com.example")
@@ -392,7 +397,14 @@ public class GiocoController {
                     alert.setTitle("Partita terminata");
                     ButtonType prosegui = new ButtonType("Prosegui torneo");
                     alert.getButtonTypes().addAll(prosegui);
-                    alert.setOnCloseRequest(event -> handleContinueTournament(prosegui, alert));
+                    alert.setOnCloseRequest(event -> {
+                        try {
+                            handleContinueTournament(prosegui, alert);
+                        } catch (URISyntaxException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    });
                 }
             } else {
                 alert.setTitle("Partita terminata");
@@ -417,7 +429,7 @@ public class GiocoController {
         interruptAndClose();
     }
 
-    private void handleContinueTournament(ButtonType prosegui, Alert alert) {
+    private void handleContinueTournament(ButtonType prosegui, Alert alert) throws URISyntaxException {
         if (alert.getResult() == prosegui) {
             try {
                 loadTournamentView();
@@ -448,7 +460,7 @@ public class GiocoController {
         hl.start(stage);
     }
 
-    private void loadTournamentView() throws IOException {
+    private void loadTournamentView() throws IOException, URISyntaxException {
         FXMLLoader loader;
         Parent root;
         if (torneoAttivo.getNumGiocatori() < 10) {

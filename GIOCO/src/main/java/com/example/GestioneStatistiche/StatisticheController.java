@@ -2,11 +2,13 @@ package com.example.GestioneStatistiche;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.GestisciFile;
 import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGiocoFX.StageGioco;
 import javafx.collections.FXCollections;
@@ -57,10 +59,13 @@ public class StatisticheController {
     private List<Giocatore> giocatori;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         this.giocatori = new ArrayList<>();
         this.objectMapper = new ObjectMapper();
-        this.fileGiocatori = new File("src/main/resources/com/example/FileJson/giocatori.json");
+
+                String path = GestisciFile.ottieniDirectory();
+
+        this.fileGiocatori = new File(path, "giocatori.json");
 
         scaricaGiocatoriDaFile();
 

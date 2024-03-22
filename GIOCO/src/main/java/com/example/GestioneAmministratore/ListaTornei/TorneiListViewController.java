@@ -2,6 +2,7 @@ package com.example.GestioneAmministratore.ListaTornei;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import com.example.GestisciFile;
 import com.example.GestioneTornei.Torneo;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -50,11 +52,13 @@ public class TorneiListViewController {
     private ObjectMapper objectMapper;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         this.tornei = new ArrayList<>();
         this.indiceSelezionato = -1;
         this.objectMapper = new ObjectMapper();
-        this.file = new File("src/main/resources/com/example/FileJson/tornei.json");
+        String path = GestisciFile.ottieniDirectory();
+
+        this.file= new File(path, "tornei.json");
 
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
                 .allowIfSubType("com.example")

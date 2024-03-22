@@ -2,8 +2,11 @@ package com.example.GestioneAmministratore.ListaPartite;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.GestisciFile;
 import com.example.GestionePartite.Partita;
 import com.example.GestioneUtenti.Utente;
 import javafx.event.ActionEvent;
@@ -53,20 +56,23 @@ public class PartitaGiocatoriController {
     private ObjectMapper partitaMapper;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         this.utenti = new ArrayList<>();
         this.partite = new ArrayList<>();
         this.numeroBot = 1;
         this.objectMapper = new ObjectMapper();
         this.partitaMapper = new ObjectMapper();
-        this.filePartite = new File("src/main/resources/com/example/FileJson/partite.json");
-        this.fileUtenti = new File("src/main/resources/com/example/FileJson/utenti.json");
+
+        String path = GestisciFile.ottieniDirectory();
+
+        this.filePartite = new File(path, "partite.json");
+        this.fileUtenti = new File(path, "utenti.json");
 
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
-        .allowIfSubType("com.example")
-        .allowIfSubType("java.util.ArrayList")
-        .allowIfBaseType("java.util.List<com.example.GestionePartite.Partita>")
-        .build();
+                .allowIfSubType("com.example")
+                .allowIfSubType("java.util.ArrayList")
+                .allowIfBaseType("java.util.List<com.example.GestionePartite.Partita>")
+                .build();
         partitaMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
 
         scaricaUtentiDaFile();

@@ -1,5 +1,6 @@
 package com.example.GestioneAmministratore.ListaUtenti;
 
+import com.example.GestisciFile;
 import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneUtenti.Utente;
 import java.io.File;
@@ -7,6 +8,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -17,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 public class ListViewController {
 
@@ -51,13 +52,15 @@ public class ListViewController {
         this.utenti = new ArrayList<>();
         this.indiceSelezionato = -1;
         this.objectMapper = new ObjectMapper();
-        this.fileUtenti = new File("src/main/resources/com/example/FileJson/utenti.json");
-        this.fileGiocatori = new File("src/main/resources/com/example/FileJson/giocatori.json");
         this.giocatori = new ArrayList<>();
 
+        String path = GestisciFile.ottieniDirectory();
+
+        this.fileUtenti = new File(path,"utenti.json");
+        this.fileGiocatori = new File(path,"giocatori.json");
+
         scaricaUtentiDaFile();
-        scaricaGiocatoriDaFile();
-        listaUtenti.getItems().addAll(utenti); //Mostriamo gli utenti del file sulla ListView
+        listaUtenti.getItems().addAll(utenti); // Mostriamo gli utenti del file sulla ListView
     }
 
     @FXML
@@ -68,9 +71,9 @@ public class ListViewController {
             return;
 
         Utente nuovoUtente = new Utente(username);
-        utenti.add(nuovoUtente); //Aggiungianmo l'utente all'array
-        listaUtenti.getItems().add(nuovoUtente); //Aggiungiamo l'utente sulla ListView
-        caricaUtentiSuFile();       //Carichiamo gli utenti su file
+        utenti.add(nuovoUtente); // Aggiungianmo l'utente all'array
+        listaUtenti.getItems().add(nuovoUtente); // Aggiungiamo l'utente sulla ListView
+        caricaUtentiSuFile(); // Carichiamo gli utenti su file
 
         showSuccesUtente();
 
@@ -91,18 +94,19 @@ public class ListViewController {
             return;
         }
 
-        utenti.remove(indiceSelezionato);   //Rimuoviamo l'utente dall'array
+        utenti.remove(indiceSelezionato); // Rimuoviamo l'utente dall'array
 
-        //Rimuoviamo il giocatore dalla lista
-        for(Giocatore g: giocatori){        
-            if(g.getNome() == utenti.get(indiceSelezionato).getNome()){
+        scaricaGiocatoriDaFile();
+        // Rimuoviamo il giocatore dalla lista
+        for (Giocatore g : giocatori) {
+            if (g.getNome() == utenti.get(indiceSelezionato).getNome()) {
                 giocatori.remove(g);
                 caricaGiocatoriSuFile();
                 break;
             }
         }
 
-        listaUtenti.getItems().remove(indiceSelezionato); //Rimuoviamo l'utente dalla ListView
+        listaUtenti.getItems().remove(indiceSelezionato); // Rimuoviamo l'utente dalla ListView
         caricaUtentiSuFile();
 
         showEliminatoSucces();
@@ -123,7 +127,7 @@ public class ListViewController {
                     fileUtenti.createNewFile();
                     System.out.println("Il file è stato creato con successo.");
 
-                    //Aggiungiamo l'Admin
+                    // Aggiungiamo l'Admin
                     Utente admin = new Utente("Admin");
                     utenti.add(admin);
                     caricaUtentiSuFile();

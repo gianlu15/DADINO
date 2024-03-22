@@ -7,9 +7,12 @@ import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import com.example.GestisciFile;
 import com.example.GestionePartite.Partita;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,12 +56,15 @@ public class CreaPartiteController {
     private ObjectMapper objectMapper;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         this.partite = new ArrayList<>();
         this.numeriGiocatori = new Integer[] { 2, 3, 4 };
         this.numeroCasuale = 0;
         this.objectMapper = new ObjectMapper();
-        this.file = new File("src/main/resources/com/example/FileJson/partite.json");
+
+        String path = GestisciFile.ottieniDirectory();
+        
+        this.file = new File(path,"partite.json");
 
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
                 .allowIfSubType("com.example")
@@ -92,7 +98,7 @@ public class CreaPartiteController {
     }
 
     @FXML
-    public void creaPartita(ActionEvent ev) throws IOException {
+    public void creaPartita(ActionEvent ev) throws IOException, URISyntaxException {
 
         String nome = nomePartitaField.getText();
         Integer numGiocatori = numGiocatoriChoice.getValue();

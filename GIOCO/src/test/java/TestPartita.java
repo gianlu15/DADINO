@@ -1,3 +1,5 @@
+import java.net.URISyntaxException;
+
 import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGioco.Tavolo;
 import com.example.GestioneGiocoFX.GiocoController;
@@ -14,7 +16,7 @@ public class TestPartita extends Application {
 
     static Tavolo t;
 
-    public static void avvio() {
+    public static void avvio() throws URISyntaxException {
         Partita p = new Partita("prova", 0, 0);
         t = new Tavolo(p.getCodice());
 

@@ -3,6 +3,7 @@ package com.example.GestioneGiocoTorneoFX;
 import com.example.GestioneTornei.Torneo;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGiocoFX.StageGioco;
@@ -50,7 +51,7 @@ public class VisualizzaTorneo3Controller {
     private Partita[] partite;
     private Partita partitaAttiva;
 
-    public void setTorneo(Torneo torneoAttivo) {
+    public void setTorneo(Torneo torneoAttivo) throws URISyntaxException {
         this.torneoAttivo = torneoAttivo;
         this.partite = torneoAttivo.getPartite();
 

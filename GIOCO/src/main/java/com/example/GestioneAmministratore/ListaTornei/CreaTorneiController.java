@@ -2,6 +2,7 @@ package com.example.GestioneAmministratore.ListaTornei;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import com.example.GestisciFile;
 import com.example.GestioneTornei.Torneo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,12 +55,15 @@ public class CreaTorneiController {
     private ObjectMapper objectMapper;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         this.tornei = new ArrayList<>();
         this.numeriGiocatori = new Integer[] { 4, 6, 8, 12, 16 };
         this.numeroCasuale = 0;
         this.objectMapper = new ObjectMapper();
-        this.file = new File("src/main/resources/com/example/FileJson/tornei.json");
+        
+        String path = GestisciFile.ottieniDirectory();
+
+        this.file= new File(path, "tornei.json");
 
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
                 .allowIfSubType("com.example")
@@ -93,7 +98,7 @@ public class CreaTorneiController {
     }
 
     @FXML
-    public void creaTorneo(ActionEvent ev) throws IOException {
+    public void creaTorneo(ActionEvent ev) throws IOException, URISyntaxException {
 
         String nome = nomeTorneoField.getText();
         Integer numGiocatori = numGiocatoriChoice.getValue();

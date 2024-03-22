@@ -2,6 +2,7 @@ package com.example.GestioneLoginUtente;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import com.example.GestisciFile;
 import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestionePartite.Partita;
 import com.example.GestionePartite.Partita.Stato;
@@ -58,7 +60,7 @@ public class UtentePartitaBoardController {
     private ObjectMapper partitaMapper;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws URISyntaxException {
         this.utenti = new ArrayList<>();
         this.partite = new ArrayList<>();
         this.partitaTrovata = false;
@@ -72,8 +74,10 @@ public class UtentePartitaBoardController {
             .build();
         partitaMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
 
-        this.filePartite = new File("src/main/resources/com/example/FileJson/partite.json");
-        this.fileUtenti = new File("src/main/resources/com/example/FileJson/utenti.json");
+        String path = GestisciFile.ottieniDirectory();
+
+        this.filePartite = new File(path, "partite.json");
+        this.fileUtenti = new File(path, "utenti.json");
 
         scaricaUtentiDaFile();
         scaricaPartiteDaFile();

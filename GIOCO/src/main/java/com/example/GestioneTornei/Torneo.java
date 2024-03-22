@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Random;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.GestisciFile;
 import com.example.GestioneGiocatori.Bot;
 import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestionePartite.Partita;
@@ -32,7 +34,7 @@ public class Torneo {
     private File fileGiocatori;
     private ObjectMapper objectMapper;
 
-    public Torneo(String nomeTorneo, int numGiocatori, int codice) {
+    public Torneo(String nomeTorneo, int numGiocatori, int codice) throws URISyntaxException {
         this.nomeTorneo = nomeTorneo;
         this.numGiocatori = numGiocatori;
         this.codice = codice;
@@ -40,11 +42,11 @@ public class Torneo {
         this.accessi = new ArrayList<>();
         this.partecipanti = new ArrayList<>();
         this.statoTorneo = Stato.Pronto;
-
         this.giocatoriDaFile = new ArrayList<>();
-        this.fileGiocatori = new File("src/main/resources/com/example/FileJson/giocatori.json");
         this.objectMapper = new ObjectMapper();
+        String path = GestisciFile.ottieniDirectory();
 
+        this.fileGiocatori = new File(path, "giocatori.json");
         if (numGiocatori == 4 || numGiocatori == 6 || numGiocatori == 8)
             partite = new Partita[3];
         else
@@ -82,7 +84,7 @@ public class Torneo {
         partecipanti.add(b);
     }
 
-    public void sorteggiaPartite() {
+    public void sorteggiaPartite() throws URISyntaxException {
         Random random = new Random();
 
         if (partite.length == 3) {
@@ -107,7 +109,7 @@ public class Torneo {
 
     }
 
-    public Partita selezionaPartita() {
+    public Partita selezionaPartita() throws URISyntaxException {
         if (partite.length == 3) {
             for (int i = 0; i < partite.length - 1; i++) {
                 if (partite[i].getStatoPartita() != Partita.Stato.Terminata) {
