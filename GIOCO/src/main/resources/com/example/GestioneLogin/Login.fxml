@@ -11,14 +11,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneLogin.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/StyleSP.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneLogin.LoginController">
    <children>
-      <ImageView fitHeight="196.0" fitWidth="199.0" layoutX="23.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/iconsp.png"/>
-         </image>
-      </ImageView>
-      <Pane layoutX="252.0" layoutY="-4.0" prefHeight="402.0" prefWidth="330.0">
+      <Pane layoutX="205.0" layoutY="-4.0" prefHeight="402.0" prefWidth="377.0" stylesheets="@../Styles/StyleSP.css">
          <children>
             <Label layoutX="6.0" layoutY="95.0" text="NOME UTENTE" textFill="WHITE">
                <font>
@@ -40,7 +35,7 @@
                   <Font name="Arial" size="13.0" />
                </font>
             </PasswordField>
-            <Button fx:id="button" layoutX="113.0" layoutY="320.0" mnemonicParsing="false" onAction="#checkLogin" text="LOGIN">
+            <Button fx:id="button" layoutX="6.0" layoutY="330.0" mnemonicParsing="false" onAction="#checkLogin" prefHeight="43.0" prefWidth="175.0" text="ACCEDI">
                <font>
                   <Font name="Arial Bold" size="12.0" />
                </font>
@@ -48,20 +43,27 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </Button>
-            <Button fx:id="button" layoutX="7.0" layoutY="320.0" mnemonicParsing="false" onAction="#backToHome" text="BACK">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
-               </cursor>
-            </Button>
-            <Label fx:id="result" layoutX="8.0" layoutY="280.0" prefHeight="16.0" prefWidth="214.0">
+            <Label fx:id="result" layoutX="6.0" layoutY="281.0" prefHeight="16.0" prefWidth="214.0">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
             </Label>
          </children>
       </Pane>
+      <Button fx:id="buttonBack" layoutX="35.0" layoutY="330.0" mnemonicParsing="false" onAction="#backToHome" stylesheets="@../Styles/StyleSP.css">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/freccia.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

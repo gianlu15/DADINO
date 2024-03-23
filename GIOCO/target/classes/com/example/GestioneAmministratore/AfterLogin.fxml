@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/StyleSP.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneAmministratore.AfterLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/StyleSP.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneAmministratore.AfterLoginController">
    <children>
-      <Button fx:id="modificaUtenti" layoutX="90.0" layoutY="60.0" mnemonicParsing="false" onAction="#modificaUtentiAction" text="MODIFICA UTENTI">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-
-                  <ImageView fitHeight="184.0" fitWidth="317.0" layoutX="291.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="208.0" fitWidth="611.0" layoutX="3.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/omarino5.png" />
+            <Image url="@../images/benvenuto.png" />
          </image>
       </ImageView>
-      <Button fx:id="creaPartita" layoutX="90.0" layoutY="120.0" mnemonicParsing="false" onAction="#creaPartita" text="CREA PARTITA">
+      <Button fx:id="modificaUtenti" layoutX="228.0" layoutY="140.0" mnemonicParsing="false" onAction="#modificaUtentiAction" text="MODIFICA UTENTI">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -31,7 +23,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="logout" layoutX="440.0" layoutY="300.0" mnemonicParsing="false" onAction="#userLogOut" text="LOGOUT">
+      <Button fx:id="creaPartita" layoutX="146.0" layoutY="201.0" mnemonicParsing="false" onAction="#creaPartita" text="CREA PARTITA">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -39,7 +31,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="gestisciPartite" layoutX="90.0" layoutY="180.0" mnemonicParsing="false" onAction="#gestisciPartite" text="GESTISCI PARTITE">
+      <Button fx:id="gestisciPartite" layoutX="126.0" layoutY="262.0" mnemonicParsing="false" onAction="#gestisciPartite" text="GESTISCI PARTITE">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -47,7 +39,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="creaTorneo" layoutX="90.0" layoutY="240.0" mnemonicParsing="false" onAction="#creaTorneo" text="CREA TORNEO">
+      <Button fx:id="creaTorneo" layoutX="346.0" layoutY="201.0" mnemonicParsing="false" onAction="#creaTorneo" text="CREA TORNEO">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
@@ -55,13 +47,28 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="gestisciTornei" layoutX="90.0" layoutY="300.0" mnemonicParsing="false" onAction="#gestisciTornei" text="GESTISCI TORNEI">
+      <Button fx:id="gestisciTornei" layoutX="344.0" layoutY="262.0" mnemonicParsing="false" onAction="#gestisciTornei" text="GESTISCI TORNEI">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
+      </Button>
+      <Button fx:id="buttonBack" layoutX="45.0" layoutY="330.0" mnemonicParsing="false" onAction="#userLogOut" stylesheets="@../Styles/StyleSP.css">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/freccia.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
 
 

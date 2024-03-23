@@ -15,7 +15,7 @@
 }
 
 .button {
-  -fx-background-color: #da2c38;
+  -fx-background-color: #876059;
   -fx-border-color: transparent;
   -fx-text-fill: #ffffff;
   -fx-padding: 13px 14px;
@@ -24,6 +24,7 @@
 }
 
 .button:hover {
-  -fx-background-color: #c17c74;
+  -fx-background-color: #988380;
+  -fx-translate-y: -2;
   -fx-cursor: hand;
 }
