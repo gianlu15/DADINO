@@ -15,8 +15,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@StageGioco.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneGiocoFX.GiocoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="716.0" stylesheets="@StageGioco.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneGiocoFX.GiocoController">
    <children>
+      <ImageView fitHeight="403.0" fitWidth="842.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Sfondo.png" />
+         </image>
+      </ImageView>
       <VBox alignment="CENTER" layoutX="250.0" layoutY="9.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox>
@@ -95,13 +100,19 @@
                            </opaqueInsets>
                         </Label>
                      </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="150.0" />
+                     </HBox.margin>
                   </StackPane>
                </children>
                <opaqueInsets>
                   <Insets bottom="20.0" left="20.0" top="20.0" />
                </opaqueInsets></HBox>
             <HBox alignment="CENTER" prefHeight="12.0" prefWidth="600.0" />
-            <HBox alignment="CENTER" prefHeight="238.0" prefWidth="600.0">
+            <HBox alignment="CENTER" prefHeight="209.0" prefWidth="730.0">
                <children>
                   <Button fx:id="BottonePesca" mnemonicParsing="false" text="PESCA">
                      <font>
@@ -135,7 +146,7 @@
                   </Button>
                </children>
             </HBox>
-            <StackPane>
+            <StackPane prefHeight="48.0" prefWidth="730.0">
                <children>
                   <Label fx:id="PunteggioParziale" alignment="TOP_RIGHT">
                      <font>
