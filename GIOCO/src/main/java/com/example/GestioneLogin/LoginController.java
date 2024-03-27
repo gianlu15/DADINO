@@ -45,9 +45,9 @@ public class LoginController {
             stage.setScene(scene);
 
         } else if (username.getText().isEmpty() || password.getText().isEmpty()) {
-            result.setText("Please enter your data.");
+            result.setText("Uno o più campi sono vuoti.");
         } else {
-            result.setText("Wrong username or password!");
+            result.setText("Username o password sbagliata!");
         }
     }
 
