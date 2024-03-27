@@ -19,11 +19,9 @@ public class StageGiocoTutorial extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/GestioneTutorial/StageGiocoTutorial.fxml"));
         Parent root = loader.load();
 
-        // Ottieni il controller #1
-        // GiocoController controller = loader.getController();
+        TutorialController controller = loader.getController();
 
-        // Imposta lo stage nel controller #3
-        // controller.setStage(primaryStage);
+        controller.setStage(primaryStage);
 
         // Mostra la scena
         Scene scene = new Scene(root);
@@ -31,9 +29,6 @@ public class StageGiocoTutorial extends Application {
                 .add(getClass().getResource("/com/example/GestioneGiocoFX/StageGioco.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        // Avvia l'esecuzione della partita in un thread separato #4
-        // controller.esegui();
 
     }
 }
