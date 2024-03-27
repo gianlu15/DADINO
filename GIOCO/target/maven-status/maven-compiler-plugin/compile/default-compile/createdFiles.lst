@@ -2,6 +2,7 @@ com/example/GestioneGiocatori/Giocatore.class
 com/example/GestioneLoginUtente/UtenteTorneoBoardController$2.class
 com/example/GestioneAmministratore/ListaTornei/TorneoGiocatoriController.class
 com/example/GestioneGiocoFX/StatistichePostPartitaController$GiocatoreStat.class
+com/example/GestisciFile.class
 com/example/GestioneAmministratore/ListaTornei/CreaTornei.class
 com/example/GestioneLoginUtente/UtentePartitaBoardController$2.class
 com/example/GestioneAmministratore/ListaTornei/TorneoGiocatoriController$2.class
@@ -21,6 +22,7 @@ com/example/GestioneAmministratore/ListaPartite/CreaPartite.class
 com/example/GestioneAmministratore/ListaPartite/PartitaGiocatoriController$2.class
 com/example/GestioneAmministratore/ListaTornei/TorneiListView.class
 com/example/GestioneCarte/Carta$Valore.class
+com/example/GestioneTutorial/TutorialController.class
 com/example/GestioneGiocoFX/StatistichePostPartita.class
 com/example/GestioneAmministratore/ListaPartite/PartitaListViewController$1.class
 com/example/GestioneAmministratore/AfterLoginController.class
@@ -45,6 +47,7 @@ com/example/GestioneCarte/Carta.class
 com/example/GestioneGioco/Esecuzione.class
 com/example/MainClass.class
 com/example/GestioneLogin/HomeLogin.class
+com/example/GestioneTutorial/MazzoTutorial.class
 com/example/GestioneAmministratore/ListaUtenti/ListViewClass.class
 com/example/GestioneAmministratore/ListaTornei/CreaTorneiController.class
 com/example/GestioneLoginUtente/UtenteBoardController.class
@@ -59,6 +62,8 @@ com/example/GestioneStatistiche/StatisticheController$1.class
 com/example/GestioneAmministratore/ListaTornei/TorneiListViewController.class
 com/example/GestioneAmministratore/ListaUtenti/ListViewController$2.class
 com/example/GestioneCarte/Carta$Seme.class
+com/example/GestioneTutorial/StageGiocoTutorial.class
+com/example/GestioneTutorial/TestiDialogo.class
 com/example/GestioneGiocatori/Bot.class
 com/example/GestioneAmministratore/ListaPartite/PartitaListViewController.class
 com/example/GestioneGioco/Tavolo.class

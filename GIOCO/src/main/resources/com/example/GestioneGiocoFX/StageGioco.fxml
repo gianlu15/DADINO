@@ -19,7 +19,7 @@
    <children>
       <ImageView fitHeight="403.0" fitWidth="842.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Sfondo.png" />
+            <Image url="@Sfondo%20di%20gioco.png" />
          </image>
       </ImageView>
       <VBox alignment="CENTER" layoutX="250.0" layoutY="9.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -78,35 +78,25 @@
                         <Insets left="20.0" top="20.0" />
                      </HBox.margin>
                   </GridPane>
-                  <StackPane alignment="CENTER_RIGHT" prefHeight="108.0" prefWidth="327.0">
-                     <children>
-                        <Label fx:id="giocatoreTurno" alignment="CENTER_RIGHT" contentDisplay="CENTER" lineSpacing="2.0" prefHeight="16.0" prefWidth="130.0" StackPane.alignment="CENTER_RIGHT">
-                           <font>
-                              <Font name="Arial" size="14.0" />
-                           </font>
-                           <StackPane.margin>
-                              <Insets right="10.0" />
-                           </StackPane.margin>
-                        </Label>
-                        <Label fx:id="fraseTurno" prefHeight="17.0" prefWidth="275.0" text="TURNO DEL GIOCATORE:">
-                           <font>
-                              <Font name="Arial Bold" size="13.0" />
-                           </font>
-                           <StackPane.margin>
-                              <Insets left="10.0" />
-                           </StackPane.margin>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </Label>
-                     </children>
+                  <Label fx:id="fraseTurno" alignment="CENTER" prefHeight="17.0" prefWidth="173.0" text="TURNO DEL GIOCATORE:">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <HBox.margin>
-                        <Insets left="150.0" />
+                        <Insets left="60.0" top="50.0" />
                      </HBox.margin>
-                  </StackPane>
+                  </Label>
+                  <Label fx:id="giocatoreTurno" alignment="CENTER" contentDisplay="CENTER" lineSpacing="2.0" prefHeight="16.0" prefWidth="130.0">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="50.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
                <opaqueInsets>
                   <Insets bottom="20.0" left="20.0" top="20.0" />

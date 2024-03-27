@@ -123,6 +123,7 @@ public class StatisticheController {
         } catch (IOException e) {
             alertImpossibileTrovareGiocatori();
             e.printStackTrace();
+            return;
         }
     }
 

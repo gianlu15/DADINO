@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.GestisciFile;
+import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestionePartite.Partita;
 import com.example.GestioneUtenti.Utente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -161,6 +163,7 @@ public class PartitaGiocatoriController {
 
     private void scaricaUtentiDaFile() {
         try {
+
             // Se il file esiste lo leggiamo
             if (fileUtenti.exists()) {
 
@@ -169,25 +172,21 @@ public class PartitaGiocatoriController {
                 });
 
             } else {
+
                 // Se il file non esiste, lo creiamo ma non lo leggiamo
-                try {
-                    fileUtenti.createNewFile();
-                    System.out.println("Il file utenti.json è stato creato con successo.");
+                fileUtenti.createNewFile();
+                System.out.println("Il file utenti.json è stato creato con successo.");
 
-                    // Aggiungiamo l'Admin
-                    Utente admin = new Utente("Admin");
-                    utenti.add(admin);
-                    caricaUtentiSuFile();
-
-                } catch (Exception e) {
-                    // Alert(?)
-                    e.printStackTrace();
-                }
+                // Aggiungiamo l'Admin
+                Utente admin = new Utente("Admin");
+                utenti.add(admin);
+                caricaUtentiSuFile();
             }
 
         } catch (IOException e) {
-            // Alert(?)
+            alertScaricaFile(fileUtenti.getName());
             e.printStackTrace();
+            return;
         }
     }
 
@@ -195,7 +194,9 @@ public class PartitaGiocatoriController {
         try {
             objectMapper.writeValue(fileUtenti, utenti);
         } catch (IOException e) {
+            alertCaricaFile(fileUtenti.getName());
             e.printStackTrace();
+            return;
         }
     }
 
@@ -220,13 +221,15 @@ public class PartitaGiocatoriController {
                     filePartite.createNewFile();
                     System.out.println("Il file partite.json è stato creato con successo.");
                 } catch (Exception e) {
-                    // Alert impossibile creare il file(?)
+                    alertCreaFile(filePartite.getName());
                     e.printStackTrace();
+                    return;
                 }
             }
         } catch (IOException e) {
-            // Alert impossibile scaricare il file(?)
+            alertScaricaFile(filePartite.getName());
             e.printStackTrace();
+            return;
         }
     }
 
@@ -234,8 +237,43 @@ public class PartitaGiocatoriController {
         try {
             partitaMapper.writeValue(filePartite, partite);
         } catch (IOException e) {
+            alertCaricaFile(filePartite.getName());
             e.printStackTrace();
+            return;
         }
+    }
+
+    @FXML
+    public void alertCreaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile creare il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void alertScaricaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile leggere il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void alertCaricaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile salvare il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
     }
 
     private void showEmptyUtenteError() {

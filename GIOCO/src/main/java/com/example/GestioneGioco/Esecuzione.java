@@ -98,7 +98,7 @@ public class Esecuzione implements Serializable {
 
     public void attendi() {
         try {
-            // Attendi 4 secondi
+            // Attendi 2 secondi
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             System.err.println("#5 Il thread è stato interrotto durante l'attesa.\n");

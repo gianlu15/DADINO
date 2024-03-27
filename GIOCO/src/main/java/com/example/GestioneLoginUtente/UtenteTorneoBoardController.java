@@ -398,6 +398,7 @@ public class UtenteTorneoBoardController {
         } catch (IOException e) {
             alertImpossibileTrovareUtenti();
             e.printStackTrace();
+            return;
         }
     }
 }

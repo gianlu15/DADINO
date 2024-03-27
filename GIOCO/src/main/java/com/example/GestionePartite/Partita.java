@@ -181,13 +181,15 @@ public class Partita {
                     fileGiocatori.createNewFile();
                     System.out.println("Il file giocatori.json è stato creato con successo.");
                 } catch (Exception e) {
-                    // Alert impossibile creare il file(?)
+                    // Alert impossibile creare il file
                     e.printStackTrace();
+                    return;
                 }
             }
         } catch (IOException e) {
-            // Alert impossibile scaricare il file(?)
+            // Alert impossibile scaricare il file
             e.printStackTrace();
+            return;
         }
     }
 
@@ -196,6 +198,7 @@ public class Partita {
             objectMapper.writeValue(fileGiocatori, giocatoriDaFile);
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
     }
 

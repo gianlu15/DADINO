@@ -5,6 +5,7 @@
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneAmministratore/ListaPartite/CreaPartite.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneTornei/Torneo.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneGioco/Regole.java
+/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneTutorial/TestiDialogo.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneGiocoTorneoFX/VisualizzaTorneo7Controller.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/MainClass.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneGioco/Esecuzione.java
@@ -28,10 +29,14 @@
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneAmministratore/ListaUtenti/ListViewClass.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneCarte/Mazzo.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneLoginUtente/UtenteBoardController.java
+/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneTutorial/TutorialController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneGiocoFX/StageGioco.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneGiocoFX/StatistichePostPartita.java
+/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestisciFile.java
+/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneTutorial/StageGiocoTutorial.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneGiocatori/Bot.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneCarte/Carta.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneAmministratore/ListaTornei/TorneiListView.java
+/Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneTutorial/MazzoTutorial.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneAmministratore/AfterLoginController.java
 /Users/gianlucatondo/Desktop/Progetto/DADINO/GIOCO/src/main/java/com/example/GestioneLogin/HomeLoginController.java

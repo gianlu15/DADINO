@@ -2,6 +2,7 @@ package com.example.GestioneAmministratore.ListaUtenti;
 
 import com.example.GestisciFile;
 import com.example.GestioneGiocatori.Giocatore;
+import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestioneUtenti.Utente;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -117,7 +119,7 @@ public class ListViewController {
             // Se il file esiste lo leggiamo
             if (fileUtenti.exists()) {
 
-                System.out.println("Il file esiste già.");
+                System.out.println("Il file utenti.json esiste già.");
                 utenti = objectMapper.readValue(fileUtenti, new TypeReference<List<Utente>>() {
                 });
 
@@ -125,7 +127,7 @@ public class ListViewController {
                 // Se il file non esiste, lo creiamo ma non lo leggiamo
                 try {
                     fileUtenti.createNewFile();
-                    System.out.println("Il file è stato creato con successo.");
+                    System.out.println("Il file utenti.json è stato creato con successo.");
 
                     // Aggiungiamo l'Admin
                     Utente admin = new Utente("Admin");
@@ -133,12 +135,16 @@ public class ListViewController {
                     caricaUtentiSuFile();
 
                 } catch (Exception e) {
+                    alertCreaFile(fileUtenti.getName());
                     e.printStackTrace();
+                    return;
                 }
             }
 
         } catch (IOException e) {
+            alertScaricaFile(fileUtenti.getName());
             e.printStackTrace();
+            return;
         }
     }
 
@@ -157,12 +163,16 @@ public class ListViewController {
                     System.out.println("Il file è stato creato con successo.");
 
                 } catch (Exception e) {
+                    alertCreaFile(fileGiocatori.getName());
                     e.printStackTrace();
+                    return;
                 }
             }
 
         } catch (IOException e) {
+            alertScaricaFile(fileGiocatori.getName());
             e.printStackTrace();
+            return;
         }
     }
 
@@ -170,7 +180,9 @@ public class ListViewController {
         try {
             objectMapper.writeValue(fileGiocatori, giocatori);
         } catch (IOException e) {
+            alertCaricaFile(fileGiocatori.getName());
             e.printStackTrace();
+            return;
         }
     }
 
@@ -178,9 +190,45 @@ public class ListViewController {
         try {
             objectMapper.writeValue(fileUtenti, utenti);
         } catch (IOException e) {
+            alertCaricaFile(fileUtenti.getName());
             e.printStackTrace();
+            return;
         }
     }
+
+      @FXML
+    public void alertCreaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile creare il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void alertScaricaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile leggere il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void alertCaricaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile salvare il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
 
     private boolean controlli(String username) {
 

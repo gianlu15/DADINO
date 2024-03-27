@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.GestisciFile;
+import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestionePartite.Partita;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -160,7 +162,7 @@ public class CreaPartiteController {
             if (file.exists()) {
                 System.out.println("Il file esiste già.");
 
-                // Se il file non è vuoto lo leggiamo
+                // Se il file è vuoto non lo leggiamo
                 if (file.length() == 0) {
                     System.out.println("Il file JSON è vuoto.");
                     return;
@@ -175,14 +177,38 @@ public class CreaPartiteController {
                     file.createNewFile();
                     System.out.println("Il file è stato creato con successo.");
                 } catch (Exception e) {
-                    // Alert impossibile creare il file(?)
+                    alertCreaFile(file.getName());
                     e.printStackTrace();
+                    return;
                 }
             }
         } catch (IOException e) {
-            // Alert impossibile scaricare dal file(?)
+            alertScaricaFile(file.getName());
             e.printStackTrace();
+            return;
         }
+    }
+
+    @FXML
+    public void alertCreaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile creare il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void alertScaricaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile leggere il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
     }
 
     private void showNumeroNonGenerato() {

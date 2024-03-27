@@ -299,7 +299,7 @@ public class UtentePartitaBoardController {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Errore!");
         alert.setHeaderText(null);
-        alert.setContentText("Impossibile Trovare Partita");
+        alert.setContentText("Impossibile trovare la partita");
         alert.getDialogPane().getStylesheets()
                 .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
 
@@ -331,6 +331,7 @@ public class UtentePartitaBoardController {
         } catch (IOException e) {
             alertImpossibileTrovarePartita();
             e.printStackTrace();
+            return;
         }
     }
 
@@ -375,6 +376,7 @@ public class UtentePartitaBoardController {
         } catch (IOException e) {
             alertImpossibileTrovareUtenti();
             e.printStackTrace();
+            return;
         }
     }
 }

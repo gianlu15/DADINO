@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 public class Carta{
 
     //Eumerazioni
-    enum Seme{
+    public enum Seme{
         Cuori, Quadri, Fiori, Picche, Special;       //Aggiungo il seme delle carte speciali(Special)
 
         private static final Seme[] semi = Seme.values();

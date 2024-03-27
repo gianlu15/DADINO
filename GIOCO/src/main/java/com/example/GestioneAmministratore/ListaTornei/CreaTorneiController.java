@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.example.GestisciFile;
+import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestioneTornei.Torneo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -201,13 +203,48 @@ public class CreaTorneiController {
                     file.createNewFile();
                     System.out.println("Il file è stato creato con successo.");
                 } catch (Exception e) {
-                    // Alert impossibile creare il file(?)
+                   alertCreaFile(file.getName());
                     e.printStackTrace();
+                    return;
                 }
             }
         } catch (IOException e) {
-            // Alert impossibile scaricare dal file(?)
+            alertScaricaFile(file.getName());
             e.printStackTrace();
         }
     }
+
+         @FXML
+    public void alertCreaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile creare il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void alertScaricaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile leggere il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void alertCaricaFile(String nomeFile) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore!");
+        alert.setContentText("Impossibile salvare il file: " + nomeFile);
+        alert.getDialogPane().getStylesheets()
+                .add(StageGioco.class.getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+
+        alert.showAndWait();
+    }
+
 }
