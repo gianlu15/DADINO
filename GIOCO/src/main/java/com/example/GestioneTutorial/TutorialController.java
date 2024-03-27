@@ -1,20 +1,25 @@
 package com.example.GestioneTutorial;
 
 import javafx.animation.RotateTransition;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import com.example.GestioneCarte.Carta;
 import com.example.GestioneGiocatori.Bot;
 import com.example.GestioneGiocatori.Giocatore;
@@ -56,6 +61,9 @@ public class TutorialController {
     private Pane visualizzazionePiccola;
 
     @FXML
+    private Button avanti2;
+
+    @FXML
     private Label testoDialogo1;
 
     @FXML
@@ -75,10 +83,13 @@ public class TutorialController {
     private List<Integer> punteggi;
     private MazzoTutorial mazzo;
     private int punteggioTurno;
+    private boolean effettoDouble;
+    private Stage primaryStage;
 
     @FXML
     public void initialize() {
         disabilitaPulsanti();
+        avanti2.setVisible(false);
 
         preparaPartita();
 
@@ -134,7 +145,7 @@ public class TutorialController {
 
         BottonePesca.setOnAction(event -> {
 
-            punteggioTurno = cartaPescata(punteggioTurno);
+            punteggioTurno = cartaPescata(punteggioTurno, 0);
 
             BottonePesca.setDisable(true);
             testoDialogo1.setText("Tenta la fortuna, pesca un'altra carta!");
@@ -142,7 +153,7 @@ public class TutorialController {
 
             BottonePesca.setOnAction(event2 -> {
 
-                punteggioTurno = cartaPescata(punteggioTurno);
+                punteggioTurno = cartaPescata(punteggioTurno, 0);
 
                 BottonePesca.setDisable(true);
                 testoDialogo1.setText("Ora fermati per salvare il tuo punteggio!");
@@ -151,60 +162,111 @@ public class TutorialController {
                 BottoneFermati.setOnAction(event3 -> {
                     punteggi.set(0, punteggioTurno);
                     punteggioGiocatore0.setText(Integer.toString(punteggi.get(0)));
-                    punteggioTurno = 0;
                     BottoneFermati.setDisable(true);
-                    attendi();
                     giocaBot();
                 });
             });
         });
-
     }
 
     public void giocaBot() {
         testoDialogo1.setText("Ora è il turno del Bot!");
+        setImmagine(null);
         giocatoreTurno.setText(giocatori.get(1).getNome());
-    
-        giocaBotRicorsivo();
-    }
-    
-    private void giocaBotRicorsivo() {
-        attendi();
-        Carta cartaPescata = mazzo.pescaCarta();
-        punteggioTurno = cartaPescataBot(cartaPescata, punteggioTurno);
-    
-        if (cartaPescata.getValore() != Carta.Valore.Bombetta && punteggioTurno <= ((Bot) giocatori.get(1)).getPunteggioMinimo()) {
-            giocaBotRicorsivo(); // Chiamata ricorsiva se la condizione è soddisfatta
-        }
-    }
-    
-    public int cartaPescataBot(Carta pescata, int punteggioTurno) {
-        boolean effettoDouble = false;
-    
-        punteggioTurno = Regole.gestisciEffetto(pescata, punteggioTurno, effettoDouble);
-        int punteggio = punteggioTurno + punteggi.get(1);
-    
-        Platform.runLater(() -> {
-            setImmagine(pescata.getImmagine());
-            PunteggioParziale.setText(Integer.toString(punteggio));
-        });
-    
-        return punteggioTurno;
-    }
-    
+        punteggioTurno = 0;
+        avanti2.setVisible(true);
 
-    public int cartaPescata(int punteggioTurno) {
-        boolean effettoDouble = false;
+        PunteggioParziale.setText(Integer.toString(punteggioTurno + punteggi.get(1)));
+        avanti2.setOnAction(event -> {
+
+            punteggioTurno = cartaPescata(punteggioTurno, 1);
+
+            testoDialogo1.setText("Il Bot ha pescato un 10!");
+
+            avanti2.setDisable(false);
+            avanti2.setOnAction(event1 -> {
+
+                punteggioTurno = cartaPescata(punteggioTurno, 1);
+
+                avanti2.setDisable(true);
+                testoDialogo1.setText("Il Bot ha perso 6 punti!");
+                avanti2.setDisable(false);
+
+                avanti2.setOnAction(event2 -> {
+
+                    punteggioTurno = cartaPescata(punteggioTurno, 1);
+
+                    avanti2.setDisable(true);
+                    testoDialogo1.setText("Il Bot ha perso tutti i punti!");
+                    avanti2.setDisable(false);
+
+                    avanti2.setOnAction(event3 -> {
+
+                        testoDialogo1.setText("Ora tocca di nuovo a te!");
+                        avanti2.setDisable(true);
+                        avanti2.setVisible(false);
+                        giocaPartita2();
+                    });
+                });
+            });
+        });
+    }
+
+    public void giocaPartita2() {
+        giocatoreTurno.setText(giocatori.get(0).getNome());
+        PunteggioParziale.setText(Integer.toString(punteggi.get(1)));
+        setImmagine(null);
+
+        BottonePesca.setDisable(false);
+        punteggioTurno = 0;
+
+        BottonePesca.setOnAction(event -> {
+
+            punteggioTurno = cartaPescata(punteggioTurno, 0);
+
+            BottonePesca.setDisable(true);
+            testoDialogo1.setText("Hai attivato i punti doppi!");
+            BottonePesca.setDisable(false);
+
+            BottonePesca.setOnAction(event2 -> {
+
+                punteggioTurno = cartaPescata(punteggioTurno, 0);
+
+                BottonePesca.setDisable(true);
+                testoDialogo1.setText("Hai vinto!");
+
+                avanti2.setDisable(false);
+                avanti2.setVisible(true);
+
+                avanti2.setOnAction(event3 -> {
+
+                    alertVittoria();
+                    avanti2.setDisable(true);
+                    avanti2.setVisible(false);
+
+                });
+            });
+        });
+    }
+
+    public int cartaPescata(int punteggioTurno, int indice) {
         Carta cartaPescata = mazzo.pescaCarta();
         setImmagine(cartaPescata.getImmagine());
 
         punteggioTurno = Regole.gestisciEffetto(cartaPescata, punteggioTurno, effettoDouble);
 
-        PunteggioParziale.setText(Integer.toString(punteggioTurno + punteggi.get(0)));
+        if (cartaPescata.getValore() == Carta.Valore.DoublePoints)
+            effettoDouble = true;
+
+        PunteggioParziale.setText(Integer.toString(punteggioTurno + punteggi.get(indice)));
+
+        if (cartaPescata.getValore() == Carta.Valore.Bombetta)
+            PunteggioParziale.setText(Integer.toString(punteggi.get(indice)));
+        else
+            PunteggioParziale.setText(Integer.toString(punteggioTurno + punteggi.get(indice)));
+
         return punteggioTurno;
     }
-
-
 
     public void setImmagine(Image immagine) {
         CartaScoperta.setImage(immagine);
@@ -215,14 +277,52 @@ public class TutorialController {
         rotate.play();
     }
 
-    public void attendi() {
-        try {
-            // Attendi 2 secondi
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            System.err.println("#5 Il thread è stato interrotto durante l'attesa.\n");
-            System.exit(1);
-        }
+    @FXML
+    public void alertVittoria() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Vittoria!");
+        alert.setContentText("L'utente ha vinto!");
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets()
+                .add(getClass().getResource("/com/example/Styles/alertStyle.css").toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
+
+        alert.setTitle("Tutorial terminato");
+
+        // Rimuovi i button types esistenti
+        alert.getButtonTypes().clear();
+
+        // Aggiungi il pulsante "Esci"
+        ButtonType esci = new ButtonType("Esci");
+        alert.getButtonTypes().add(esci);
+
+        // Imposta l'azione per il pulsante "Esci"
+        Button exitButton = (Button) alert.getDialogPane().lookupButton(esci);
+        exitButton.setOnAction(e -> {
+            // Codice per cambiare scena
+            try {
+                Parent root = FXMLLoader
+                        .load(getClass().getResource("/com/example/GestioneLoginUtente/UtenteBoard.fxml"));
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/com/example/Styles/StyleSP.css").toExternalForm());
+
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                primaryStage.close();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        // Mostra l'alert
+        alert.showAndWait();
+    }
+
+    public void setStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
 }

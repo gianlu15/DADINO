@@ -2,6 +2,8 @@ package com.example.GestioneLoginUtente;
 
 import java.io.IOException;
 
+import com.example.GestioneTutorial.StageGiocoTutorial;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,6 +74,13 @@ public class UtenteBoardController {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
+    }
+
+    @FXML
+    private void tutorial(ActionEvent event) throws IOException {
+        StageGiocoTutorial stageGioco = new StageGiocoTutorial();
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stageGioco.start(primaryStage);
     }
 
 }
