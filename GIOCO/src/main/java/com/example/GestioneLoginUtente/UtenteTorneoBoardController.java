@@ -6,10 +6,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.example.GestisciFile;
 import com.example.GestioneGiocoFX.StageGioco;
 import com.example.GestioneGiocoTorneoFX.VisualizzaTorneo3Controller;
@@ -17,6 +13,11 @@ import com.example.GestioneGiocoTorneoFX.VisualizzaTorneo7Controller;
 import com.example.GestioneTornei.Torneo;
 import com.example.GestioneTornei.Torneo.Stato;
 import com.example.GestioneUtenti.Utente;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

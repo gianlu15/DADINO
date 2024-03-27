@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -9,61 +11,98 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="388.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneGiocoTorneoFX.VisualizzaTorneo3Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="388.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneGiocoTorneoFX.VisualizzaTorneo3Controller">
    <children>
-      <Label layoutX="119.0" layoutY="14.0" prefHeight="23.0" prefWidth="167.0" text="STATO TORNEO">
-         <font>
-            <Font name="Arial Bold" size="20.0" />
-         </font>
-      </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#98c1d9" height="49.0" layoutX="24.0" layoutY="118.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d84839" height="64.0" layoutX="114.0" layoutY="225.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="161.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#98c1d9" height="48.0" layoutX="233.0" layoutY="118.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
+      <Line endY="78.5" layoutX="89.0" layoutY="178.0" startX="7.62939453125E-6" startY="-11.0" stroke="WHITE" strokeWidth="3.0" />
+      <Line endY="76.5" layoutX="301.0" layoutY="180.0" startY="-12.911285400390625" stroke="WHITE" strokeWidth="3.0" />
+      <Line endX="-36.0" endY="67.0" layoutX="311.0" layoutY="190.0" startX="-10.0" startY="67.0" stroke="WHITE" strokeWidth="3.0" />
+      <Line endX="-10.023780822753906" endY="69.0" layoutX="99.0" layoutY="188.0" startX="14.999984741210938" startY="69.0" stroke="WHITE" strokeWidth="3.0" />
+      <Rectangle arcHeight="40.0" arcWidth="20.0" fill="#fc9905" height="49.0" layoutX="24.0" layoutY="118.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#fcfd47" height="64.0" layoutX="114.0" layoutY="225.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="161.0" />
+      <Rectangle id="quadrato" arcHeight="20.0" arcWidth="20.0" fill="#fe9b04" height="48.0" layoutX="233.0" layoutY="118.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="130.0" />
       <HBox layoutX="27.0" layoutY="120.0" prefHeight="45.0" prefWidth="122.0">
          <children>
             <VBox prefHeight="29.0" prefWidth="65.0">
                <children>
-                  <Label fx:id="giocatore0partita0" prefHeight="28.0" prefWidth="64.0" />
-                  <Label fx:id="giocatore2partita0" prefHeight="26.0" prefWidth="64.0" />
+                  <Label fx:id="giocatore0partita0" alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="64.0">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="giocatore2partita0" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="64.0">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Label>
                </children>
             </VBox>
             <VBox prefHeight="33.0" prefWidth="60.0">
                <children>
-                  <Label fx:id="giocatore1partita0" prefHeight="34.0" prefWidth="59.0" />
-                  <Label fx:id="giocatore3partita0" prefHeight="33.0" prefWidth="59.0" />
+                  <Label fx:id="giocatore1partita0" alignment="CENTER" contentDisplay="CENTER" prefHeight="34.0" prefWidth="59.0">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="giocatore3partita0" prefHeight="33.0" prefWidth="59.0">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Label>
                </children>
             </VBox>
          </children>
       </HBox>
-      <HBox layoutX="236.0" layoutY="121.0" prefHeight="43.0" prefWidth="124.0">
+      <HBox layoutX="236.0" layoutY="121.0" prefHeight="43.0" prefWidth="124.0" style="-fx-background-radius: 10px;">
          <children>
             <VBox prefHeight="34.0" prefWidth="62.0">
                <children>
-                  <Label fx:id="giocatore0partita1" prefHeight="24.0" prefWidth="61.0" />
-                  <Label fx:id="giocatore2partita1" prefHeight="24.0" prefWidth="61.0" />
+                  <Label fx:id="giocatore0partita1" alignment="CENTER" contentDisplay="CENTER" prefHeight="24.0" prefWidth="61.0">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="giocatore2partita1" alignment="CENTER" contentDisplay="CENTER" prefHeight="24.0" prefWidth="61.0">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Label>
                </children>
             </VBox>
             <VBox prefHeight="34.0" prefWidth="65.0">
                <children>
-                  <Label fx:id="giocatore1partita1" prefHeight="24.0" prefWidth="61.0" />
-                  <Label fx:id="giocatore3partita1" prefHeight="24.0" prefWidth="61.0" />
+                  <Label fx:id="giocatore1partita1" alignment="CENTER" contentDisplay="CENTER" prefHeight="24.0" prefWidth="61.0">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="giocatore3partita1" alignment="CENTER" contentDisplay="CENTER" prefHeight="24.0" prefWidth="61.0">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Label>
                </children>
             </VBox>
          </children>
       </HBox>
       <HBox alignment="CENTER" layoutX="119.0" layoutY="230.0" prefHeight="54.0" prefWidth="153.0">
          <children>
-            <Label fx:id="giocatore0partita2" prefHeight="20.0" prefWidth="74.0" />
-            <Label fx:id="giocatore1partita2" prefHeight="20.0" prefWidth="75.0" />
+            <Label fx:id="giocatore0partita2" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="74.0">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
+            <Label fx:id="giocatore1partita2" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="75.0">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
          </children>
       </HBox>
-      <Line endY="78.5" layoutX="89.0" layoutY="178.0" startX="7.62939453125E-6" startY="-11.0" stroke="WHITE" />
-      <Line endY="76.5" layoutX="301.0" layoutY="180.0" startY="-12.911285400390625" stroke="WHITE" />
-      <Line endX="-10.023780822753906" endY="69.0" layoutX="99.0" layoutY="188.0" startX="14.999984741210938" startY="69.0" stroke="WHITE" />
-      <Line endX="-36.0" endY="67.0" layoutX="311.0" layoutY="190.0" startX="-10.0" startY="67.0" stroke="WHITE" />
-      <Button layoutX="149.0" layoutY="372.0" mnemonicParsing="false" onAction="#giocaPartita" text="GIOCA">
+      <Button layoutX="102.0" layoutY="347.0" mnemonicParsing="false" onAction="#giocaPartita" prefHeight="43.0" prefWidth="195.0">
          <font>
-            <Font name="Arial" size="13.0" />
-         </font></Button>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="70.0" fitWidth="163.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/gioca.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <ImageView fitHeight="89.0" fitWidth="259.0" layoutX="59.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/supertorneo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

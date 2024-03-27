@@ -19,6 +19,11 @@
   -fx-cursor: hand;
 }
 
+#amministratoreButton,
+#giocaButton {
+  -fx-padding: 5px 5px;
+}
+
 #buttonBack {
   -fx-background-radius: 50px;
 }
@@ -30,8 +35,4 @@
   -fx-padding: 13px 14px;
   -fx-border-radius: 5px;
   -fx-background-radius: 5px;
-}
-
-.label {
-  -fx-text-fill: #876059;
 }

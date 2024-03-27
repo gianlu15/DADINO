@@ -10,28 +10,47 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneLogin.HomeLoginController">
    <children>
-      <Pane prefHeight="237.0" prefWidth="600.0" stylesheets="@../Styles/StyleSP.css">
+      <Pane layoutX="-1.0" prefHeight="237.0" prefWidth="602.0" stylesheets="@../Styles/StyleSP.css">
          <children>
+            <ImageView fitHeight="400.0" fitWidth="604.0">
+               <image>
+                  <Image url="@../images/sfondo.png" />
+               </image>
+            </ImageView>
             <ImageView fitHeight="83.0" fitWidth="266.0" layoutX="171.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/spacca.png" />
                </image>
             </ImageView>
-            <Button fx:id="giocaButton" layoutX="186.0" layoutY="194.0" mnemonicParsing="false" onAction="#handleUtenteButtonClick" prefHeight="58.0" prefWidth="227.0" text="GIOCA">
+            <Button fx:id="giocaButton" layoutX="220.0" layoutY="181.0" mnemonicParsing="false" onAction="#handleUtenteButtonClick" prefHeight="79.0" prefWidth="145.0">
                <font>
                   <Font name="Arial Bold" size="24.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="68.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/gioca.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children></Pane>
-      <Pane layoutX="-7.0" layoutY="264.0" prefHeight="136.0" prefWidth="613.0">
+      <Pane layoutX="-1.0" layoutY="264.0" prefHeight="136.0" prefWidth="602.0">
          <children>
-            <Button fx:id="amministratoreButton" layoutX="238.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleAmministratoreButtonClick" text="AMMINISTRATORE">
+            <Button fx:id="amministratoreButton" layoutX="231.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleAmministratoreButtonClick" prefHeight="35.0" prefWidth="130.0">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/amministratore.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </Pane>

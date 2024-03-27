@@ -11,10 +11,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.example.GestisciFile;
 import com.example.GestioneCarte.Carta;
 import com.example.GestioneGiocatori.Bot;
@@ -27,6 +23,10 @@ import com.example.GestioneLogin.HomeLogin;
 import com.example.GestionePartite.Partita;
 import com.example.GestionePartite.Partita.Stato;
 import com.example.GestioneTornei.Torneo;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
