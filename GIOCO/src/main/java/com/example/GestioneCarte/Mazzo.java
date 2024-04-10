@@ -66,17 +66,19 @@ public class Mazzo {
 
     public Carta pescaCarta() {
 
+        if (bombetteNelMazzo == 0) {
+            System.out.println("MAZZO RIFORMATO");
+            inizializzaMazzo();
+            mescolaMazzo();
+        }
+        
         Carta cartaPescata = carte[carteNelMazzo - 1];
         carteNelMazzo--;
 
         if (cartaPescata.valore == Carta.Valore.Bombetta)
             bombetteNelMazzo--;
 
-        if (bombetteNelMazzo == 0) {
-            System.out.println("MAZZO RIFORMATO");
-            inizializzaMazzo();
-            mescolaMazzo();
-        }
+
         return cartaPescata;
     }
 

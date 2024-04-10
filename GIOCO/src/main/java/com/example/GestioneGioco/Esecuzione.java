@@ -120,6 +120,7 @@ public class Esecuzione implements Serializable {
         pesca = descisionePescaObbligata(giocatore, punteggioTurno); // Dovrebbe essere obbligata
 
         Carta cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
+        System.out.println(cartaPescata);
         tavolo.aggiornaCartePescate(indice);
         controller.setImmagine(cartaPescata.getImmagine());
         System.out.println("------> Hai pescato " + cartaPescata.getValore());
@@ -155,6 +156,7 @@ public class Esecuzione implements Serializable {
         while (pesca && !Thread.interrupted()) {
             cartaPescata = tavolo.mazzoDiGioco.pescaCarta();
             tavolo.aggiornaCartePescate(indice);
+            System.out.println(cartaPescata);
             controller.setImmagine(cartaPescata.getImmagine());
 
             System.out.println("------> Hai pescato " + cartaPescata.getValore());
