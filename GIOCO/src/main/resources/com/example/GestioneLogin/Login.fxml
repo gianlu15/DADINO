@@ -13,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/StyleSP.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneLogin.LoginController">
    <children>
-      <Pane layoutX="205.0" layoutY="-4.0" prefHeight="402.0" prefWidth="377.0" stylesheets="@../Styles/StyleSP.css">
+      <Pane layoutX="205.0" layoutY="-4.0" prefHeight="402.0" prefWidth="377.0">
          <children>
             <Label layoutX="6.0" layoutY="95.0" text="NOME UTENTE" textFill="WHITE">
                <font>

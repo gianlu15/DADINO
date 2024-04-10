@@ -1,6 +1,7 @@
 package com.example.GestioneLogin;
 
 import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,14 +29,15 @@ public class LoginController {
 
     private Stage stage;
 
-    private final String amministratoreUsername = "ana";
+    private final String amministratoreUsername = "Admin";
     private final String amministratorePassword = "123";
 
     @FXML
     private void checkLogin(ActionEvent event) throws IOException {
         if (amministratoreUsername.equals(username.getText()) && amministratorePassword.equals(password.getText())) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/GestioneAmministratore/AfterLogin.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/example/GestioneAmministratore/AfterLogin.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
@@ -45,9 +47,9 @@ public class LoginController {
             stage.setScene(scene);
 
         } else if (username.getText().isEmpty() || password.getText().isEmpty()) {
-            result.setText("Uno o più campi sono vuoti.");
+            result.setText("Uno o più campi sono vuoti");
         } else {
-            result.setText("Username o password sbagliata!");
+            result.setText("Nome utente o password errati!");
         }
     }
 

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="716.0" stylesheets="@../GestioneGiocoFX/StageGioco.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneTutorial.TutorialController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneTutorial.TutorialController">
    <children>
       <ImageView fitHeight="403.0" fitWidth="842.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -87,13 +87,20 @@
             <HBox alignment="CENTER" prefHeight="12.0" prefWidth="600.0" />
             <HBox alignment="CENTER" prefHeight="240.0" prefWidth="716.0">
                <children>
-                  <Button fx:id="BottonePesca" mnemonicParsing="false" prefHeight="44.0" prefWidth="137.0" text="PESCA">
+                  <Button fx:id="BottonePesca" mnemonicParsing="false" prefHeight="44.0" prefWidth="137.0">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font>
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="37.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/PESCA.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                   <StackPane prefHeight="209.0" prefWidth="232.0">
                      <HBox.margin>
@@ -115,10 +122,17 @@
                         </ImageView>
                      </children>
                   </StackPane>
-                  <Button fx:id="BottoneFermati" mnemonicParsing="false" prefHeight="44.0" prefWidth="156.0" text="FERMATI">
+                  <Button fx:id="BottoneFermati" mnemonicParsing="false" prefHeight="44.0" prefWidth="156.0">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/FERMATI.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                   <Pane fx:id="visualizzazionePiccola" prefHeight="240.0" prefWidth="293.0">
                      <children>
@@ -128,12 +142,19 @@
                            </image>
                         </ImageView>
                         <Label id="testoTutorial2" fx:id="testoDialogo1" layoutX="50.0" layoutY="22.0" prefHeight="59.0" prefWidth="77.0" wrapText="true" />
-                        <Button id="bottoneTutorial" fx:id="avanti2" layoutX="43.0" layoutY="137.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="44.0" prefWidth="77.0" text="Avanti" />
+                        <Button id="bottoneTutorial" fx:id="avanti2" layoutX="31.0" layoutY="137.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false">
+                           <graphic>
+                              <ImageView fitHeight="26.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/AVANTI.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
                      </children>
                   </Pane>
                </children>
             </HBox>
-            <Label fx:id="PunteggioParziale" alignment="TOP_RIGHT" prefHeight="21.0" prefWidth="24.0">
+            <Label fx:id="PunteggioParziale" alignment="TOP_RIGHT">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>

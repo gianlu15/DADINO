@@ -14,7 +14,7 @@
             <Font name="Arial" size="20.0" />
          </font>
       </Label>
-      <TableView fx:id="tableView" layoutX="43.0" layoutY="70.0" prefHeight="226.0" prefWidth="508.0" stylesheets="@../Styles/Style2.css">
+      <TableView fx:id="tableView" layoutX="43.0" layoutY="70.0" prefHeight="226.0" prefWidth="508.0">
         <columns>
           <TableColumn fx:id="giocatoreColumn" prefWidth="110.0" text="GIOCATORE" />
           <TableColumn fx:id="carteColumn" prefWidth="120.0" text="CARTE PESCATE" />

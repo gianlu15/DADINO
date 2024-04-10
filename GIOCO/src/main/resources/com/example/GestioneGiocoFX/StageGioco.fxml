@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="716.0" stylesheets="@StageGioco.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneGiocoFX.GiocoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GestioneGiocoFX.GiocoController">
    <children>
       <ImageView fitHeight="403.0" fitWidth="842.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -104,10 +104,17 @@
             <HBox alignment="CENTER" prefHeight="12.0" prefWidth="600.0" />
             <HBox alignment="CENTER" prefHeight="209.0" prefWidth="730.0">
                <children>
-                  <Button fx:id="BottonePesca" mnemonicParsing="false" text="PESCA">
+                  <Button fx:id="BottonePesca" mnemonicParsing="false" prefWidth="88.0">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/PESCA.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                   <StackPane prefHeight="199.0" prefWidth="207.0">
                      <HBox.margin>
@@ -129,10 +136,17 @@
                         </ImageView>
                      </children>
                   </StackPane>
-                  <Button fx:id="BottoneFermati" mnemonicParsing="false" text="FERMATI">
+                  <Button fx:id="BottoneFermati" mnemonicParsing="false">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/FERMATI.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                </children>
             </HBox>
