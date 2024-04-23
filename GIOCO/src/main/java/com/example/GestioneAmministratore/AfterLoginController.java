@@ -7,6 +7,7 @@ import com.example.GestioneAmministratore.ListaPartite.PartiteListView;
 import com.example.GestioneAmministratore.ListaTornei.CreaTornei;
 import com.example.GestioneAmministratore.ListaTornei.TorneiListView;
 import com.example.GestioneAmministratore.ListaUtenti.ListViewClass;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +48,7 @@ public class AfterLoginController {
         Stage loginStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/com/example/Styles/StyleSP.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/example/Styles/Style2.css").toExternalForm());
         loginStage.setScene(scene);
     }
 

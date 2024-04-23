@@ -1,4 +1,5 @@
 package com.example.GestioneGioco;
+
 import com.example.GestioneCarte.Carta;
 
 public class Regole {
@@ -26,35 +27,35 @@ public class Regole {
 
             switch (carta.getValore()) {
                 case Quattro:
-                    punteggioParziale = effettoDouble ? punteggioParziale + (4*2) : punteggioParziale + 4;
+                    punteggioParziale = effettoDouble ? punteggioParziale + (4 * 2) : punteggioParziale + 4;
                     break;
 
                 case Cinque:
-                punteggioParziale = effettoDouble ? punteggioParziale + (5*2) : punteggioParziale + 5;
+                    punteggioParziale = effettoDouble ? punteggioParziale + (5 * 2) : punteggioParziale + 5;
                     break;
 
                 case Sei:
-                punteggioParziale = effettoDouble ? punteggioParziale + (6*2) : punteggioParziale + 6;
+                    punteggioParziale = effettoDouble ? punteggioParziale + (6 * 2) : punteggioParziale + 6;
                     break;
 
                 case Sette:
-                punteggioParziale = effettoDouble ? punteggioParziale + (7*2) : punteggioParziale + 7;
+                    punteggioParziale = effettoDouble ? punteggioParziale + (7 * 2) : punteggioParziale + 7;
                     break;
 
                 case Otto:
-                punteggioParziale = effettoDouble ? punteggioParziale + (8*2) : punteggioParziale + 8;
+                    punteggioParziale = effettoDouble ? punteggioParziale + (8 * 2) : punteggioParziale + 8;
                     break;
 
                 case Nove:
-                punteggioParziale = effettoDouble ? punteggioParziale + (9*2) : punteggioParziale + 9;
+                    punteggioParziale = effettoDouble ? punteggioParziale + (9 * 2) : punteggioParziale + 9;
                     break;
 
                 case Dieci:
-                punteggioParziale = effettoDouble ? punteggioParziale + (10*2) : punteggioParziale + 10;
+                    punteggioParziale = effettoDouble ? punteggioParziale + (10 * 2) : punteggioParziale + 10;
                     break;
 
                 case Jack:
-                punteggioParziale = effettoDouble ? punteggioParziale + (11*2) : punteggioParziale + 11;
+                    punteggioParziale = effettoDouble ? punteggioParziale + (11 * 2) : punteggioParziale + 11;
                     break;
 
                 default:

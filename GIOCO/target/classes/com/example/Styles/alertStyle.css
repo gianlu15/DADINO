@@ -3,7 +3,6 @@
   -fx-font-size: 14px;
   -fx-background-color: #ffffff;
   -fx-text-fill: #000000;
-  /* Altre regole CSS se vogliamo metterle */
 }
 
 .myDialog {
@@ -11,7 +10,6 @@
   -fx-font-size: 14px;
   -fx-background-color: #ffffff;
   -fx-text-fill: #000000;
-  /* Altre regole CSS se vogliamo metterle */
 }
 
 .button {

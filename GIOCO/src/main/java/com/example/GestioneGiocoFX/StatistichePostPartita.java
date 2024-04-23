@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.example.GestioneGiocatori.Giocatore;
 import com.example.GestioneGioco.Tavolo;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,15 +17,16 @@ public class StatistichePostPartita extends Application {
     private Tavolo tavoloPartita;
     private ArrayList<Giocatore> giocatori;
 
-    public StatistichePostPartita(Tavolo tavoloPartita, ArrayList<Giocatore> giocatori){
+    public StatistichePostPartita(Tavolo tavoloPartita, ArrayList<Giocatore> giocatori) {
         this.tavoloPartita = tavoloPartita;
         this.giocatori = giocatori;
     }
-    
+
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/GestioneGiocoFX/StatistichePostPartita.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/example/GestioneGiocoFX/StatistichePostPartita.fxml"));
         Parent root = loader.load();
 
         StatistichePostPartitaController controller = loader.getController();

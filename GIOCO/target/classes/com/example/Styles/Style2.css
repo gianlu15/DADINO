@@ -29,3 +29,7 @@
 .label {
   -fx-text-fill: #876059;
 }
+
+#tabella {
+  -fx-font-family: "Arial";
+}
