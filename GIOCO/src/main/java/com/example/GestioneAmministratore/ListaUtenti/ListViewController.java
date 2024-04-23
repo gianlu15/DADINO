@@ -96,8 +96,6 @@ public class ListViewController {
             return;
         }
 
-        utenti.remove(indiceSelezionato); // Rimuoviamo l'utente dall'array
-
         scaricaGiocatoriDaFile();
         // Rimuoviamo il giocatore dalla lista
         for (Giocatore g : giocatori) {
@@ -107,6 +105,9 @@ public class ListViewController {
                 break;
             }
         }
+
+        utenti.remove(indiceSelezionato); // Rimuoviamo l'utente dall'array
+
 
         listaUtenti.getItems().remove(indiceSelezionato); // Rimuoviamo l'utente dalla ListView
         caricaUtentiSuFile();
