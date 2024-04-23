@@ -58,8 +58,8 @@ public class ListViewController {
 
         String path = GestisciFile.ottieniDirectory();
 
-        this.fileUtenti = new File(path,"utenti.json");
-        this.fileGiocatori = new File(path,"giocatori.json");
+        this.fileUtenti = new File(path, "utenti.json");
+        this.fileGiocatori = new File(path, "giocatori.json");
 
         scaricaUtentiDaFile();
         listaUtenti.getItems().addAll(utenti); // Mostriamo gli utenti del file sulla ListView
@@ -108,7 +108,6 @@ public class ListViewController {
 
         utenti.remove(indiceSelezionato); // Rimuoviamo l'utente dall'array
 
-
         listaUtenti.getItems().remove(indiceSelezionato); // Rimuoviamo l'utente dalla ListView
         caricaUtentiSuFile();
 
@@ -153,15 +152,20 @@ public class ListViewController {
         try {
             // Se il file esiste lo leggiamo
             if (fileGiocatori.exists()) {
-                System.out.println("Il file esiste già.");
-                giocatori = objectMapper.readValue(fileGiocatori, new TypeReference<List<Giocatore>>() {
-                });
+                System.out.println("Il file giocatori esiste già.");
+                if (fileGiocatori.length() == 0) {
+                    System.out.println("Il file giocatori è vuoto");
+                    return;
+                } else {
+                    giocatori = objectMapper.readValue(fileGiocatori, new TypeReference<List<Giocatore>>() {
+                    });
+                }
 
             } else {
                 // Se il file non esiste, lo creiamo ma non lo leggiamo
                 try {
                     fileGiocatori.createNewFile();
-                    System.out.println("Il file è stato creato con successo.");
+                    System.out.println("Il file giocatori è stato creato con successo.");
 
                 } catch (Exception e) {
                     alertCreaFile(fileGiocatori.getName());
@@ -197,7 +201,7 @@ public class ListViewController {
         }
     }
 
-      @FXML
+    @FXML
     public void alertCreaFile(String nomeFile) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Errore!");
@@ -229,7 +233,6 @@ public class ListViewController {
 
         alert.showAndWait();
     }
-
 
     private boolean controlli(String username) {
 
