@@ -551,7 +551,7 @@ public class GiocoController {
         if (partitaTorneo) {
             scaricaTorneiDaFile();
             torneoAttivo.setStatoTorneo(Torneo.Stato.Sospeso);
-            for (int i = 0; i < partiteSalvate.size(); i++) {
+            for (int i = 0; i < torneiSalvati.size(); i++) {
                 Torneo t = torneiSalvati.get(i);
                 if (t.getCodice() == torneoAttivo.getCodice()) {
                     torneiSalvati.set(i, torneoAttivo);
